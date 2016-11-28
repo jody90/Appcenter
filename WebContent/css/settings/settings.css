@@ -1,0 +1,32 @@
+.search_field {
+	max-width: 250px;
+	display: inline-block;
+}
+
+.user-edit-link {
+	color: #337ab7;
+    margin: 0 10px;
+    font-size: 26px;
+	cursor: pointer;
+}
+
+.user-delete-link {
+	color: #d70000;
+    margin: 0 10px;
+    font-size: 26px;
+	cursor: pointer;
+}
+
+.userEditPanel {
+	width: 45%;
+}
+
+.userEditPanel .panel-body {
+	max-height: 200px;
+	overflow: auto;
+}
+
+.list-group-item > .icon_right {
+	float: right;
+	cursor: pointer;
+}

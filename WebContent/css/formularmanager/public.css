@@ -1,0 +1,7 @@
+.public-form {
+	box-shadow: 1px 1px 4px #999999;
+	border: 1px solid #eaeaea;
+	display: inline-block;
+	text-align: left;
+	padding: 15px;
+}

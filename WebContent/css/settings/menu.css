@@ -1,0 +1,42 @@
+.settings_menu {
+	margin-top: 25px;
+}
+
+.settings_menu_link_container {
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+.settings_menu_icon {
+	margin-right: 25px;
+	margin-left: 25px;
+}
+
+.settings_menu_link {
+	font-size: 2.5em;
+	background-color: #2f71d2;
+	color: #fff;
+	text-decoration: none;	
+	padding: 10px;
+	width: 100%;
+	display: inline-block;
+	box-sizing: border-box;
+	text-align: left;
+}
+
+.settings_menu_link:hover {
+	box-shadow: 3px 3px 6px #6c6c6c;
+}
+
+.settings_menu_link:hover,
+.settings_menu_link:active,
+.settings_menu_link:focus {
+	text-decoration: none;
+	color: #fff
+}
+
+@media (max-width: 768px) {
+	.settings_menu_link {
+		font-size: 1.3em;
+	}
+}

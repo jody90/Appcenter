@@ -1,0 +1,19 @@
+.list-option-link {
+	margin: 0 10px;
+	font-size: 26px;
+	text-decoration: none;
+}
+
+.list-option-link:hover {
+	text-decoration: none;
+}
+
+.form-active {
+	font-size: 26px;
+	color: #50bd23;
+}
+
+.form-inactive {
+	font-size: 26px;
+	color: #ff494c;
+}

@@ -1,0 +1,95 @@
+.margin-bottom-0 {
+	margin-bottom: 0px;
+}
+
+.margin-bottom-xs {
+    margin-bottom: 5px;
+}
+
+.margin-bottom-sm {
+    margin-bottom: 7px;
+}
+
+.margin-bottom-md {
+    margin-bottom: 10px;
+}
+
+.margin-bottom-lg {
+    margin-bottom: 15px;
+}
+
+.margin-top-xs {
+    margin-top: 5px;
+}
+
+.margin-top-sm {
+    margin-top: 7px;
+}
+
+.margin-top-md {
+    margin-top: 10px;
+}
+
+.margin-top-lg {
+    margin-top: 15px;
+}
+
+.padding-md {
+	padding: 10px;
+}
+
+.padding-top-xs {
+	padding-top: 5px;
+}
+
+.flexbox {
+    display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.flex-valign {
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.font-xs {
+	font-size: 8px;
+}
+
+.font-sm {
+	font-size: 10px;
+}
+
+.font-md {
+	font-size: 14px;
+}
+
+.font-lg {
+	font-size: 16px;	
+}
+
+.symbol-xs {
+	font-size: 10px;
+}
+
+.symbol-sm {
+	font-size: 14px;
+}
+
+.symbol-md {
+	font-size: 18px;
+}
+
+.symbol-lg {
+	font-size: 26px;	
+}
+
+.table tbody>tr>td.align-middle {
+	vertical-align: middle;
+	
+}
