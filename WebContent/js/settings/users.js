@@ -19,6 +19,9 @@ $(document).ready(function() {
 	        },
 	        success: function(data) {
 	        	var obj = JSON.parse(data);
+	        	
+	        	console.log(obj);
+	        	
 	        	var userData = obj[0];
 	        	var roles = obj[1];
 	        	var rights = obj[2];
@@ -26,8 +29,8 @@ $(document).ready(function() {
 	        	var orderedRoles = orderArray(roles);
 	        	var orderedRights = orderArray(rights);
 	        	
-	        	var userRights = userData.rights != undefined ? JSON.parse(userData.rights) : [];
-	        	var userRoles = userData.roles != undefined ? JSON.parse(userData.roles) : [];
+	        	var userRights = userData.rights != undefined ? userData.rights.split(",") : [];
+	        	var userRoles = userData.roles != undefined ? userData.roles.split(",") : [];
 
 	        	var typeSpecific = {};
 	        	typeSpecific.right = userRights;

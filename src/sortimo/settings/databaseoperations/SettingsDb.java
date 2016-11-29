@@ -25,14 +25,22 @@ public class SettingsDb {
 		List<Map<String, String>> usersList= new ArrayList<Map<String, String>>();
 		
 		String sql = "SELECT "
-				+ "username, "
+				+ "users.username, "
 				+ "firstname, "
 				+ "lastname, "
 				+ "email, "
-				+ "roles, "
-				+ "rights "
+				+ "GROUP_CONCAT(DISTINCT users_rights.right_id ORDER BY users_rights.right_id) AS rights,"
+				+ "GROUP_CONCAT(DISTINCT users_roles.role_id ORDER BY users_roles.role_id) AS roles "
 				+ "FROM users "
-				+ "WHERE username LIKE '%' ? '%'";
+				+ "LEFT JOIN users_roles "
+				+ "ON users.username = users_roles.username "
+				+ "LEFT JOIN users_rights "
+				+ "ON users.username = users_roles.username "
+				+ "WHERE users.username LIKE '%' ? '%' "
+				+ "group by users.username";
+		
+		System.out.println(sql);
+		
 	
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, editUser);
@@ -47,6 +55,8 @@ public class SettingsDb {
 			users.put("email", rs.getString("email"));
 			users.put("roles", rs.getString("roles"));
 			users.put("rights", rs.getString("rights"));
+//			System.out.println(rs.getString("roles"));
+//			System.out.println(rs.getString("rights"));
 			usersList.add(users);
 		}
 		
@@ -58,15 +68,30 @@ public class SettingsDb {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 		
+//		String sql = "SELECT "
+//				+ "username, "
+//				+ "firstname, "
+//				+ "lastname, "
+//				+ "email, "
+//				+ "roles, "
+//				+ "rights "
+//				+ "FROM users "
+//				+ "WHERE username = ?";
+		
 		String sql = "SELECT "
-				+ "username, "
+				+ "users.username, "
 				+ "firstname, "
 				+ "lastname, "
 				+ "email, "
-				+ "roles, "
-				+ "rights "
+				+ "GROUP_CONCAT(DISTINCT users_rights.right_id ORDER BY users_rights.right_id) AS rights,"
+				+ "GROUP_CONCAT(DISTINCT users_roles.role_id ORDER BY users_roles.role_id) AS roles "
 				+ "FROM users "
-				+ "WHERE username = ?";
+				+ "LEFT JOIN users_roles "
+				+ "ON users.username = users_roles.username "
+				+ "LEFT JOIN users_rights "
+				+ "ON users.username = users_roles.username "
+				+ "WHERE users.username = ? "
+				+ "group by users.username";
 	
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, editUser);
