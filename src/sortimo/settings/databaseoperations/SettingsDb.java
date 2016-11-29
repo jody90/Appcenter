@@ -3,10 +3,13 @@ package sortimo.settings.databaseoperations;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.Gson;
 
 import sortimo.databaseoperations.Connect;
 import sortimo.settings.storage.RightsStorage;
@@ -98,9 +101,9 @@ public class SettingsDb {
 		
 		while (rs.next()) {
 			RolesStorage role = new RolesStorage();
-			role.id = rs.getInt("id");
-			role.name =  rs.getString("name");
-			role.description = rs.getString("description");
+			role.setId(rs.getInt("id"));
+			role.setName(rs.getString("name"));
+			role.setDescription(rs.getString("description"));
 			rolesList.add(role);
 		}
 		
@@ -122,14 +125,128 @@ public class SettingsDb {
 		
 		while (rs.next()) {
 			RightsStorage right = new RightsStorage();
-			right.id = rs.getInt("id");
-			right.name = rs.getString("name");
-			right.description = rs.getString("description");
+			right.setId(rs.getInt("id"));
+			right.setName(rs.getString("name"));
+			right.setDescription(rs.getString("description"));
 			rightsList.add(right);
 		}
 		
 		return rightsList;
         
+	}
+	
+	public Map<String, String> getRole(String roleId) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		String sql = "SELECT * "
+				+ "FROM roles "
+				+ "LEFT JOIN roles_rights "
+				+ "ON roles.id = roles_rights.role_id "
+				+ "WHERE roles.id = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, roleId);
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		Map<String, String> role = new HashMap<String, String>();
+		
+		String rights = null;
+		
+		while (rs.next()) {
+			role.put("id", rs.getString("id"));
+			role.put("name", rs.getString("name"));
+			role.put("description", rs.getString("description"));
+			rights = rights == null ? rs.getString("right_id") : rights + "," + rs.getString("right_id") ;
+		}
+		
+		role.put("rights", rights);
+		
+		return role;
+        
+	}
+	
+	public void addRole(Map<String, String> roleData) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		String sql = "INSERT INTO "
+				+ "roles "
+				+ "values (default, ?, ?) "
+				+ "ON DUPLICATE KEY UPDATE "
+				+ "name = ?, description = ?";
+		
+		preparedStatement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		preparedStatement.setString(1, roleData.get("name"));
+		preparedStatement.setString(2, roleData.get("description"));
+		preparedStatement.setString(3, roleData.get("name"));
+		preparedStatement.setString(4, roleData.get("description"));
+		preparedStatement.executeUpdate();
+
+		ResultSet rs = preparedStatement.getGeneratedKeys();
+        
+		String lastInsertId = roleData.get("roleId");
+		
+		if (rs.next()) {
+			System.out.println("anzahl");
+            lastInsertId = rs.getString(1);
+        }
+
+		Gson gson = new Gson();
+		
+		String oldRightsJson = roleData.get("oldRights");
+		int[] oldRights = gson.fromJson(oldRightsJson, int[].class); 
+		
+		for (int i = 0; i < oldRights.length; i++) {
+			sql = "DELETE FROM "
+					+ "roles_rights "
+					+ "WHERE role_id = ? "
+					+ "AND right_id = ?";
+			
+			preparedStatement = connect.prepareStatement(sql);
+			preparedStatement.setString(1, lastInsertId);
+			preparedStatement.setInt(2, oldRights[i]);
+			preparedStatement.executeUpdate();
+		}
+
+		String rightsJson = roleData.get("rights");
+		int[] rights = gson.fromJson(rightsJson, int[].class); 
+		
+		for (int i = 0; i < rights.length; i++) {
+			sql = "INSERT INTO "
+					+ "roles_rights "
+					+ "values (?, ?) "
+					+ "ON DUPLICATE KEY UPDATE "
+					+ "role_id = ?, right_id = ?";
+			
+			preparedStatement = connect.prepareStatement(sql);
+			preparedStatement.setString(1, lastInsertId);
+			preparedStatement.setInt(2, rights[i]);
+			preparedStatement.setString(3, lastInsertId);
+			preparedStatement.setInt(4, rights[i]);
+			preparedStatement.executeUpdate();
+		}	
+	}
+	
+	public void deleteRole(String roleId) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		String sql = "DELETE FROM "
+				+ "roles "
+				+ "WHERE id = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, roleId);
+		preparedStatement.executeUpdate();
+
+		sql = "DELETE FROM "
+				+ "roles_rights "
+				+ "WHERE role_id = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, roleId);
+		preparedStatement.executeUpdate();
 	}
 	
 }

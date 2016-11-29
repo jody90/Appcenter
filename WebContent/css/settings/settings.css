@@ -3,21 +3,22 @@
 	display: inline-block;
 }
 
-.user-edit-link {
+.settings-edit-link {
 	color: #337ab7;
     margin: 0 10px;
     font-size: 26px;
 	cursor: pointer;
 }
 
-.user-delete-link {
+.settings-delete-link {
 	color: #d70000;
     margin: 0 10px;
     font-size: 26px;
 	cursor: pointer;
 }
 
-.userEditPanel {
+.userEditPanel,
+.roleEditPanel {
 	width: 45%;
 }
 
@@ -29,4 +30,10 @@
 .list-group-item > .icon_right {
 	float: right;
 	cursor: pointer;
+}
+
+.description {
+	width: 100%;
+    height: 100px;
+	resize: none;
 }

@@ -123,9 +123,73 @@ public class SettingsIndexController extends HttpServlet {
 					}
 				break;					
 				case "manageRoles" :
+					try {
+						List<RolesStorage> roles = settingsDb.getRoles();
+						request.setAttribute("roles", roles);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					request.setAttribute("view", "manageRoles");
 					request.setAttribute("pageTitle", "Rollen verwalten");				
 				break;
+				case "getEditRoleData" :
+					String roleId = request.getParameter("roleId") != null ? request.getParameter("roleId") : "false";					
+
+					try {
+
+						Map<String, String> role = settingsDb.getRole(roleId);
+						List<RightsStorage> rights = settingsDb.getRights();
+
+						Gson gsonRoles = new Gson();
+						String rolesJson = gsonRoles.toJson(role);
+						
+						Gson gsonRights = new Gson();
+						String rightsJson = gsonRights.toJson(rights);
+						
+						String EditUserData = "["+rolesJson+","+rightsJson+"]";
+						
+						response.setContentType("text/plain");
+					    response.setCharacterEncoding("UTF-8");
+					    response.getWriter().write(EditUserData);
+					    return;
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				break;
+				case "saveEditRole" :
+					Enumeration<String> paramNamesRole = request.getParameterNames();
+					Map<String, String> roleData = new HashMap<String, String>();
+					
+					while (paramNamesRole.hasMoreElements()) {
+						String paramName = (String) paramNamesRole.nextElement();
+						String paramValue = request.getParameter(paramName).isEmpty() ? null : request.getParameter(paramName);
+						if (!paramName.equals("action")) {
+							roleData.put(paramName, paramValue);
+						}
+					}
+					
+					try {
+						settingsDb.addRole(roleData);
+						response.sendRedirect("/sortimo/settings/index?action=manageRoles");
+						return;
+					} catch (Exception e) {
+//						e.printStackTrace();
+						response.sendRedirect("/sortimo/error");
+						return;
+					}
+				case "deleteRole" :
+					String deleteRoleId = request.getParameter("roleId");					
+					
+					try {
+						settingsDb.deleteRole(deleteRoleId);
+						response.sendRedirect("/sortimo/settings/index?action=manageRoles");
+						return;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				break;	
 				case "manageRights" :
 					request.setAttribute("view", "manageRights");
 					request.setAttribute("pageTitle", "Rechte verwalten");

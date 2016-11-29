@@ -32,23 +32,23 @@
 	</tr>
 	<c:forEach items="${users}" var="user">
 		<tr>
-			<td>
+			<td class="align-middle">
 				${user["username"]}
 			</td>
-			<td>
+			<td class="align-middle">
 				${user["firstname"]}		
 			</td>
-			<td>
+			<td class="align-middle">
 				${user["lastname"]}
 			</td>
-			<td>
+			<td class="align-middle">
 				${user["email"]}
 			</td>
-			<td>
-		    	<span class="user-edit-link" data-toggle="modal" data-target="#editUserModal" data-username="${user['username']}" id="openEditUserModal">
+			<td class="align-middle">
+		    	<span class="settings-edit-link" data-toggle="modal" data-target="#editUserModal" data-username="${user['username']}" id="openEditUserModal">
 		    		<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 		    	</span>		    	
- 			    <span class="user-delete-link" data-toggle="modal" data-target="#deleteUserModal" data-username="${user['username']}" id="openDeleteUserModal">
+ 			    <span class="settings-delete-link" data-toggle="modal" data-target="#deleteUserModal" data-username="${user['username']}" id="openDeleteUserModal">
 		    		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 		    	</span>		    
 			</td>
@@ -154,7 +154,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-				<button type="button" class="btn btn-primary" id="submitUserChanges">Änderungen speichern</button>
+				<button type="button" class="btn btn-primary" id="submitUserChanges">Speichern</button>
 			</div>
 		</div>
 	</div>
