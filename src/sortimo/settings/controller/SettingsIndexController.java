@@ -191,9 +191,48 @@ public class SettingsIndexController extends HttpServlet {
 					}
 				break;	
 				case "manageRights" :
+					try {
+						List<RightsStorage> rights = settingsDb.getRights();
+						request.setAttribute("rights", rights);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					request.setAttribute("view", "manageRights");
 					request.setAttribute("pageTitle", "Rechte verwalten");
 				break;
+				case "saveEditRight" :
+					Enumeration<String> paramNamesRight = request.getParameterNames();
+					Map<String, String> rightData = new HashMap<String, String>();
+					
+					while (paramNamesRight.hasMoreElements()) {
+						String paramName = (String) paramNamesRight.nextElement();
+						String paramValue = request.getParameter(paramName).isEmpty() ? null : request.getParameter(paramName);
+						if (!paramName.equals("action")) {
+							rightData.put(paramName, paramValue);
+						}
+					}
+					
+					try {
+						settingsDb.addRight(rightData);
+						response.sendRedirect("/sortimo/settings/index?action=manageRights");
+						return;
+					} catch (Exception e) {
+//						e.printStackTrace();
+						response.sendRedirect("/sortimo/error");
+						return;
+					}
+				case "deleteRight" :
+					String deleteRightId = request.getParameter("rightId");		
+					
+					try {
+						settingsDb.deleteRight(deleteRightId);
+						response.sendRedirect("/sortimo/settings/index?action=manageRights");
+						return;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				break;	
 				default :					
 					request.setAttribute("view", "index");
 					request.setAttribute("pageTitle", "Verwaltung");

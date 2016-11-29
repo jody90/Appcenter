@@ -1,15 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <form action="index" method="get" class="margin-bottom-md">
-	<label for="editRole">Name Rolle</label>
-	<input type="text" class="form-control search_field" name="editRole" placeholder="Rolle">
-	<button type="submit" class="btn btn-success" name="action" value="manageRoles">
+	<label for="editRight">Name Recht</label>
+	<input type="text" class="form-control search_field" name="editRight" placeholder="Recht">
+	<button type="submit" class="btn btn-success" name="action" value="manageRights">
 		Suchen
 	</button>
 </form>
 
-<button class="btn btn-primary margin-bottom-lg" data-toggle="modal" data-target="#editRoleModal" id="openNewRoleModal">
-	Neue Rolle anlegen
+<button class="btn btn-primary margin-bottom-lg" data-toggle="modal" data-target="#editRightModal" id="openNewRightModal">
+	Neues Recht anlegen
 	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 </button>
 
@@ -28,22 +28,22 @@
 			Optionen
 		</th>
 	</tr>
-	<c:forEach items="${roles}" var="role">
+	<c:forEach items="${rights}" var="right">
 		<tr>
 			<td class="align-middle">
-				${role.getId()}
+				${right.getId()}
 			</td>
 			<td class="align-middle">
-				${role.getName()}
+				${right.getName()}
 			</td>
 			<td class="align-middle">
-				${role.getDescription()}
+				${right.getDescription()}
 			</td>
 			<td class="align-middle">
-		    	<span class="settings-edit-link" data-toggle="modal" data-target="#editRoleModal" data-role-id="${role.getId()}" id="openEditRoleModal">
+		    	<span class="settings-edit-link" data-toggle="modal" data-target="#editRightModal" data-right-id="${right.getId()}" data-right-name="${right.getName()}" data-right-description="${right.getDescription()}"id="openEditRightModal">
 		    		<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 		    	</span>		    	
- 			    <span class="settings-delete-link" data-toggle="modal" data-target="#deleteRoleModal" data-role-id="${role.getId()}" data-role-name="${role.getName()}" id="openDeleteRoleModal">
+ 			    <span class="settings-delete-link" data-toggle="modal" data-target="#deleteRightModal" data-right-id="${right.getId()}" data-right-name="${right.getName()}" id="openDeleteRightModal">
 		    		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 		    	</span>		    
 			</td>
@@ -51,9 +51,9 @@
 	</c:forEach>
 </table>
 
-<!-- Edit Role Modal -->
-<div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog"
-	aria-labelledby="editRoleModalLabel">
+<!-- Edit Right Modal -->
+<div class="modal fade" id="editRightModal" tabindex="-1" role="dialog"
+	aria-labelledby="editRightModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -61,65 +61,37 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="editRoleModalLabel">Rollen verwalten</h4>
+				<h4 class="modal-title" id="editRightModalLabel">Recht verwalten</h4>
 			</div>
 			<div class="modal-body">
 			
-				<form action="index" method="post" id="editRoleForm">
-					<input type="hidden" name="action" value="saveEditRole">
-					<input type="hidden" name="rights" value="" id="newRights">
-					<input type="hidden" name="oldRights" value="" id="oldRights">
-					<input type="hidden" name="roleId" value="####roleId####">
+				<form action="index" method="post" id="editRightForm">
+					<input type="hidden" name="action" value="saveEditRight">
+					<input type="hidden" name="rightId" value="####rightId####">
 					
 					<div class="row">
 						<div class="col-xs-6">
-							<label for="name">Name Rolle</label>
+							<label for="name">Name Recht</label>
 							<input class="form-control" type="text" name="name" value="####name####" placeholder="Name">
 						</div>					
 						<div class="col-xs-6">
-							<label for="description">Beschreibung Rolle</label>
+							<label for="description">Beschreibung Recht</label>
 							<textarea class="description" name="description">####description####</textarea>
-						</div>
-					</div>
-										
-					<div class="row margin-top-lg">
-						<div class="flexbox">
-							<div class="panel panel-info roleEditPanel">
-								<div class="panel-heading">
-									Benutzerrechte verfügbar: 
-								</div>
-								<div class="panel-body">
-									<ul class="list-group" id="possibleRights">								
-										####possibleRights####
-									</ul>
-								</div>
-							</div>
-
-							<div class="panel panel-success userEditPanel">
-								<div class="panel-heading">
-									Benutzerrechte aktuell:
-								</div>
-								<div class="panel-body">
-									<ul class="list-group" id="currentRights">
-										####currentRights####
-									</ul>
-								</div>
-							</div>
 						</div>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-				<button type="button" class="btn btn-primary" id="submitRoleChanges">Speichern</button>
+				<button type="button" class="btn btn-primary" id="submitRightChanges">Speichern</button>
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- Delete Role Modal -->
-<div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog"
-	aria-labelledby="deleteRoleModalLabel">
+<!-- Delete Right Modal -->
+<div class="modal fade" id="deleteRightModal" tabindex="-1" role="dialog"
+	aria-labelledby="deleteRightModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -127,12 +99,12 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="deleteRoleModalLabel">Rolle löschen</h4>
+				<h4 class="modal-title" id="deleteRightModalLabel">Recht löschen</h4>
 			</div>
 			<div class="modal-body">
-				<form method="post" action="index" id="deleteRoleForm">
-					<input type="hidden" name="action" value="deleteRole">
-					<input type="hidden" name="roleId" value="####roleId####">
+				<form method="post" action="index" id="deleteRightForm">
+					<input type="hidden" name="action" value="deleteRight">
+					<input type="hidden" name="rightId" value="####rightId####">
 					<p>
 						Bist du dir sicher, dass du <strong>####name####</strong> löschen willst?
 					</p>
@@ -140,7 +112,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
-				<button type="button" class="btn btn-danger" id="submitRoleDelete">Ja</button>
+				<button type="button" class="btn btn-danger" id="submitRightDelete">Ja</button>
 			</div>
 		</div>
 	</div>

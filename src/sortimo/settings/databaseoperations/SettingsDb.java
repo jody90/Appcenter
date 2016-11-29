@@ -170,17 +170,20 @@ public class SettingsDb {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 		
+		String id = roleData.get("roleId").equals("-1") ? null : roleData.get("roleId");
+		
 		String sql = "INSERT INTO "
 				+ "roles "
-				+ "values (default, ?, ?) "
+				+ "values (?, ?, ?) "
 				+ "ON DUPLICATE KEY UPDATE "
 				+ "name = ?, description = ?";
 		
 		preparedStatement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		preparedStatement.setString(1, roleData.get("name"));
-		preparedStatement.setString(2, roleData.get("description"));
-		preparedStatement.setString(3, roleData.get("name"));
-		preparedStatement.setString(4, roleData.get("description"));
+		preparedStatement.setString(1, id);
+		preparedStatement.setString(2, roleData.get("name"));
+		preparedStatement.setString(3, roleData.get("description"));
+		preparedStatement.setString(4, roleData.get("name"));
+		preparedStatement.setString(5, roleData.get("description"));
 		preparedStatement.executeUpdate();
 
 		ResultSet rs = preparedStatement.getGeneratedKeys();
@@ -188,7 +191,6 @@ public class SettingsDb {
 		String lastInsertId = roleData.get("roleId");
 		
 		if (rs.next()) {
-			System.out.println("anzahl");
             lastInsertId = rs.getString(1);
         }
 
@@ -246,6 +248,52 @@ public class SettingsDb {
 		
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, roleId);
+		preparedStatement.executeUpdate();
+	}
+	
+	public void addRight(Map<String, String> rightData) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		String id = rightData.get("rightId").equals("-1") ? null : rightData.get("rightId");
+		
+		String sql = "INSERT INTO "
+				+ "rights "
+				+ "values (?, ?, ?) "
+				+ "ON DUPLICATE KEY UPDATE "
+				+ "name = ?, description = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, id);
+		preparedStatement.setString(2, rightData.get("name"));
+		preparedStatement.setString(3, rightData.get("description"));
+		preparedStatement.setString(4, rightData.get("name"));
+		preparedStatement.setString(5, rightData.get("description"));
+		preparedStatement.executeUpdate();
+	}
+	
+	public void deleteRight(String rightId) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		System.out.println(rightId);
+		System.out.println("rightId");
+		
+		
+		String sql = "DELETE FROM "
+				+ "rights "
+				+ "WHERE id = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, rightId);
+		preparedStatement.executeUpdate();
+
+		sql = "DELETE FROM "
+				+ "roles_rights "
+				+ "WHERE right_id = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, rightId);
 		preparedStatement.executeUpdate();
 	}
 	

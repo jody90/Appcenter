@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 	        	// Platzhalter aus Template ersetzen
 	        	template = template.replace("####name####", name);
-	        	template = template.replace("####description####", description.trim());
+	        	template = template.replace("####description####", description);
 	        	template = template.replace("####roleId####", roleId);
 	        	template = template.replace("####possibleRights####", possibleRights);
 	        	template = template.replace("####currentRights####", currentRights);

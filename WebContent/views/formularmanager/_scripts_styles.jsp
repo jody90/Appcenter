@@ -15,4 +15,3 @@
 <script src="${pageContext.request.contextPath}/js/formularmanager/formBuilderFunctions.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/jquery.datetimepicker.full.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/scripts.js"></script>
-<script src="${pageContext.request.contextPath}/js/formularmanager/settings.js"></script>
