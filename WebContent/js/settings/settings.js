@@ -23,8 +23,6 @@ $(document).ready(function() {
 	        	var roles = obj[1];
 	        	var rights = obj[2];
 	        	
-	        	console.log(userData);
-	        	
 	        	var orderedRoles = orderArray(roles);
 	        	var orderedRights = orderArray(rights);
 	        	
@@ -47,7 +45,8 @@ $(document).ready(function() {
 	        		for (var i = 0; i < data.length; i++) {
 	        			var elementData = specificData != false ? specificData[data[i]] : data[i];
 	        			if (!specificData) {
-	    	        		if (typeSpecificArray.indexOf(data[i].id) == -1) {
+	        				var id = (data[i].id).toString();
+	    	        		if (typeSpecificArray.indexOf(id) == -1) {
 	    	        			var listItem = listItemTemplate.replace("####name####", data[i].name);
 	    	        			listItem = listItem.replace("####id####", data[i].id);
 	    	        			listHtml += listItem;

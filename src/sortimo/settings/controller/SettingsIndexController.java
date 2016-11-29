@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import sortimo.databaseoperations.UserDb;
 import sortimo.model.User;
 import sortimo.settings.databaseoperations.SettingsDb;
+import sortimo.settings.storage.RightsStorage;
+import sortimo.settings.storage.RolesStorage;
 
 @WebServlet("/SettingsIndexController")
 public class SettingsIndexController extends HttpServlet {
@@ -43,6 +45,7 @@ public class SettingsIndexController extends HttpServlet {
 			String action = request.getParameter("action") != null ? request.getParameter("action") : "false";
 			String editUser = request.getParameter("editUser");
 			request.setAttribute("firstname", userInfo.get("firstname"));
+			request.setAttribute("path", "settings");
 			SettingsDb settingsDb = new SettingsDb();
 			
 			switch (action) {
@@ -54,15 +57,14 @@ public class SettingsIndexController extends HttpServlet {
 						e.printStackTrace();
 					}
 					request.setAttribute("view", "manageUsers");
-					request.setAttribute("path", "settings");
 					request.setAttribute("pageTitle", "Benutzer verwalten");
 				break;
 				case "getEditUserData" :
 					try {
 
 						Map<String, String> userToEdit = settingsDb.getUser(editUser);
-						List<Map<String, String>> roles = settingsDb.getRoles();
-						List<Map<String, String>> rights = settingsDb.getRights();
+						List<RolesStorage> roles = settingsDb.getRoles();
+						List<RightsStorage> rights = settingsDb.getRights();
 
 						Gson gsonUser = new Gson();
 						String userJson = gsonUser.toJson(userToEdit);
@@ -122,17 +124,14 @@ public class SettingsIndexController extends HttpServlet {
 				break;					
 				case "manageRoles" :
 					request.setAttribute("view", "manageRoles");
-					request.setAttribute("path", "settings");
 					request.setAttribute("pageTitle", "Rollen verwalten");				
 				break;
 				case "manageRights" :
 					request.setAttribute("view", "manageRights");
-					request.setAttribute("path", "settings");
 					request.setAttribute("pageTitle", "Rechte verwalten");
 				break;
 				default :					
 					request.setAttribute("view", "index");
-					request.setAttribute("path", "settings");
 					request.setAttribute("pageTitle", "Verwaltung");
 			}
 			getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);

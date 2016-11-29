@@ -1,6 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
 <form action="index" method="get" class="margin-bottom-md">
 	<label for="editUser">Benutzername</label>
 	<input type="text" class="form-control search_field" name="editUser" placeholder="Benutzername">

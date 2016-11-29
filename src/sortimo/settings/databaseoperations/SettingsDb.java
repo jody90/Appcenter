@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import sortimo.databaseoperations.Connect;
+import sortimo.settings.storage.RightsStorage;
+import sortimo.settings.storage.RolesStorage;
 
 public class SettingsDb {
 	private Connection connect = null;
@@ -62,7 +64,6 @@ public class SettingsDb {
 				+ "rights "
 				+ "FROM users "
 				+ "WHERE username = ?";
-		
 	
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, editUser);
@@ -83,7 +84,7 @@ public class SettingsDb {
         
 	}
 	
-	public List<Map<String, String>> getRoles() throws Exception {
+	public List<RolesStorage> getRoles() throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 		
@@ -93,13 +94,13 @@ public class SettingsDb {
 		preparedStatement = connect.prepareStatement(sql);
 		
 		ResultSet rs = preparedStatement.executeQuery();
-		List<Map<String, String>> rolesList = new ArrayList<Map<String, String>>();
+		List<RolesStorage> rolesList = new ArrayList<RolesStorage>();
 		
 		while (rs.next()) {
-			Map<String, String> role = new HashMap<String, String>();
-			role.put("id", rs.getString("id"));
-			role.put("name", rs.getString("name"));
-			role.put("description", rs.getString("description"));
+			RolesStorage role = new RolesStorage();
+			role.id = rs.getInt("id");
+			role.name =  rs.getString("name");
+			role.description = rs.getString("description");
 			rolesList.add(role);
 		}
 		
@@ -107,7 +108,7 @@ public class SettingsDb {
         
 	}
 	
-	public List<Map<String, String>> getRights() throws Exception {
+	public List<RightsStorage> getRights() throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 		
@@ -117,13 +118,13 @@ public class SettingsDb {
 		preparedStatement = connect.prepareStatement(sql);
 		
 		ResultSet rs = preparedStatement.executeQuery();
-		List<Map<String, String>> rightsList = new ArrayList<Map<String, String>>();
+		List<RightsStorage> rightsList = new ArrayList<RightsStorage>();
 		
 		while (rs.next()) {
-			Map<String, String> right = new HashMap<String, String>();
-			right.put("id", rs.getString("id"));
-			right.put("name", rs.getString("name"));
-			right.put("description", rs.getString("description"));
+			RightsStorage right = new RightsStorage();
+			right.id = rs.getInt("id");
+			right.name = rs.getString("name");
+			right.description = rs.getString("description");
 			rightsList.add(right);
 		}
 		
