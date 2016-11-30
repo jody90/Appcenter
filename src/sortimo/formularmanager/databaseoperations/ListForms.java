@@ -20,14 +20,14 @@ public class ListForms {
 		connect = conClass.getConnection();
 
 		String sql = "SELECT * "
-				+ "FROM formular_manager.forms "
+				+ "FROM formularmanager_forms "
 				+ "WHERE delete_status != 1 "
 				+ "AND country LIKE ?";
-				
+		
 		if (land.equals("ALL")) {
 			land = "%";
 		}
-
+		
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, land);
 
@@ -46,7 +46,7 @@ public class ListForms {
 					+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle, "
 					+ "MAX(CASE WHEN meta_name = 'validFrom' THEN meta_value END) as validFrom, "
 					+ "MAX(CASE WHEN meta_name = 'validTo' THEN meta_value END) as validTo "
-					+ "FROM formular_manager.forms_meta "
+					+ "FROM formularmanager_forms_meta "
 					+ "WHERE form_id = " + id + " "
 					+ "GROUP BY form_id";
 

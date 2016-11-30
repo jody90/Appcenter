@@ -17,7 +17,7 @@ public class FormStatistics {
 		connect = conClass.getConnection();
 		
 		String sql = "SELECT * "
-				+ "FROM formular_manager.forms_response "
+				+ "FROM formularmanager_forms_response "
 				+ "WHERE form_id = ?";
 	
 		preparedStatement = connect.prepareStatement(sql);
@@ -38,7 +38,7 @@ public class FormStatistics {
 		sql = "SELECT form_id, "
 				+ "MAX(CASE WHEN meta_name = 'formContentJson' THEN meta_value END) as formContentJson, "
 				+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle "
-				+ "FROM formular_manager.forms_meta "
+				+ "FROM formularmanager_forms_meta "
 				+ "WHERE form_id = ? "
 				+ "GROUP BY form_id";
 		

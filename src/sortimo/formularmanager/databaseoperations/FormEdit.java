@@ -19,7 +19,9 @@ public class FormEdit extends Connect{
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 
-		String sql = "INSERT INTO formular_manager.forms values (default, ?, ?, default, default, default)";
+		String sql = "INSERT INTO "
+				+ "formularmanager_forms "
+				+ "values (default, ?, ?, default, default, default)";
 	
 		preparedStatement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		preparedStatement.setString(1, globalData.get("formType"));
@@ -38,7 +40,9 @@ public class FormEdit extends Connect{
 		}
 		
 		if (lastInsertId > -1) {
-			sql = "INSERT INTO formular_manager.forms_meta values (default, ?, ?, ?)";
+			sql = "INSERT INTO "
+					+ "formularmanager_forms_meta "
+					+ "values (default, ?, ?, ?)";
 			for (Map.Entry<String, String> entry : metaData.entrySet()) {
 				preparedStatement = connect.prepareStatement(sql);
 				preparedStatement.setInt(1, lastInsertId);
@@ -59,7 +63,7 @@ public class FormEdit extends Connect{
 		int formId = Integer.parseInt(globalData.get("formId"));
 
 		String sql = "UPDATE "
-				+ "formular_manager.forms "
+				+ "formularmanager_forms "
 				+ "SET type = ?, country = ?, modified_at = default "
 				+ "WHERE id = " + formId + "";
 		
@@ -69,7 +73,7 @@ public class FormEdit extends Connect{
 		preparedStatement.executeUpdate();
 		
 		sql = "INSERT INTO "
-			+ "formular_manager.forms_meta "
+			+ "formularmanager_forms_meta "
 			+ "values (default, ?, ?, ?) "
 			+ "ON DUPLICATE KEY UPDATE "
 			+ "meta_name = ?, meta_value = ?";
@@ -93,9 +97,9 @@ public class FormEdit extends Connect{
 		Map<String, String> formData = new HashMap<String, String>();
 
 		String sql = "SELECT * "
-				+ "FROM formular_manager.forms "
-				+ "WHERE forms.id = " + formId + " "
-				+ "AND forms.delete_status != 1";
+				+ "FROM formularmanager_forms "
+				+ "WHERE id = " + formId + " "
+				+ "AND delete_status != 1";
 		
 		
 		preparedStatement = connect.prepareStatement(sql);				
@@ -109,8 +113,8 @@ public class FormEdit extends Connect{
 			formData.put("modifiedAt", rsData.getString("modified_at"));
 		
 			sql = "SELECT COUNT(*)"
-					+ "FROM formular_manager.forms_meta "
-					+ "WHERE forms_meta.form_id = " + formId + "";
+					+ "FROM formularmanager_forms_meta "
+					+ "WHERE form_id = " + formId + "";
 			
 			preparedStatement = connect.prepareStatement(sql);				
 			ResultSet rsCount = preparedStatement.executeQuery();
@@ -122,8 +126,8 @@ public class FormEdit extends Connect{
 			
 			for (int i = 1; i <= count; i++) {		
 				sql = "SELECT meta_name, meta_value "
-						+ "FROM formular_manager.forms_meta "
-						+ "WHERE forms_meta.form_id = " + formId + " "
+						+ "FROM formularmanager_forms_meta "
+						+ "WHERE form_id = " + formId + " "
 						+ "LIMIT 1 OFFSET " + (i-1) + "";
 				
 				preparedStatement = connect.prepareStatement(sql);				
@@ -141,7 +145,7 @@ public class FormEdit extends Connect{
 		connect = conClass.getConnection();
 
 		String sql = "UPDATE "
-				+ "formular_manager.forms "
+				+ "formularmanager_forms "
 				+ "SET delete_status = 1, "
 				+ "modified_at = default "
 				+ "WHERE id = " + formId + "";

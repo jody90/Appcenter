@@ -17,7 +17,9 @@ public class FormResponse {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 		
-		String sql = "INSERT INTO formular_manager.forms_response values (default, ?, ?, ?, default)";
+		String sql = "INSERT INTO "
+				+ "formularmanager_forms_response "
+				+ "values (default, ?, ?, ?, default)";
 		
 		responseData.remove("action");
 		responseData.remove("form_id");

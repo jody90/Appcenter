@@ -102,6 +102,7 @@ public class FormularManagerEditController extends HttpServlet {
 					}
 				break;
 				case "edit" :
+					System.out.println(formId);
 					Map<String, String> formData = null;
 					try {
 						formData = form.getFormData(formId);
@@ -110,7 +111,9 @@ public class FormularManagerEditController extends HttpServlet {
 						e.printStackTrace();
 					}
 					
-					if (!formData.isEmpty()) {					
+					System.out.println(formData);
+					
+					if (formData != null) {					
 						request.setAttribute("country", country);
 						request.setAttribute("formData", formData);
 						getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);				
