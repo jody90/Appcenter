@@ -15,7 +15,9 @@ $(document).ready(function() {
         	if (obj.resultsJson != "null") {
        
 	        	Object.keys(obj).map(function(key, index) {
-	        		return obj[key] = JSON.parse(obj[key]);
+	        		if (key != "formHtml") {
+	        			return obj[key] = JSON.parse(obj[key]);
+	        		}
 	    		});
 	        	
 	        	// vorhandene FormularElemente aus Formular extrahieren (RadioGroups, SelectBoxen, etc.)

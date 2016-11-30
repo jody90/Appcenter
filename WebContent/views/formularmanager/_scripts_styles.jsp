@@ -14,4 +14,9 @@
 <script src="${pageContext.request.contextPath}/js/formularmanager/form-render.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/formBuilderFunctions.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/jquery.datetimepicker.full.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/statisticsFunctions.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/statistics.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/scripts.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/angular/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/angular/app.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/statisticsController.js"></script>

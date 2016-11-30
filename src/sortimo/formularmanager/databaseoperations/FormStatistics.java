@@ -37,6 +37,7 @@ public class FormStatistics {
 		
 		sql = "SELECT form_id, "
 				+ "MAX(CASE WHEN meta_name = 'formContentJson' THEN meta_value END) as formContentJson, "
+				+ "MAX(CASE WHEN meta_name = 'formContentHtml' THEN meta_value END) as formContentHtml, "
 				+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle "
 				+ "FROM formularmanager_forms_meta "
 				+ "WHERE form_id = ? "
@@ -48,9 +49,11 @@ public class FormStatistics {
 		
 		while (rsJsonForm.next()) {
 			String jsonForm = rsJsonForm.getString("formContentJson");
+			String htmlForm = rsJsonForm.getString("formContentHtml");
 			String formTitle = rsJsonForm.getString("formTitle");
 			
 			statisticsStorage.setJsonForm(jsonForm);
+			statisticsStorage.setHtmlForm(htmlForm);
 			statisticsStorage.setFormTitle(formTitle);
 		}
 	

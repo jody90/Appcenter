@@ -9,6 +9,8 @@ public class FromsStatisticsStorage {
 	
 	private String jsonForm;
 
+	private String htmlForm;
+
 	private String formTitle;
 
 	private Map<Integer, Map<String, String>> statisticsValue;
@@ -52,5 +54,13 @@ public class FromsStatisticsStorage {
 	
 	public void setFormTitle(String formTitle) {
 		this.formTitle = formTitle;
+	}
+
+	public String getHtmlForm() {
+		return htmlForm;
+	}
+
+	public void setHtmlForm(String htmlForm) {
+		this.htmlForm = htmlForm;
 	}
 }
