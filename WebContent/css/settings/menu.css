@@ -5,6 +5,7 @@
 .settings_menu_link_container {
 	margin-top: 25px;
 	margin-bottom: 25px;
+	cursor: pointer;
 }
 
 .settings_menu_icon {

@@ -79,5 +79,13 @@ public class RightsDb {
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, rightId);
 		preparedStatement.executeUpdate();
+		
+		sql = "DELETE FROM "
+				+ "users_rights "
+				+ "WHERE right_id = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, rightId);
+		preparedStatement.executeUpdate();
 	}
 }

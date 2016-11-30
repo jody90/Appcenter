@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import sortimo.databaseoperations.LoginDb;
-import sortimo.model.User;
+import sortimo.model.Login;
 import sortimo.settings.databaseoperations.RightsDb;
 import sortimo.settings.databaseoperations.RolesDb;
 import sortimo.settings.databaseoperations.UserDb;
@@ -32,7 +31,7 @@ public class SettingsIndexController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = new User();
+		Login user = new Login();
 
 		// liest alle Cookies in cookies ein
 		Cookie[] cookies = null;
@@ -47,6 +46,7 @@ public class SettingsIndexController extends HttpServlet {
 			String action = request.getParameter("action") != null ? request.getParameter("action") : "false";
 			String editUser = request.getParameter("editUser") != null ? request.getParameter("editUser") : "";
 			request.setAttribute("firstname", userInfo.get("firstname"));
+			request.setAttribute("username", userInfo.get("username"));
 			request.setAttribute("path", "settings");
 			UserDb settingsUsersDb = new UserDb();
 			RolesDb settingsRolesDb = new RolesDb();
@@ -90,9 +90,7 @@ public class SettingsIndexController extends HttpServlet {
 						e.printStackTrace();
 					}
 				break;
-				case "saveEditUser" :
-					LoginDb userDb = new LoginDb();
-					
+				case "saveEditUser" :					
 					Map<String, String> updateData = new HashMap<String, String>();
 					
 					Enumeration<String> paramNames = request.getParameterNames();
@@ -106,7 +104,7 @@ public class SettingsIndexController extends HttpServlet {
 					}
 					
 					try {
-						userDb.addAccount(updateData);
+						settingsUsersDb.addAccount(updateData);
 						response.sendRedirect("/sortimo/settings/index?action=manageUsers");
 						return;
 					} catch (Exception e) {
@@ -115,11 +113,10 @@ public class SettingsIndexController extends HttpServlet {
 						return;
 					}
 				case "deleteUser" :
-					LoginDb userDbConnection = new LoginDb();
 					String deleteUser = request.getParameter("username");					
 					
 					try {
-						userDbConnection.deleteAccount(deleteUser);
+						settingsUsersDb.deleteAccount(deleteUser);
 						response.sendRedirect("/sortimo/settings/index?action=manageUsers");
 						return;
 					} catch (Exception e) {
@@ -236,7 +233,20 @@ public class SettingsIndexController extends HttpServlet {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				break;	
+				break;
+				case "changePassword" :
+					
+					String password = request.getParameter("password");
+					
+					try {
+						settingsUsersDb.updatePassword(editUser, password);
+						response.sendRedirect("/sortimo/settings/index");
+						return;
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				break;
 				default :					
 					request.setAttribute("view", "index");
 					request.setAttribute("pageTitle", "Verwaltung");

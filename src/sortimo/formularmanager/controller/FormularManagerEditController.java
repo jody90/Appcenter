@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import sortimo.formularmanager.databaseoperations.FormEdit;
-import sortimo.model.User;
+import sortimo.model.Login;
 
 @WebServlet("/FormularManagerEditController")
 public class FormularManagerEditController extends HttpServlet {
@@ -28,7 +28,7 @@ public class FormularManagerEditController extends HttpServlet {
 		System.out.println("Edit Controller");
 		
 		
-		User user = new User();
+		Login user = new Login();
 
 		// liest alle Cookies in cookies ein
 		Cookie[] cookies = null;

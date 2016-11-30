@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import sortimo.formularmanager.databaseoperations.ListForms;
 import sortimo.formularmanager.storage.FormsListStorage;
-import sortimo.model.User;
+import sortimo.model.Login;
 
 @WebServlet("/FormularManagerListController")
 public class FormularManagerListController extends HttpServlet {
@@ -24,7 +24,7 @@ public class FormularManagerListController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = new User();
+		Login user = new Login();
 
 		// liest alle Cookies in cookies ein
 		Cookie[] cookies = null;

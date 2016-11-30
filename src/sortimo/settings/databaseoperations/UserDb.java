@@ -8,7 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+
 import sortimo.databaseoperations.Connect;
+import sortimo.model.HelperFunctions;
 
 public class UserDb {
 	
@@ -30,7 +33,7 @@ public class UserDb {
 				+ "LEFT JOIN users_roles "
 				+ "ON users.username = users_roles.username "
 				+ "LEFT JOIN users_rights "
-				+ "ON users.username = users_roles.username "
+				+ "ON users.username = users_rights.username "
 				+ "WHERE users.username = ? "
 				+ "group by users.username";
 	
@@ -67,9 +70,9 @@ public class UserDb {
 				+ "LEFT JOIN users_roles "
 				+ "ON users.username = users_roles.username "
 				+ "LEFT JOIN users_rights "
-				+ "ON users.username = users_roles.username "
+				+ "ON users.username = users_rights.username "
 				+ "WHERE users.username LIKE '%' ? '%' "
-				+ "group by users.username";
+				+ "GROUP BY users.username";
 	
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, editUser);
@@ -87,5 +90,107 @@ public class UserDb {
 			usersList.add(users);
 		}
 		return usersList;
+	}
+	
+	public void addAccount(Map<String, String> userData) throws Exception {
+		HelperFunctions helper = new HelperFunctions();
+		
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		String sql = "INSERT INTO "
+				+ "users "
+				+ "values (?, ?, ?, ?, ?) "
+				+ "ON DUPLICATE KEY UPDATE "
+				+ "username = ?, lastname = ?, firstname = ?, email = ?";
+		
+		System.out.println(sql);
+		
+		String password = helper.md5Hash("1");
+		String username = userData.get("oldUsername") != null ? userData.get("oldUsername") : userData.get("username");
+	
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, username);
+		preparedStatement.setString(2, password);
+		preparedStatement.setString(3, userData.get("lastname"));
+		preparedStatement.setString(4, userData.get("firstname"));
+		preparedStatement.setString(5, userData.get("email"));
+		preparedStatement.setString(6, userData.get("username"));
+		preparedStatement.setString(7, userData.get("lastname"));
+		preparedStatement.setString(8, userData.get("firstname"));
+		preparedStatement.setString(9, userData.get("email"));
+		preparedStatement.executeUpdate();
+		
+		sql = "DELETE FROM "
+				+ "users_rights "
+				+ "WHERE username = ?";		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, username);
+		preparedStatement.executeUpdate();
+		
+		Gson gson = new Gson();
+		String rightsJson = userData.get("rights");
+		int[] rights = gson.fromJson(rightsJson, int[].class); 
+		
+		for (int i = 0; i < rights.length; i++) {
+			sql = "INSERT INTO "
+					+ "users_rights "
+					+ "values (?, ?)";		
+			preparedStatement = connect.prepareStatement(sql);
+			preparedStatement.setString(1, username);
+			preparedStatement.setInt(2, rights[i]);
+			preparedStatement.executeUpdate();
+		}	
+		
+		sql = "DELETE FROM "
+				+ "users_roles "
+				+ "WHERE username = ?";		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, username);
+		preparedStatement.executeUpdate();
+		
+		String rolesJson = userData.get("roles");
+		int[] roles = gson.fromJson(rolesJson, int[].class); 
+		
+		for (int i = 0; i < roles.length; i++) {
+			sql = "INSERT INTO "
+					+ "users_roles "
+					+ "values (?, ?)";		
+			preparedStatement = connect.prepareStatement(sql);
+			preparedStatement.setString(1, username);
+			preparedStatement.setInt(2, roles[i]);
+			preparedStatement.executeUpdate();
+		}	
+	}
+	
+	public void deleteAccount(String deleteUser) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		String sql = "DELETE "
+				+ "FROM users "
+				+ "WHERE username = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, deleteUser);
+		preparedStatement.executeUpdate();
+	}
+
+	public void updatePassword(String editUser, String password) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		HelperFunctions helper = new HelperFunctions();
+		String hashedPassword = helper.md5Hash(password);
+		
+		String sql = "UPDATE users "
+				+ "SET password = ? "
+				+ "WHERE username = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, hashedPassword);
+		preparedStatement.setString(2, editUser);
+		preparedStatement.executeUpdate();
+		
 	}
 }

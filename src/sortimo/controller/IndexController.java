@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sortimo.model.User;
+import sortimo.model.Login;
 
 @WebServlet("/IndexController")
 public class IndexController extends HttpServlet {
@@ -22,7 +22,7 @@ public class IndexController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		User user = new User();
+		Login user = new Login();
 
 		// liest alle Cookies in cookies ein
 		Cookie[] cookies = null;

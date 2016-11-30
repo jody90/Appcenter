@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sortimo.model.User;
+import sortimo.model.Login;
 
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
@@ -36,7 +36,7 @@ public class LoginController extends HttpServlet {
 			case "login" :
 						
 				if (!username.isEmpty() && !password.isEmpty()) {
-					User user = new User();
+					Login user = new Login();
 					user.setServletRequest(request);
 					user.setServletResponse(response);
 					user.setUsername(username);
@@ -51,14 +51,14 @@ public class LoginController extends HttpServlet {
 				return;
 			case "logout" :
 
-				User user = new User();
+				Login user = new Login();
 				user.setServletRequest(request);
 				user.setServletResponse(response);
 				user.setUsername(username);
 				boolean logoutResponse = user.logout(cookies);
 				
 				if (logoutResponse) {
-					response.sendRedirect("/login");
+					response.sendRedirect("/sortimo/login");
 					return;
 				}
 				

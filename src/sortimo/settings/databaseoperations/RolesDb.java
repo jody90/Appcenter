@@ -43,11 +43,10 @@ public class RolesDb {
 			role.put("description", rs.getString("description"));
 			rights = rights == null ? rs.getString("right_id") : rights + "," + rs.getString("right_id") ;
 		}
-		
+
 		role.put("rights", rights);
 		
 		return role;
-        
 	}
 	
 	public void addRole(Map<String, String> roleData) throws Exception {
@@ -152,6 +151,14 @@ public class RolesDb {
 
 		sql = "DELETE FROM "
 				+ "roles_rights "
+				+ "WHERE role_id = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, roleId);
+		preparedStatement.executeUpdate();
+		
+		sql = "DELETE FROM "
+				+ "users_roles "
 				+ "WHERE role_id = ?";
 		
 		preparedStatement = connect.prepareStatement(sql);

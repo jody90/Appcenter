@@ -8,7 +8,7 @@ import com.google.gson.*;
 
 import sortimo.formularmanager.databaseoperations.FormStatistics;
 import sortimo.formularmanager.storage.FromsStatisticsStorage;
-import sortimo.model.User;
+import sortimo.model.Login;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +27,7 @@ public class FormularManagerStatisticsController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		User user = new User();
+		Login user = new Login();
 
 		// liest alle Cookies in cookies ein
 		Cookie[] cookies = null;

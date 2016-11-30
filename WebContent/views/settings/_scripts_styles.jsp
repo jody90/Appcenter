@@ -4,3 +4,4 @@
 <script src="${pageContext.request.contextPath}/js/settings/users.js"></script>
 <script src="${pageContext.request.contextPath}/js/settings/roles.js"></script>
 <script src="${pageContext.request.contextPath}/js/settings/rights.js"></script>
+<script src="${pageContext.request.contextPath}/js/settings/password.js"></script>

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sortimo.model.User;
+import sortimo.model.Login;
 
 @WebServlet("/FormularManagerIndexController")
 public class FormularManagerIndexController extends HttpServlet {
@@ -24,7 +24,7 @@ public class FormularManagerIndexController extends HttpServlet {
 	
 		System.out.println("Fromularmanager Index Controller");
 		
-		User user = new User();
+		Login user = new Login();
 
 		// liest alle Cookies in cookies ein
 		Cookie[] cookies = null;

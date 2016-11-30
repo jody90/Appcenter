@@ -1,7 +1,5 @@
 package sortimo.model;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
@@ -11,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import sortimo.databaseoperations.LoginDb;
 
-public class User {
+public class Login {
 	
 	private String username;
 	
@@ -54,13 +52,14 @@ public class User {
 
 		// Eingegebenes Passwort md5Hashen
 		try {
-			inputPassword = this.md5Hash(this.getPassword()).trim();
+			HelperFunctions helper = new HelperFunctions();
+			inputPassword = helper.md5Hash(this.getPassword()).trim();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 
 		// eingegebenes Passwort und Passwort aus DB vergleichen
-		if (password.equals(inputPassword)) {
+		if (inputPassword != null && password.equals(inputPassword)) {
 			this.writeUserCookie();
 			System.out.println("passwort ist richtig");
 			return true;
@@ -78,20 +77,6 @@ public class User {
 		// Cookie fuer 30Tage setzen
 		userCookie.setMaxAge(2592000);
 		response.addCookie(userCookie);
-	}
-	
-	public String md5Hash(String password) throws NoSuchAlgorithmException {
-		MessageDigest m = MessageDigest.getInstance("MD5");
-		m.reset();
-		m.update(password.getBytes());
-		byte[] digest = m.digest();
-		BigInteger bigInt = new BigInteger(1,digest);
-		String hashtext = bigInt.toString(16);
-		while(hashtext.length() < 32 ){
-			hashtext = "0"+hashtext;
-		}
-		
-		return hashtext;
 	}
 	
 	public boolean logout(Cookie[] cookies) {

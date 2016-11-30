@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
-import sortimo.model.User;
-
 public class LoginDb {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
@@ -71,47 +69,5 @@ public class LoginDb {
 		}
 		
 		return userInfo;
-	}
-	
-	public void addAccount(Map<String, String> userData) throws Exception {
-		User user = new User();
-		
-		Connect conClass = new Connect();
-		connect = conClass.getConnection();
-		
-		String sql = "INSERT INTO "
-				+ "users "
-				+ "values (?, ?, ?, ?, ?) "
-				+ "ON DUPLICATE KEY UPDATE "
-				+ "username = ?, lastname = ?, firstname = ?, email = ?";
-		
-			String password = userData.get("password") == null ? user.md5Hash("1") : user.md5Hash(userData.get("password"));
-			String username = userData.get("oldUsername") != null ? userData.get("oldUsername") : userData.get("username");
-		
-			preparedStatement = connect.prepareStatement(sql);
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, password);
-			preparedStatement.setString(3, userData.get("lastname"));
-			preparedStatement.setString(4, userData.get("firstname"));
-			preparedStatement.setString(5, userData.get("email"));
-			preparedStatement.setString(6, userData.get("username"));
-			preparedStatement.setString(7, userData.get("lastname"));
-			preparedStatement.setString(8, userData.get("firstname"));
-			preparedStatement.setString(9, userData.get("email"));
-			
-			preparedStatement.executeUpdate();
-	}
-	
-	public void deleteAccount(String deleteUser) throws Exception {
-		Connect conClass = new Connect();
-		connect = conClass.getConnection();
-		
-		String sql = "DELETE "
-				+ "FROM users "
-				+ "WHERE username = ?";
-		
-		preparedStatement = connect.prepareStatement(sql);
-		preparedStatement.setString(1, deleteUser);
-		preparedStatement.executeUpdate();
 	}
 }
