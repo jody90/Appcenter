@@ -13,7 +13,7 @@
 	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 </button>
 
-<table class="table table-striped table-hover">
+<table class="table table-hover">
 	<tr>
 		<th>
 			ID

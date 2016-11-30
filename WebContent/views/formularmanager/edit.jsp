@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="conf" class="sortimo.formularmanager.global.ConfigMaps"></jsp:useBean>
-<jsp:useBean id="help" class="sortimo.formularmanager.global.HelperFunctions"></jsp:useBean>
+<jsp:useBean id="help" class="sortimo.model.HelperFunctions"></jsp:useBean>
 
 <div class="row">
 	<div class="col-xs-3 padding-md">

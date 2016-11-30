@@ -1,0 +1,16 @@
+body {
+	background: #fff !important; 
+	background-image: url("../images/brushed-alum.png") !important;
+}
+
+.table-hover>tbody>tr:hover {
+	background-color: rgba(101, 146, 228, .2);
+}
+
+table {
+	background-color: #fff;
+}
+
+table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}

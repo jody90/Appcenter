@@ -13,6 +13,7 @@
 	<link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/css/jquery.datetimepicker.min.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/css/navi.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
     
 	<script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
