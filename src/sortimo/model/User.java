@@ -9,7 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sortimo.databaseoperations.UserDb;
+import sortimo.databaseoperations.LoginDb;
 
 public class User {
 	
@@ -41,7 +41,7 @@ public class User {
 	
 	public boolean login() {
 		
-		UserDb userDb = new UserDb();
+		LoginDb userDb = new LoginDb();
 		String password = "false";
 		String inputPassword = "false";
 		
@@ -129,7 +129,7 @@ public class User {
 
 	public Map<String, String> getUserInfo() {
 		if (userInfo == null) {
-			UserDb userDb = new UserDb();
+			LoginDb userDb = new LoginDb();
 			try {
 				Map<String, String> userInfo = userDb.getUserAccount(this.getUsername());
 				return userInfo;

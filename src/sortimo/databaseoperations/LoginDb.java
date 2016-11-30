@@ -8,7 +8,7 @@ import java.util.Map;
 
 import sortimo.model.User;
 
-public class UserDb {
+public class LoginDb {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
 	
@@ -86,11 +86,10 @@ public class UserDb {
 				+ "username = ?, lastname = ?, firstname = ?, email = ?";
 		
 			String password = userData.get("password") == null ? user.md5Hash("1") : user.md5Hash(userData.get("password"));
-//			String rights = userData.get("rights").isEmpty() ? null : userData.get("rights");
-//			String roles = userData.get("roles").isEmpty() ? null : userData.get("roles");
+			String username = userData.get("oldUsername") != null ? userData.get("oldUsername") : userData.get("username");
 		
 			preparedStatement = connect.prepareStatement(sql);
-			preparedStatement.setString(1, userData.get("oldUsername"));
+			preparedStatement.setString(1, username);
 			preparedStatement.setString(2, password);
 			preparedStatement.setString(3, userData.get("lastname"));
 			preparedStatement.setString(4, userData.get("firstname"));

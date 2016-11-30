@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import sortimo.databaseoperations.UserDb;
+import sortimo.databaseoperations.LoginDb;
 import sortimo.model.User;
-import sortimo.settings.databaseoperations.SettingsDb;
+import sortimo.settings.databaseoperations.RightsDb;
+import sortimo.settings.databaseoperations.RolesDb;
+import sortimo.settings.databaseoperations.UserDb;
 import sortimo.settings.storage.RightsStorage;
 import sortimo.settings.storage.RolesStorage;
 
@@ -46,12 +48,14 @@ public class SettingsIndexController extends HttpServlet {
 			String editUser = request.getParameter("editUser") != null ? request.getParameter("editUser") : "";
 			request.setAttribute("firstname", userInfo.get("firstname"));
 			request.setAttribute("path", "settings");
-			SettingsDb settingsDb = new SettingsDb();
+			UserDb settingsUsersDb = new UserDb();
+			RolesDb settingsRolesDb = new RolesDb();
+			RightsDb settingsRightsDb = new RightsDb();
 			
 			switch (action) {
 				case "manageUsers" :
 					try {
-						List<Map<String, String>> usersToEdit = settingsDb.getUsers(editUser);
+						List<Map<String, String>> usersToEdit = settingsUsersDb.getUsers(editUser);
 						request.setAttribute("users", usersToEdit);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -62,9 +66,9 @@ public class SettingsIndexController extends HttpServlet {
 				case "getEditUserData" :
 					try {
 
-						Map<String, String> userToEdit = settingsDb.getUser(editUser);
-						List<RolesStorage> roles = settingsDb.getRoles();
-						List<RightsStorage> rights = settingsDb.getRights();
+						Map<String, String> userToEdit = settingsUsersDb.getUser(editUser);
+						List<RolesStorage> roles = settingsRolesDb.getRoles();
+						List<RightsStorage> rights = settingsRightsDb.getRights();
 
 						Gson gsonUser = new Gson();
 						String userJson = gsonUser.toJson(userToEdit);
@@ -87,7 +91,7 @@ public class SettingsIndexController extends HttpServlet {
 					}
 				break;
 				case "saveEditUser" :
-					UserDb userDb = new UserDb();
+					LoginDb userDb = new LoginDb();
 					
 					Map<String, String> updateData = new HashMap<String, String>();
 					
@@ -111,7 +115,7 @@ public class SettingsIndexController extends HttpServlet {
 						return;
 					}
 				case "deleteUser" :
-					UserDb userDbConnection = new UserDb();
+					LoginDb userDbConnection = new LoginDb();
 					String deleteUser = request.getParameter("username");					
 					
 					try {
@@ -124,7 +128,7 @@ public class SettingsIndexController extends HttpServlet {
 				break;					
 				case "manageRoles" :
 					try {
-						List<RolesStorage> roles = settingsDb.getRoles();
+						List<RolesStorage> roles = settingsRolesDb.getRoles();
 						request.setAttribute("roles", roles);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -138,8 +142,8 @@ public class SettingsIndexController extends HttpServlet {
 
 					try {
 
-						Map<String, String> role = settingsDb.getRole(roleId);
-						List<RightsStorage> rights = settingsDb.getRights();
+						Map<String, String> role = settingsRolesDb.getRole(roleId);
+						List<RightsStorage> rights = settingsRightsDb.getRights();
 
 						Gson gsonRoles = new Gson();
 						String rolesJson = gsonRoles.toJson(role);
@@ -171,7 +175,7 @@ public class SettingsIndexController extends HttpServlet {
 					}
 					
 					try {
-						settingsDb.addRole(roleData);
+						settingsRolesDb.addRole(roleData);
 						response.sendRedirect("/sortimo/settings/index?action=manageRoles");
 						return;
 					} catch (Exception e) {
@@ -183,7 +187,7 @@ public class SettingsIndexController extends HttpServlet {
 					String deleteRoleId = request.getParameter("roleId");					
 					
 					try {
-						settingsDb.deleteRole(deleteRoleId);
+						settingsRolesDb.deleteRole(deleteRoleId);
 						response.sendRedirect("/sortimo/settings/index?action=manageRoles");
 						return;
 					} catch (Exception e) {
@@ -192,7 +196,7 @@ public class SettingsIndexController extends HttpServlet {
 				break;	
 				case "manageRights" :
 					try {
-						List<RightsStorage> rights = settingsDb.getRights();
+						List<RightsStorage> rights = settingsRightsDb.getRights();
 						request.setAttribute("rights", rights);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -214,7 +218,7 @@ public class SettingsIndexController extends HttpServlet {
 					}
 					
 					try {
-						settingsDb.addRight(rightData);
+						settingsRightsDb.addRight(rightData);
 						response.sendRedirect("/sortimo/settings/index?action=manageRights");
 						return;
 					} catch (Exception e) {
@@ -226,7 +230,7 @@ public class SettingsIndexController extends HttpServlet {
 					String deleteRightId = request.getParameter("rightId");		
 					
 					try {
-						settingsDb.deleteRight(deleteRightId);
+						settingsRightsDb.deleteRight(deleteRightId);
 						response.sendRedirect("/sortimo/settings/index?action=manageRights");
 						return;
 					} catch (Exception e) {
