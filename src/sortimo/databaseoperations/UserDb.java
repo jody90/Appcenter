@@ -39,9 +39,20 @@ public class UserDb {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 
-		String sql = "SELECT * "
+		String sql = "SELECT "
+				+ "users.username, "
+				+ "firstname, "
+				+ "lastname,"
+				+ "password, "
+				+ "email, "
+				+ "GROUP_CONCAT(DISTINCT users_rights.right_id ORDER BY users_rights.right_id) AS rights,"
+				+ "GROUP_CONCAT(DISTINCT users_roles.role_id ORDER BY users_roles.role_id) AS roles "
 				+ "FROM users "
-				+ "WHERE username = ?";
+				+ "LEFT JOIN users_roles "
+				+ "ON users.username = users_roles.username "
+				+ "LEFT JOIN users_rights "
+				+ "ON users.username = users_roles.username "
+				+ "WHERE users.username = ?";
 	
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, username);
@@ -67,32 +78,27 @@ public class UserDb {
 		
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
-
-		System.out.println(userData);
 		
 		String sql = "INSERT INTO "
 				+ "users "
-				+ "values (?, ?, ?, ?, ?, ?, ?) "
+				+ "values (?, ?, ?, ?, ?) "
 				+ "ON DUPLICATE KEY UPDATE "
-				+ "lastname = ?, firstname = ?, email = ?, roles = ?, rights = ?";
-			
+				+ "username = ?, lastname = ?, firstname = ?, email = ?";
+		
 			String password = userData.get("password") == null ? user.md5Hash("1") : user.md5Hash(userData.get("password"));
-			String rights = userData.get("rights").isEmpty() ? null : userData.get("rights");
-			String roles = userData.get("roles").isEmpty() ? null : userData.get("roles");
+//			String rights = userData.get("rights").isEmpty() ? null : userData.get("rights");
+//			String roles = userData.get("roles").isEmpty() ? null : userData.get("roles");
 		
 			preparedStatement = connect.prepareStatement(sql);
-			preparedStatement.setString(1, userData.get("username"));
+			preparedStatement.setString(1, userData.get("oldUsername"));
 			preparedStatement.setString(2, password);
 			preparedStatement.setString(3, userData.get("lastname"));
 			preparedStatement.setString(4, userData.get("firstname"));
 			preparedStatement.setString(5, userData.get("email"));
-			preparedStatement.setString(6, roles);
-			preparedStatement.setString(7, rights);
-			preparedStatement.setString(8, userData.get("lastname"));
-			preparedStatement.setString(9, userData.get("firstname"));
-			preparedStatement.setString(10, userData.get("email"));
-			preparedStatement.setString(11, roles);
-			preparedStatement.setString(12, rights);
+			preparedStatement.setString(6, userData.get("username"));
+			preparedStatement.setString(7, userData.get("lastname"));
+			preparedStatement.setString(8, userData.get("firstname"));
+			preparedStatement.setString(9, userData.get("email"));
 			
 			preparedStatement.executeUpdate();
 	}

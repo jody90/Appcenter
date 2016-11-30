@@ -74,6 +74,7 @@
 					<input type="hidden" name="action" value="saveEditUser">
 					<input id="newRights" type="hidden" name="rights" value=''>
 					<input id="newRoles" type="hidden" name="roles" value=''>
+					<input id="oldName" type="hidden" name="oldUsername" value='####oldUsername####'>
 					<div class="row margin-bottom-md">
 						<div class="col-xs-6">
 							<label for="username">Benutzername</label>
