@@ -44,7 +44,7 @@ public class FormularManagerPublicController extends HttpServlet {
 				
 				globalData.put("country", country);
 				globalData.put("formId", formId);
-				globalData.put("userId", "0");
+				globalData.put("username", "testuser");
 				
 				while (paramNames.hasMoreElements()) {			
 					String paramName = (String) paramNames.nextElement();

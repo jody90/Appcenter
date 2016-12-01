@@ -19,7 +19,7 @@ public class FormResponse {
 		
 		String sql = "INSERT INTO "
 				+ "formularmanager_forms_response "
-				+ "values (default, ?, ?, ?, default)";
+				+ "values (default, ?, ?, ?, default, default, default)";
 		
 		responseData.remove("action");
 		responseData.remove("form_id");
@@ -30,7 +30,7 @@ public class FormResponse {
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, globalData.get("formId"));
 		preparedStatement.setString(2, json);
-		preparedStatement.setInt(3, Integer.parseInt(globalData.get("userId")));
+		preparedStatement.setString(3, globalData.get("username"));
 		preparedStatement.executeUpdate();
 		
 		writeDatabaseResponse = true;

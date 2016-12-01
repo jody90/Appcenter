@@ -6,7 +6,7 @@
     <p>
     
     <p>
-    	Beispielsweise Notizen etc.
+    	Beispielsweise Notizen, Statistiken, Server Monitoring,  etc.
    	</p>
     	
 </div>

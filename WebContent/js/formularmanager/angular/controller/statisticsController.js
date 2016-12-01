@@ -1,5 +1,6 @@
-app.controller('statisticsController', function($scope, $http, $sce, $rootScope) {
+app.controller('statisticsController', function($scope, $http, $sce, $rootScope, $routeParams) {
 	var formId = $("#form_id").attr("data-form-id");
+	
 	
 //	$rootScope.$on('$routeChangeStart', function (event, next, current) {
 //		var id = next.params.id;
@@ -24,7 +25,7 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope)
     .then(function(response) {
     	var obj = response.data;
     	
-    	console.log(obj);
+    	console.log(obj);	
     	
     	$scope.formTitle = obj.formTitle;
     	
@@ -56,7 +57,14 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope)
     		$scope.htmlForm = $sce.trustAsHtml(htmlForm);
     	}
     	
-    	$rootScope.$on('$routeChangeStart', function (event, next, current) {
+    	// Beim initialen Laden auch feuern
+    	var id = $routeParams.id;
+		if (id !== undefined) {
+			viewForm(id);
+		}
+    	
+		// Bei jedem routeChange feuern
+    	$rootScope.$on('$routeChangeSuccess', function (event, next, current) {
     		var id = next.params.id;
     		if (id !== undefined) {
     			viewForm(id);
