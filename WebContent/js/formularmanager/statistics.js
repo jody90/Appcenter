@@ -15,7 +15,7 @@ $(document).ready(function() {
         	if (obj.resultsJson != "null") {
        
 	        	Object.keys(obj).map(function(key, index) {
-	        		if (key != "formHtml") {
+	        		if (isJson(obj[key])) {
 	        			return obj[key] = JSON.parse(obj[key]);
 	        		}
 	    		});
@@ -87,3 +87,12 @@ $(document).ready(function() {
         }
     });
 })
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}

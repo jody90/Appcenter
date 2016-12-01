@@ -18,5 +18,7 @@
 <script src="${pageContext.request.contextPath}/js/formularmanager/statistics.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/scripts.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>
+
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/app.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/statisticsController.js"></script>

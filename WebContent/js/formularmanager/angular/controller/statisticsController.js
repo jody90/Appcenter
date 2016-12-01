@@ -1,8 +1,21 @@
-app.controller('statisticsController', function($scope, $http, $sce) {
-	$scope.test = "hallo test";
-	
+app.controller('statisticsController', function($scope, $http, $sce, $rootScope) {
 	var formId = $("#form_id").attr("data-form-id");
-
+	
+//	$rootScope.$on('$routeChangeStart', function (event, next, current) {
+//		var id = next.params.id;
+//		if (id !== undefined) {
+//			viewForm(id);
+//		}
+//	});
+//	
+	function isJson(str) {
+	    try {
+	        JSON.parse(str);
+	    } catch (e) {
+	        return false;
+	    }
+	    return true;
+	}
 	
     $http({
         method: "GET",
@@ -11,35 +24,44 @@ app.controller('statisticsController', function($scope, $http, $sce) {
     .then(function(response) {
     	var obj = response.data;
     	
+    	console.log(obj);
+    	
+    	$scope.formTitle = obj.formTitle;
+    	
     	if (obj.resultsJson != "null") {
         	Object.keys(obj).map(function(key, index) {
-        		if (key != "formHtml") {        		
+        		if (isJson(obj[key])) {
         			return obj[key] = JSON.parse(obj[key]);
         		}
     		});
     	}
     	
-    	$scope.htmlForm = $sce.trustAsHtml(obj.formHtml);
+    	$scope.respondedForms = obj.resultsJson;
     	
-    	console.log("obj", obj);
+    	$scope.htmlForm;
     	
-    	var resultsObj = JSON.parse(obj.resultsJson[30].value);
-//    	var formHtml = obj.formHtml;
+    	function viewForm(id) {    	
+    		$scope.htmlForm = "";
+    		var resultsObj = JSON.parse(obj.resultsJson[id].value);
+    		
+    		var htmlForm = '<div id="formReadyIndicator">';
+    		htmlForm += obj.formHtml;    	
+    		htmlForm += '</div>';
+    		
+    		$("#formReadyIndicator").ready(function() {
+    			$.each(resultsObj, function(key, value) {
+    				$("#formReadyIndicator").find("input[name='" + key + "']").val(value).attr("readonly", true);
+    			})
+    		})
+    		$scope.htmlForm = $sce.trustAsHtml(htmlForm);
+    	}
     	
-    	setTimeout(function() {
-	    	$.each(resultsObj, function(key, value) {
-	    		console.log(key);
-	    		var element = $(".public-form").find("input[name='" + key + "']");
-	    		element.val(value);
-	    		element.attr("readonly", true);
-	    	})
-    	}, 1500);
-    	
-    	console.log(resultsObj);
-    	
-    	
-    });
-	
-	
-	
+    	$rootScope.$on('$routeChangeStart', function (event, next, current) {
+    		var id = next.params.id;
+    		if (id !== undefined) {
+    			viewForm(id);
+    		}
+    	});
+    })
 });
+

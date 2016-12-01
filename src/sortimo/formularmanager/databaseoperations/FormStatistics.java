@@ -27,10 +27,12 @@ public class FormStatistics {
 		while (rsData.next()) {
 			String value = rsData.getString("value");
 			String createdAt = rsData.getString("created_at");
+			String username = rsData.getString("username");
+			String processState = rsData.getString("process_state");
+			String processedBy = rsData.getString("processed_by");
 			int id = rsData.getInt("id");
-			int userId = rsData.getInt("user_id");
 
-			statisticsStorage.setStatisticsValue(value, createdAt, id, userId);
+			statisticsStorage.setStatisticsValue(value, createdAt, id, username, processState, processedBy);
 			
 			statisticsStorage.setFormId(rsData.getInt("form_id"));
 		}

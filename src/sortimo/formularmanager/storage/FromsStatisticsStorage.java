@@ -12,6 +12,12 @@ public class FromsStatisticsStorage {
 	private String htmlForm;
 
 	private String formTitle;
+	
+	private String username;
+	
+	private String processState;
+
+	private String processedBy;
 
 	private Map<Integer, Map<String, String>> statisticsValue;
 
@@ -21,12 +27,14 @@ public class FromsStatisticsStorage {
 		return statisticsValue;
 	}
 
-	public void setStatisticsValue(String value, String createdAt, int id, int userId) {
+	public void setStatisticsValue(String value, String createdAt, int id, String username, String processState, String processedBy) {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		map.put("value", value);
 		map.put("createdAt", createdAt);
-		map.put("userId", Integer.toString(userId));	
+		map.put("username", username);	
+		map.put("processState", processState);	
+		map.put("processedBy", processedBy);	
 		
 		statisticsValueHelper.put(id, map);
 		this.statisticsValue = statisticsValueHelper;
@@ -62,5 +70,29 @@ public class FromsStatisticsStorage {
 
 	public void setHtmlForm(String htmlForm) {
 		this.htmlForm = htmlForm;
-	}
-}
+	
+
+//	public String getUsername() {
+//		return username;
+//	}
+//
+//	public void setUsername(String username) {
+//		this.username = username;
+//	}
+//
+//	public String getProcessState() {
+//		return processState;
+//	}
+//
+//	public void setProcessState(String processState) {
+//		this.processState = processState;
+//	}
+//
+//	public String getProcessedBy() {
+//		return processedBy;
+//	}
+//
+//	public void setProcessedBy(String processedBy) {
+//		this.processedBy = processedBy;
+//	}}
+}}
