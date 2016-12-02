@@ -12,12 +12,6 @@ public class FromsStatisticsStorage {
 	private String htmlForm;
 
 	private String formTitle;
-	
-	private String username;
-	
-	private String processState;
-
-	private String processedBy;
 
 	private Map<Integer, Map<String, String>> statisticsValue;
 
@@ -70,29 +64,6 @@ public class FromsStatisticsStorage {
 
 	public void setHtmlForm(String htmlForm) {
 		this.htmlForm = htmlForm;
-	
+	}
 
-//	public String getUsername() {
-//		return username;
-//	}
-//
-//	public void setUsername(String username) {
-//		this.username = username;
-//	}
-//
-//	public String getProcessState() {
-//		return processState;
-//	}
-//
-//	public void setProcessState(String processState) {
-//		this.processState = processState;
-//	}
-//
-//	public String getProcessedBy() {
-//		return processedBy;
-//	}
-//
-//	public void setProcessedBy(String processedBy) {
-//		this.processedBy = processedBy;
-//	}}
-}}
+}
