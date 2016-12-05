@@ -33,6 +33,8 @@ public class UserDb {
 		
 		ResultSet rs = preparedStatement.executeQuery();
 		
+		conClass.close();
+		
 		return rs;
 	}	
 }

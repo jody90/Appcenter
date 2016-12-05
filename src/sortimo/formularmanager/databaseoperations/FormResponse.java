@@ -34,6 +34,7 @@ public class FormResponse {
 		preparedStatement.executeUpdate();
 		
 		writeDatabaseResponse = true;
+		conClass.close();
 		return writeDatabaseResponse;
 	}
 }

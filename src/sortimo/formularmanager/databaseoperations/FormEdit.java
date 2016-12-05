@@ -52,7 +52,7 @@ public class FormEdit extends Connect{
 			}
 			
 		}
-		
+		conClass.close();
 		writeDatabaseResponse = true;
 		return writeDatabaseResponse;
 	}
@@ -87,6 +87,7 @@ public class FormEdit extends Connect{
 			preparedStatement.setString(5, entry.getValue());
 			preparedStatement.executeUpdate();
 		}		
+		conClass.close();
 		writeDatabaseResponse = true;
 		return writeDatabaseResponse;
 	}
@@ -100,7 +101,6 @@ public class FormEdit extends Connect{
 				+ "FROM formularmanager_forms "
 				+ "WHERE id = " + formId + " "
 				+ "AND delete_status != 1";
-		
 		
 		preparedStatement = connect.prepareStatement(sql);				
 		ResultSet rsData = preparedStatement.executeQuery();
@@ -137,6 +137,7 @@ public class FormEdit extends Connect{
 				}
 			}
 		}
+		conClass.close();
 		return formData;
 	}
 	
@@ -150,13 +151,11 @@ public class FormEdit extends Connect{
 				+ "modified_at = default "
 				+ "WHERE id = " + formId + "";
 		
-		
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.execute();
 
 		boolean writeDatabaseResponse = true;
-
+		conClass.close();
 		return writeDatabaseResponse;
-		
 	}	
 }

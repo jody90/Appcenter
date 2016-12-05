@@ -63,6 +63,7 @@ public class ListForms {
 			
 			results.add(new FormsListStorage(id, type, country, createdAt, modifiedAt, formMeta));
 		}
+		conClass.close();
 		return results;
 	}	
 }

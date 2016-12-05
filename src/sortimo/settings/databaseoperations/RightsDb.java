@@ -35,8 +35,8 @@ public class RightsDb {
 			rightsList.add(right);
 		}
 		
+		conClass.close();
 		return rightsList;
-        
 	}
 	
 	public void addRight(Map<String, String> rightData) throws Exception {
@@ -58,6 +58,7 @@ public class RightsDb {
 		preparedStatement.setString(4, rightData.get("name"));
 		preparedStatement.setString(5, rightData.get("description"));
 		preparedStatement.executeUpdate();
+		conClass.close();
 	}
 	
 	public void deleteRight(String rightId) throws Exception {
@@ -87,5 +88,6 @@ public class RightsDb {
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, rightId);
 		preparedStatement.executeUpdate();
+		conClass.close();
 	}
 }
