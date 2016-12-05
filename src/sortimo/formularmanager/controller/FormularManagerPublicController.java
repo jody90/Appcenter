@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import sortimo.formularmanager.databaseoperations.FormEdit;
 import sortimo.formularmanager.databaseoperations.FormResponse;
+import sortimo.model.HelperFunctions;
+import sortimo.model.User;
 
 @WebServlet("/FormularManagerPublicController")
 public class FormularManagerPublicController extends HttpServlet {
@@ -27,6 +30,26 @@ public class FormularManagerPublicController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HelperFunctions helper = new HelperFunctions();
+		
+		User user = new User();
+		
+		if (helper.checkCookie(request)) {
+			ServletContext application = getServletConfig().getServletContext();
+			User userData = (User) application.getAttribute("userData");
+			if (userData == null) {
+				try {
+					user.getUserAccount(helper.getUsername());
+					application.setAttribute("userData", user);  
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else {
+				user = (User) application.getAttribute("userData");
+			}
+		}
 		
 		String action = request.getParameter("action") != null ? request.getParameter("action") : "default";
 		String formId = request.getParameter("form_id") != null ? request.getParameter("form_id") : "false";		
@@ -39,11 +62,13 @@ public class FormularManagerPublicController extends HttpServlet {
 				Map<String, String> responseData = new HashMap<String, String>();
 				Map<String, String> globalData = new HashMap<String, String>();
 				
+				String username = user.getUsername() != null ? user.getUsername() : "anonymous";
+				
 				Enumeration<String> paramNames = request.getParameterNames();
 				
 				globalData.put("country", country);
 				globalData.put("formId", formId);
-				globalData.put("username", "testuser");
+				globalData.put("username", username);
 				
 				while (paramNames.hasMoreElements()) {			
 					String paramName = (String) paramNames.nextElement();

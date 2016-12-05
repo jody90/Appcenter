@@ -31,10 +31,10 @@ var drawChart = function(chartConfigData, type) {
 		
 		switch (type) {
 			case "circle" :
-				drawCircleChart(dataTableArray, count);
+				drawCircleChart(dataTableArray, count, name);
 			break;
 			case "bar" :
-				drawBarChart(dataTableArray, count);
+				drawBarChart(dataTableArray, count, name);
 			break;
 		}
 		
@@ -42,13 +42,13 @@ var drawChart = function(chartConfigData, type) {
 	});
 }
     
-var drawCircleChart = function(rows, count) {
+var drawCircleChart = function(rows, count, chartTitle) {
 
 	var data = google.visualization.arrayToDataTable(rows);
 	
 	// Chart Optionen festlegen
 	var options = {
-		'title' : 'So verlief die Abstimmung',
+		'title' : chartTitle,
 		'width' : 400,
 		'height' : 250,
 		'is3D' : true

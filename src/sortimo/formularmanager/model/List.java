@@ -14,15 +14,18 @@ public class List {
 	    Date startDate;
 	    Date endDate;
 	    Date currentDate = new Date();
-	    try {
-	    	startDate = dateFormat.parse(validFrom);
-	    	endDate = dateFormat.parse(validTo);
-	    	
-	    	if (endDate.after(currentDate) && startDate.before(currentDate)) {
-	    		formIsActive = true;
-	    	}
-	    } catch (ParseException e) {
-	        e.printStackTrace();
+
+	    if (validFrom != "") {
+		    try {
+		    	startDate = dateFormat.parse(validFrom);
+		    	endDate = dateFormat.parse(validTo);
+		    	
+		    	if (endDate.after(currentDate) && startDate.before(currentDate)) {
+		    		formIsActive = true;
+		    	}
+		    } catch (ParseException e) {
+		        e.printStackTrace();
+		    }
 	    }
 	    return formIsActive;
     }

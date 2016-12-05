@@ -50,8 +50,38 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
     		htmlForm += '</div>';
     		
     		$("#formReadyIndicator").ready(function() {
+    			
+    			$("#formReadyIndicator").find(":checkbox").attr("disabled", true);
+    			$("#formReadyIndicator").find(":radio").attr("disabled", true);
+    			$("#formReadyIndicator").find("[type='select']").attr("disabled", true);
+    			
     			$.each(resultsObj, function(key, value) {
-    				$("#formReadyIndicator").find("input[name='" + key + "']").val(value).attr("readonly", true);
+    				var element = $("#formReadyIndicator").find("[name='" + key + "']")[0].outerHTML;
+    				var type = $(element).attr("type");
+
+    				switch (type) {
+    				
+    					case "textarea" : 
+    					case "text" : 
+	    				case "date" : 
+	    					$("#formReadyIndicator").find("[name='" + key + "']").val(value).attr("readonly", true);	    				
+    					break;
+	    				case "checkbox" : 
+	    				case "radio" : 
+	    					$("#formReadyIndicator").find("[name='" + key + "'] [value='" + value + "']").attr("checked", true);	    				
+    					break;
+	    				case "select" :
+	    					$("#formReadyIndicator").find("[name='" + key + "'] [value='" + value + "']").attr("selected", true);	    					
+    					break;
+    				
+    				}
+    				
+    				
+    				console.log();
+    				
+//    				console.log(key);
+//    				console.log(resultsObj[key]);
+ 
     			})
     		})
     		$scope.htmlForm = $sce.trustAsHtml(htmlForm);

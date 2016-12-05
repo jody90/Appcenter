@@ -47,9 +47,9 @@ public class User {
 		}
 	}
 	
-	public boolean login(String inputPassword) {
+	public boolean login(String inputPassword, String username) {
 		
-		String password = "false";
+		this.getUserAccount(username);
 		String inputPasswordHash = null;
 		
 		// Eingegebenes Passwort md5Hashen
@@ -59,9 +59,9 @@ public class User {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-
+		
 		// eingegebenes Passwort und Passwort aus DB vergleichen
-		if (inputPasswordHash != null && password.equals(inputPasswordHash)) {
+		if (inputPasswordHash != null && this.getPassword() != null && this.getPassword().equals(inputPasswordHash)) {
 			this.writeUserCookie();
 			System.out.println("passwort ist richtig");
 			return true;

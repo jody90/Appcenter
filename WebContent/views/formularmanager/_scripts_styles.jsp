@@ -7,6 +7,7 @@
 <link href="${pageContext.request.contextPath}/css/formularmanager/list.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/formularmanager/public.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/formularmanager/chart.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/formularmanager/statistics.css" rel="stylesheet">
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    

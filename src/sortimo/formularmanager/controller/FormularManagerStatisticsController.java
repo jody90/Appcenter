@@ -53,8 +53,6 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			request.setAttribute("firstname", user.getFirstname());
 			request.setAttribute("formId", formId);
 
-			System.out.println(action);
-
 			if (action.equals("getStatistics")) {
 				FormStatistics stats = new FormStatistics();
 				FromsStatisticsStorage statistics = new FromsStatisticsStorage();
@@ -83,7 +81,6 @@ public class FormularManagerStatisticsController extends HttpServlet {
 				return;
 			}
 			else {
-//				request.setAttribute("statistics", statistics);
 				request.setAttribute("pageTitle", "Statistiken");
 				request.setAttribute("path", "formularmanager");
 				request.setAttribute("view", "statistics");

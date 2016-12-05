@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sortimo.databaseoperations.UserDb;
 import sortimo.model.User;
 
 @WebServlet("/LoginController")
@@ -41,15 +40,8 @@ public class LoginController extends HttpServlet {
 		switch (action) {
 			case "login" :
 						
-				if (!username.isEmpty() && !password.isEmpty()) {
-					UserDb userDb = new UserDb();
-					try {
-						userDb.getUserAccount(username);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}		
-					
-					if (user.login(password)) {
+				if (!username.isEmpty() && !password.isEmpty()) {					
+					if (user.login(password, username)) {
 						response.sendRedirect("/sortimo/index");
 						return;
 					}
