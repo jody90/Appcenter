@@ -8,11 +8,12 @@ import com.google.gson.*;
 
 import sortimo.formularmanager.databaseoperations.FormStatistics;
 import sortimo.formularmanager.storage.FromsStatisticsStorage;
-import sortimo.model.Login;
+import sortimo.model.HelperFunctions;
+import sortimo.model.User;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,24 +28,29 @@ public class FormularManagerStatisticsController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Login user = new Login();
-
-		// liest alle Cookies in cookies ein
-		Cookie[] cookies = null;
-		cookies = request.getCookies();
+		HelperFunctions helper = new HelperFunctions();
 		
-		// prueft ob User angemeldet ist
-		String username = user.isLoggedIn(cookies);
-		
-		if (username != null) {
-			
-			Map<String, String> userInfo = user.getUserInfo();
+		if (helper.checkCookie(request)) {
+			ServletContext application = getServletConfig().getServletContext();
+			User userData = (User) application.getAttribute("userData");
+			User user = new User();
+			if (userData == null) {
+				try {
+					user.getUserAccount(helper.getUsername());
+					application.setAttribute("userData", user);  
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else {
+				user = (User) application.getAttribute("userData");
+			}
 			
 			String action = request.getParameter("action") != null ? request.getParameter("action") : "false";
 			String formId = request.getParameter("form_id") != null ? request.getParameter("form_id") : "false";		
 			String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
 
-			request.setAttribute("firstname", userInfo.get("firstname"));
+			request.setAttribute("firstname", user.getFirstname());
 			request.setAttribute("formId", formId);
 
 			System.out.println(action);

@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sortimo.model.Login;
+import sortimo.databaseoperations.UserDb;
+import sortimo.model.User;
 
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
@@ -20,6 +21,11 @@ public class LoginController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		User user = new User();
+		user.setRequest(request);
+		user.setResponse(response);
+		
 		request.setAttribute("pageTitle", "Formular Manager");
 		request.setAttribute("path", "");
 		request.setAttribute("view", "login");
@@ -36,13 +42,14 @@ public class LoginController extends HttpServlet {
 			case "login" :
 						
 				if (!username.isEmpty() && !password.isEmpty()) {
-					Login user = new Login();
-					user.setServletRequest(request);
-					user.setServletResponse(response);
-					user.setUsername(username);
-					user.setPassword(password);
+					UserDb userDb = new UserDb();
+					try {
+						userDb.getUserAccount(username);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}		
 					
-					if (user.login()) {
+					if (user.login(password)) {
 						response.sendRedirect("/sortimo/index");
 						return;
 					}
@@ -51,10 +58,6 @@ public class LoginController extends HttpServlet {
 				return;
 			case "logout" :
 
-				Login user = new Login();
-				user.setServletRequest(request);
-				user.setServletResponse(response);
-				user.setUsername(username);
 				boolean logoutResponse = user.logout(cookies);
 				
 				if (logoutResponse) {

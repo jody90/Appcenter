@@ -104,8 +104,6 @@ public class UserDb {
 				+ "ON DUPLICATE KEY UPDATE "
 				+ "username = ?, lastname = ?, firstname = ?, email = ?";
 		
-		System.out.println(sql);
-		
 		String password = helper.md5Hash("1");
 		String username = userData.get("oldUsername") != null ? userData.get("oldUsername") : userData.get("username");
 	

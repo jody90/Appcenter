@@ -5,15 +5,16 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import sortimo.formularmanager.databaseoperations.FormEdit;
-import sortimo.model.Login;
+import sortimo.model.HelperFunctions;
+import sortimo.model.User;
 
 @WebServlet("/FormularManagerEditController")
 public class FormularManagerEditController extends HttpServlet {
@@ -24,24 +25,24 @@ public class FormularManagerEditController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		System.out.println("Edit Controller");
 		
+		HelperFunctions helper = new HelperFunctions();
 		
-		Login user = new Login();
-
-		// liest alle Cookies in cookies ein
-		Cookie[] cookies = null;
-		cookies = request.getCookies();
-		
-		// prueft ob User angemeldet ist
-		String username = user.isLoggedIn(cookies);
-		
-		if (username != null) {
-			
-			Map<String, String> userInfo = user.getUserInfo();
-			
-			request.setAttribute("firstname", userInfo.get("firstname"));
+		if (helper.checkCookie(request)) {
+			ServletContext application = getServletConfig().getServletContext();
+			User userData = (User) application.getAttribute("userData");
+			User user = new User();
+			if (userData == null) {
+				try {
+					user.getUserAccount(helper.getUsername());
+					application.setAttribute("userData", user);  
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else {
+				user = (User) application.getAttribute("userData");
+			}
 			
 			FormEdit form = new FormEdit();
 			
@@ -54,6 +55,7 @@ public class FormularManagerEditController extends HttpServlet {
 			Map<String, String> globalData = new HashMap<String, String>();
 			Map<String, String> metaData = new HashMap<String, String>();
 			
+			request.setAttribute("firstname", user.getFirstname());
 			request.setAttribute("pageTitle", "Formular bearbeiten");
 			request.setAttribute("formId", formId);
 			request.setAttribute("country", country);

@@ -2,18 +2,17 @@ package sortimo.formularmanager.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
-
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import sortimo.formularmanager.databaseoperations.ListForms;
 import sortimo.formularmanager.storage.FormsListStorage;
-import sortimo.model.Login;
+import sortimo.model.HelperFunctions;
+import sortimo.model.User;
 
 @WebServlet("/FormularManagerListController")
 public class FormularManagerListController extends HttpServlet {
@@ -22,22 +21,26 @@ public class FormularManagerListController extends HttpServlet {
 	public FormularManagerListController() {
 		super();
 	}
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Login user = new Login();
 
-		// liest alle Cookies in cookies ein
-		Cookie[] cookies = null;
-		cookies = request.getCookies();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HelperFunctions helper = new HelperFunctions();
 		
-		// prueft ob User angemeldet ist
-		String username = user.isLoggedIn(cookies);
-		
-		if (username != null) {
-			
-			Map<String, String> userInfo = user.getUserInfo();
-			
-			request.setAttribute("firstname", userInfo.get("firstname"));
+		if (helper.checkCookie(request)) {
+			ServletContext application = getServletConfig().getServletContext();
+			User userData = (User) application.getAttribute("userData");
+			User user = new User();
+			if (userData == null) {
+				try {
+					user.getUserAccount(helper.getUsername());
+					application.setAttribute("userData", user);  
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else {
+				user = (User) application.getAttribute("userData");
+			}
 			
 			ListForms Forms = new ListForms();
 			
@@ -53,6 +56,7 @@ public class FormularManagerListController extends HttpServlet {
 			
 			String pageTitle = filter != "false" ? "Übersicht Aktiv" : "Übersicht";
 			
+			request.setAttribute("firstname", user.getFirstname());
 			request.setAttribute("pageTitle", pageTitle);
 			request.setAttribute("country", country);
 			request.setAttribute("filter", filter);

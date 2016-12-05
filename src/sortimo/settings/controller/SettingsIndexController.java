@@ -6,16 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import sortimo.model.Login;
+import sortimo.model.HelperFunctions;
+import sortimo.model.User;
 import sortimo.settings.databaseoperations.RightsDb;
 import sortimo.settings.databaseoperations.RolesDb;
 import sortimo.settings.databaseoperations.UserDb;
@@ -31,22 +32,29 @@ public class SettingsIndexController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Login user = new Login();
-
-		// liest alle Cookies in cookies ein
-		Cookie[] cookies = null;
-		cookies = request.getCookies();
 		
-		// prueft ob User angemeldet ist
-		String username = user.isLoggedIn(cookies);
+		HelperFunctions helper = new HelperFunctions();
 		
-		if (username != null) {
-			Map<String, String> userInfo = user.getUserInfo();
+		if (helper.checkCookie(request)) {
+			ServletContext application = getServletConfig().getServletContext();
+			User userData = (User) application.getAttribute("userData");
+			User user = new User();
+			if (userData == null) {
+				try {
+					user.getUserAccount(helper.getUsername());
+					application.setAttribute("userData", user);  
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else {
+				user = (User) application.getAttribute("userData");
+			}
 			
 			String action = request.getParameter("action") != null ? request.getParameter("action") : "false";
 			String editUser = request.getParameter("editUser") != null ? request.getParameter("editUser") : "";
-			request.setAttribute("firstname", userInfo.get("firstname"));
-			request.setAttribute("username", userInfo.get("username"));
+			request.setAttribute("firstname", user.getFirstname());
+			request.setAttribute("username", user.getUsername());
 			request.setAttribute("path", "settings");
 			UserDb settingsUsersDb = new UserDb();
 			RolesDb settingsRolesDb = new RolesDb();

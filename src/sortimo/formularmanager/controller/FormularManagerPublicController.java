@@ -27,7 +27,6 @@ public class FormularManagerPublicController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		String action = request.getParameter("action") != null ? request.getParameter("action") : "default";
 		String formId = request.getParameter("form_id") != null ? request.getParameter("form_id") : "false";		
