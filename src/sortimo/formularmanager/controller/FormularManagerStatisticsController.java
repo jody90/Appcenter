@@ -50,7 +50,7 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			String formId = request.getParameter("form_id") != null ? request.getParameter("form_id") : "false";		
 			String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
 
-			request.setAttribute("firstname", user.getFirstname());
+			request.setAttribute("user", user);
 			request.setAttribute("formId", formId);
 
 			if (action.equals("getStatistics")) {

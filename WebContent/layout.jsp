@@ -34,9 +34,9 @@
                 </h1>
             </div>
             <div class="col-xs-6 col-sm-3 text-right">
-     			<c:if test="${not empty firstname}">
+     			<c:if test="${user['firstname'] != null}">
 					<div class="padding-top-xs inlineblock">
-						Hallo ${firstname}
+						Hallo ${user['firstname']}
 					</div>
 				
 					<a class="logout_link btn btn-warning" href="${pageContext.request.contextPath}/login?action=logout" title="logout">

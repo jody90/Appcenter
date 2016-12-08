@@ -39,7 +39,7 @@ public class FormularManagerIndexController extends HttpServlet {
 				user = (User) application.getAttribute("userData");
 			}
 			
-			request.setAttribute("firstname", user.getFirstname());
+			request.setAttribute("user", user);
 			request.setAttribute("pageTitle", "Formular Manager");
 			request.setAttribute("path", "formularmanager");
 			request.setAttribute("view", "index");

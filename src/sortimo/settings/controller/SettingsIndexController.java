@@ -53,7 +53,7 @@ public class SettingsIndexController extends HttpServlet {
 			
 			String action = request.getParameter("action") != null ? request.getParameter("action") : "false";
 			String editUser = request.getParameter("editUser") != null ? request.getParameter("editUser") : "";
-			request.setAttribute("firstname", user.getFirstname());
+			request.setAttribute("user", user);
 			request.setAttribute("username", user.getUsername());
 			request.setAttribute("path", "settings");
 			ManageUserDb settingsUsersDb = new ManageUserDb();

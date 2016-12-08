@@ -56,7 +56,7 @@ public class FormularManagerListController extends HttpServlet {
 			
 			String pageTitle = filter != "false" ? "Übersicht Aktiv" : "Übersicht";
 			
-			request.setAttribute("firstname", user.getFirstname());
+			request.setAttribute("user", user);
 			request.setAttribute("pageTitle", pageTitle);
 			request.setAttribute("country", country);
 			request.setAttribute("filter", filter);

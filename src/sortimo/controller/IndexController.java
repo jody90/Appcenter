@@ -39,7 +39,7 @@ public class IndexController extends HttpServlet {
 				user = (User) application.getAttribute("userData");
 			}
 			
-			request.setAttribute("firstname", user.getFirstname());
+			request.setAttribute("user", user);
 			request.setAttribute("pageTitle", "Sortimo App Center");
 			request.setAttribute("path", "");
 			request.setAttribute("view", "index");

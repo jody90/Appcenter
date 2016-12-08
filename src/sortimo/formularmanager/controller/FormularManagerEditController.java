@@ -55,7 +55,7 @@ public class FormularManagerEditController extends HttpServlet {
 			Map<String, String> globalData = new HashMap<String, String>();
 			Map<String, String> metaData = new HashMap<String, String>();
 			
-			request.setAttribute("firstname", user.getFirstname());
+			request.setAttribute("user", user);
 			request.setAttribute("pageTitle", "Formular bearbeiten");
 			request.setAttribute("formId", formId);
 			request.setAttribute("country", country);
