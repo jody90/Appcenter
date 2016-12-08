@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import sortimo.databaseoperations.Connect;
 import sortimo.model.HelperFunctions;
 
-public class UserDb {
+public class ManageUserDb {
 	
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;

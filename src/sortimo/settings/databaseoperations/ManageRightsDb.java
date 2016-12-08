@@ -10,7 +10,7 @@ import java.util.Map;
 import sortimo.databaseoperations.Connect;
 import sortimo.settings.storage.RightsStorage;
 
-public class RightsDb {
+public class ManageRightsDb {
 	
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;

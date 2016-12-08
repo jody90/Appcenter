@@ -17,9 +17,9 @@ import com.google.gson.Gson;
 
 import sortimo.model.HelperFunctions;
 import sortimo.model.User;
-import sortimo.settings.databaseoperations.RightsDb;
-import sortimo.settings.databaseoperations.RolesDb;
-import sortimo.settings.databaseoperations.UserDb;
+import sortimo.settings.databaseoperations.ManageRightsDb;
+import sortimo.settings.databaseoperations.ManageRolesDb;
+import sortimo.settings.databaseoperations.ManageUserDb;
 import sortimo.settings.storage.RightsStorage;
 import sortimo.settings.storage.RolesStorage;
 
@@ -56,9 +56,9 @@ public class SettingsIndexController extends HttpServlet {
 			request.setAttribute("firstname", user.getFirstname());
 			request.setAttribute("username", user.getUsername());
 			request.setAttribute("path", "settings");
-			UserDb settingsUsersDb = new UserDb();
-			RolesDb settingsRolesDb = new RolesDb();
-			RightsDb settingsRightsDb = new RightsDb();
+			ManageUserDb settingsUsersDb = new ManageUserDb();
+			ManageRolesDb settingsRolesDb = new ManageRolesDb();
+			ManageRightsDb settingsRightsDb = new ManageRightsDb();
 			
 			switch (action) {
 				case "manageUsers" :

@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import sortimo.databaseoperations.Connect;
 import sortimo.settings.storage.RolesStorage;
 
-public class RolesDb {
+public class ManageRolesDb {
 	
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
