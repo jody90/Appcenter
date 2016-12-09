@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import sortimo.model.User;
 
@@ -49,6 +50,9 @@ public class LoginController extends HttpServlet {
 				response.sendRedirect("/sortimo/login");
 				return;
 			case "logout" :
+				
+				HttpSession session = request.getSession();
+				session.invalidate();
 
 				boolean logoutResponse = user.logout(cookies);
 				

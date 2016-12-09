@@ -12,7 +12,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import sortimo.databaseoperations.Connect;
-import sortimo.settings.storage.RolesStorage;
+import sortimo.storage.RolesStorage;
 
 public class ManageRolesDb {
 	

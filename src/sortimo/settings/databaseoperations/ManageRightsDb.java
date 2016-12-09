@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import sortimo.databaseoperations.Connect;
-import sortimo.settings.storage.RightsStorage;
+import sortimo.storage.RightsStorage;
 
 public class ManageRightsDb {
 	

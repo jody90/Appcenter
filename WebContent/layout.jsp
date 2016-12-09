@@ -1,4 +1,12 @@
+<jsp:useBean id="HelperFunctions" class="sortimo.model.HelperFunctions"></jsp:useBean>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="sortimo.model.HelperFunctions" %>
+<%
+	HelperFunctions helper = new HelperFunctions();
+	request.setAttribute("helper", helper);
+	helper.setRequest(request);
+	helper = null;
+%>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -76,7 +84,7 @@
 							Anderes Tool
 						</a>
 					</li>
-					<!--<li class="dropdown"><a href="#" class="dropdown-toggle"
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Dropdown <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -88,7 +96,9 @@
 							<li role="separator" class="divider"></li>
 							<li><a href="#">One more separated link</a></li>
 						</ul>
-					</li> --> 
+					</li>
+					<!--
+					 --> 
 				</ul>
 			</div>
 		</nav>

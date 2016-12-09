@@ -12,8 +12,6 @@ $(document).ready(function() {
 		var template = $(body).html();
 		templateBackup = template;
 
-		console.log(rightDescription);
-		
     	var name = rightName != undefined ? rightName : "";
     	var description = rightDescription != undefined ? rightDescription : "";
     	var id = rightId != undefined ? rightId : -1;
@@ -24,6 +22,10 @@ $(document).ready(function() {
     	template = template.replace("####rightId####", id);
 
     	$(body).html(template);
+
+    	if (rightName !== undefined) {
+    		$("#rightName").attr("readonly", "readonly");
+    	}
 	});
 	
 	$('#editRightModal').on('hide.bs.modal', function (e) {

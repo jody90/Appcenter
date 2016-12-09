@@ -10,7 +10,9 @@
 		<div ng-view></div>
 		
 		<div id="form_id" data-form-id="${formId}"></div>
-		<!--<div class="row" id="chart_area"></div>-->
+		<div class="row" id="chart_area"></div>
+		<!--
+		-->
 	</div>
 </div>
 

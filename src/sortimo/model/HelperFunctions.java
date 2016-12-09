@@ -3,13 +3,19 @@ package sortimo.model;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import sortimo.storage.RightsStorage;
 
 public class HelperFunctions {
-	
+
 	private String username;
+	
+	private HttpServletRequest request;
 	
 	public String concat(String string, String country) {
 		String concatenated = string + country;
@@ -53,5 +59,31 @@ public class HelperFunctions {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+	
+	public boolean isAuthorized(String right) {
+		HttpSession session;
+		session = this.getRequest().getSession();
+		User userData = (User) session.getAttribute("userData");
+		
+		List<RightsStorage> userRights = userData.getRights();
+		
+		for (int i = 0; i < userRights.size(); i++) {
+			if (userRights.get(i).getName().equals(right)) {
+				System.out.println(userRights.get(i).getName());
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	
 }

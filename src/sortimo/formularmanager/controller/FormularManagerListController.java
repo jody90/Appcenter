@@ -2,12 +2,12 @@ package sortimo.formularmanager.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import sortimo.formularmanager.databaseoperations.ListForms;
 import sortimo.formularmanager.storage.FormsListStorage;
@@ -27,19 +27,19 @@ public class FormularManagerListController extends HttpServlet {
 		HelperFunctions helper = new HelperFunctions();
 		
 		if (helper.checkCookie(request)) {
-			ServletContext application = getServletConfig().getServletContext();
-			User userData = (User) application.getAttribute("userData");
+			HttpSession session = request.getSession();
+			User userData = (User) session.getAttribute("userData");
 			User user = new User();
 			if (userData == null) {
 				try {
 					user.getUserAccount(helper.getUsername());
-					application.setAttribute("userData", user);  
+					session.setAttribute("userData", user);  
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			else {
-				user = (User) application.getAttribute("userData");
+				user = (User) session.getAttribute("userData");
 			}
 			
 			ListForms Forms = new ListForms();

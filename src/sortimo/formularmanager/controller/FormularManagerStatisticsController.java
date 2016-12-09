@@ -11,12 +11,12 @@ import sortimo.formularmanager.storage.FromsStatisticsStorage;
 import sortimo.model.HelperFunctions;
 import sortimo.model.User;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/FormularManagerStatisticsController")
 public class FormularManagerStatisticsController extends HttpServlet {
@@ -31,19 +31,19 @@ public class FormularManagerStatisticsController extends HttpServlet {
 		HelperFunctions helper = new HelperFunctions();
 		
 		if (helper.checkCookie(request)) {
-			ServletContext application = getServletConfig().getServletContext();
-			User userData = (User) application.getAttribute("userData");
+			HttpSession session = request.getSession();
+			User userData = (User) session.getAttribute("userData");
 			User user = new User();
 			if (userData == null) {
 				try {
 					user.getUserAccount(helper.getUsername());
-					application.setAttribute("userData", user);  
+					session.setAttribute("userData", user);  
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			else {
-				user = (User) application.getAttribute("userData");
+				user = (User) session.getAttribute("userData");
 			}
 			
 			String action = request.getParameter("action") != null ? request.getParameter("action") : "false";

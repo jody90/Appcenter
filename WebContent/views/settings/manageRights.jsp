@@ -72,7 +72,7 @@
 					<div class="row">
 						<div class="col-xs-6">
 							<label for="name">Name Recht</label>
-							<input class="form-control" type="text" name="name" value="####name####" placeholder="Name">
+							<input class="form-control" type="text" id="rightName" name="name" value="####name####" placeholder="Name">
 						</div>					
 						<div class="col-xs-6">
 							<label for="description">Beschreibung Recht</label>

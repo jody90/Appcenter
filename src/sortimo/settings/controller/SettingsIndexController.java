@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -20,8 +20,8 @@ import sortimo.model.User;
 import sortimo.settings.databaseoperations.ManageRightsDb;
 import sortimo.settings.databaseoperations.ManageRolesDb;
 import sortimo.settings.databaseoperations.ManageUserDb;
-import sortimo.settings.storage.RightsStorage;
-import sortimo.settings.storage.RolesStorage;
+import sortimo.storage.RightsStorage;
+import sortimo.storage.RolesStorage;
 
 @WebServlet("/SettingsIndexController")
 public class SettingsIndexController extends HttpServlet {
@@ -36,19 +36,19 @@ public class SettingsIndexController extends HttpServlet {
 		HelperFunctions helper = new HelperFunctions();
 		
 		if (helper.checkCookie(request)) {
-			ServletContext application = getServletConfig().getServletContext();
-			User userData = (User) application.getAttribute("userData");
+			HttpSession session = request.getSession();
+			User userData = (User) session.getAttribute("userData");
 			User user = new User();
 			if (userData == null) {
 				try {
 					user.getUserAccount(helper.getUsername());
-					application.setAttribute("userData", user);  
+					session.setAttribute("userData", user);  
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			else {
-				user = (User) application.getAttribute("userData");
+				user = (User) session.getAttribute("userData");
 			}
 			
 			String action = request.getParameter("action") != null ? request.getParameter("action") : "false";

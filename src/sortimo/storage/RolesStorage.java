@@ -1,12 +1,12 @@
-package sortimo.settings.storage;
+package sortimo.storage;
 
 public class RolesStorage {
 	
-	public int id;
+	private int id;
 	
-	public String name;
+	private String name;
 	
-	public String description;
+	private String description;
 
 	public int getId() {
 		return id;

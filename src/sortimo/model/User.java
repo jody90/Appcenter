@@ -2,12 +2,15 @@ package sortimo.model;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import sortimo.databaseoperations.UserDb;
+import sortimo.storage.RightsStorage;
 
 public class User {
 	private String username;
@@ -21,9 +24,9 @@ public class User {
 	private String email;
 	
 	private String roles;
-	
-	private String rights;
-	
+
+	private List<RightsStorage> rights;
+		
 	private HttpServletRequest request;
 	
 	private HttpServletResponse response;
@@ -33,6 +36,7 @@ public class User {
 		try {
 			System.out.println("DB UserAccount request");
 			ResultSet rs = userDb.getUserAccount(username);
+			String tmpRights = null;
 			while (rs.next()) {
 				this.setUsername(rs.getString("username"));
 				this.setFirstname(rs.getString("firstname"));
@@ -40,8 +44,43 @@ public class User {
 				this.setPassword(rs.getString("password"));
 				this.setEmail(rs.getString("email"));
 				this.setRoles(rs.getString("roles"));
-				this.setRights(rs.getString("rights"));
+				tmpRights = rs.getString("rights");
 			}
+			
+			rs = null;
+			
+			List<RightsStorage> rights = new ArrayList<RightsStorage>();
+			
+			String allRightsString = userDb.getRightsFromRoles(this.getRoles());
+			String[] tmpRightsFromRoles = allRightsString != null ? allRightsString.split(",") : null;
+			String[] tmpRightsArray = tmpRights != null ? tmpRights.split(",") : null;
+
+			List<String> tmpAllRights = null;
+			if (tmpRightsFromRoles != null) {
+				tmpAllRights = new ArrayList<String>(Arrays.asList(tmpRightsFromRoles));
+			}
+			
+			if (tmpRightsArray != null) {
+				for (int i = 0; i < tmpRightsArray.length; i++) {
+					if (!Arrays.asList(tmpAllRights).contains(tmpRightsArray[i])) {
+						tmpAllRights.add(tmpRightsArray[i]);
+						allRightsString += "," + tmpRightsArray[i];
+					}
+				}
+			}
+			
+			ResultSet rightsList = userDb.getRights(allRightsString);
+			
+			while (rightsList.next()) {
+				RightsStorage userRights = new RightsStorage();
+				userRights.setId(rightsList.getInt("id"));
+				userRights.setName(rightsList.getString("name"));
+				userRights.setDescription(rightsList.getString("description"));
+				rights.add(userRights);
+			}
+			
+			this.setRights(rights);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -81,7 +120,7 @@ public class User {
 	
 	public boolean logout(Cookie[] cookies) {
 		Cookie cookie = null;
-		
+		this.setRights(null);
 		if (cookies != null) {
 			for (int i = 0; i < cookies.length; i++) {
 				cookie = cookies[i];
@@ -143,11 +182,11 @@ public class User {
 		this.roles = roles;
 	}
 
-	public String getRights() {
+	public List<RightsStorage> getRights() {
 		return rights;
 	}
 
-	public void setRights(String rights) {
+	public void setRights(List<RightsStorage> rights) {
 		this.rights = rights;
 	}
 
