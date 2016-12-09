@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import sortimo.storage.RightsStorage;
@@ -16,6 +17,8 @@ public class HelperFunctions {
 	private String username;
 	
 	private HttpServletRequest request;
+	
+	private HttpServletResponse response;
 	
 	public String concat(String string, String country) {
 		String concatenated = string + country;
@@ -68,22 +71,31 @@ public class HelperFunctions {
 		this.request = request;
 	}
 	
+	public HttpServletResponse getResponse() {
+		return response;
+	}
+	
+	public void setResponse(HttpServletResponse response) {
+		this.response = response;
+	}
+
 	public boolean isAuthorized(String right) {
 		HttpSession session;
 		session = this.getRequest().getSession();
 		User userData = (User) session.getAttribute("userData");
-		
-		List<RightsStorage> userRights = userData.getRights();
-		
-		for (int i = 0; i < userRights.size(); i++) {
-			if (userRights.get(i).getName().equals(right)) {
-				System.out.println(userRights.get(i).getName());
-				return true;
+
+		List<RightsStorage> userRights = userData != null ? userData.getRights() : null;
+
+		if (userRights != null) {
+			for (int i = 0; i < userRights.size(); i++) {
+				if (userRights.get(i).getName().equals(right)) {
+					System.out.println(userRights.get(i).getName());
+					return true;
+				}
 			}
 		}
 		
 		return false;
 	}
 
-	
 }

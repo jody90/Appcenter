@@ -1,5 +1,5 @@
 .navbar-nav li {
-	border-right: 1px solid #808080;
+/* 	border-right: 1px solid #808080; */
 }
 
 .navbar-nav li:last-child {
@@ -11,4 +11,8 @@
 	box-shadow: 1px 1px 3px #999999;
     margin-left: -15px;
     margin-right: -15px;
+}
+
+.dropdown-menu>li>a {
+	padding: 10px 20px
 }

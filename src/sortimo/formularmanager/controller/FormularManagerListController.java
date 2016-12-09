@@ -7,8 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import sortimo.formularmanager.databaseoperations.ListForms;
 import sortimo.formularmanager.storage.FormsListStorage;
 import sortimo.model.HelperFunctions;
@@ -25,50 +23,44 @@ public class FormularManagerListController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HelperFunctions helper = new HelperFunctions();
+		helper.setRequest(request);
+		helper.setResponse(response);
 		
-		if (helper.checkCookie(request)) {
-			HttpSession session = request.getSession();
-			User userData = (User) session.getAttribute("userData");
-			User user = new User();
-			if (userData == null) {
-				try {
-					user.getUserAccount(helper.getUsername());
-					session.setAttribute("userData", user);  
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			else {
-				user = (User) session.getAttribute("userData");
-			}
-			
-			ListForms Forms = new ListForms();
-			
-			String filter = request.getParameter("filter") != null ? request.getParameter("filter") : "false";
-			String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
-			
-			try {
-				ArrayList<FormsListStorage> formsList = Forms.getFormsList(country);		
-				request.setAttribute("formsList", formsList);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			String pageTitle = filter != "false" ? "Übersicht Aktiv" : "Übersicht";
-			
-			request.setAttribute("user", user);
-			request.setAttribute("pageTitle", pageTitle);
-			request.setAttribute("country", country);
-			request.setAttribute("filter", filter);
-			request.setAttribute("path", "formularmanager");
-			request.setAttribute("view", "list");
-			
-			getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);
-		}
-		else {
+		User user = new User();
+		user.getUserAccount();
+		
+		if (!helper.checkCookie(request)) {
 			response.sendRedirect("/sortimo/login");
 			return;
 		}
+		
+		if (!helper.isAuthorized("form_overview")) {
+			response.sendRedirect("/sortimo/index");
+			return;
+		}
+
+		ListForms Forms = new ListForms();
+		
+		String filter = request.getParameter("filter") != null ? request.getParameter("filter") : "false";
+		String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
+		
+		try {
+			ArrayList<FormsListStorage> formsList = Forms.getFormsList(country);		
+			request.setAttribute("formsList", formsList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		String pageTitle = filter != "false" ? "Übersicht Aktiv" : "Übersicht";
+		
+		request.setAttribute("user", user);
+		request.setAttribute("pageTitle", pageTitle);
+		request.setAttribute("country", country);
+		request.setAttribute("filter", filter);
+		request.setAttribute("path", "formularmanager");
+		request.setAttribute("view", "list");
+		
+		getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

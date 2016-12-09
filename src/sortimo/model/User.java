@@ -1,13 +1,11 @@
 package sortimo.model;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import sortimo.databaseoperations.UserDb;
 import sortimo.storage.RightsStorage;
@@ -31,64 +29,31 @@ public class User {
 	
 	private HttpServletResponse response;
 	
-	public void getUserAccount(String username) {
-		UserDb userDb = new UserDb();
-		try {
-			System.out.println("DB UserAccount request");
-			ResultSet rs = userDb.getUserAccount(username);
-			String tmpRights = null;
-			while (rs.next()) {
-				this.setUsername(rs.getString("username"));
-				this.setFirstname(rs.getString("firstname"));
-				this.setLastname(rs.getString("lastname"));
-				this.setPassword(rs.getString("password"));
-				this.setEmail(rs.getString("email"));
-				this.setRoles(rs.getString("roles"));
-				tmpRights = rs.getString("rights");
+	public User getUserAccount(HelperFunctions helper) {
+//		HelperFunctions helper = new HelperFunctions();
+		
+		HttpSession session = helper.getRequest().getSession();
+		User userSession = (User) session.getAttribute("userData");
+		
+		if (userSession == null) {
+			UserDb userDb = new UserDb();
+			try {
+				userSession = userDb.getUserAccount(helper.getUsername());
+				session.setAttribute("userData", userSession);  
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			
-			rs = null;
-			
-			List<RightsStorage> rights = new ArrayList<RightsStorage>();
-			
-			String allRightsString = userDb.getRightsFromRoles(this.getRoles());
-			String[] tmpRightsFromRoles = allRightsString != null ? allRightsString.split(",") : null;
-			String[] tmpRightsArray = tmpRights != null ? tmpRights.split(",") : null;
-
-			List<String> tmpAllRights = null;
-			if (tmpRightsFromRoles != null) {
-				tmpAllRights = new ArrayList<String>(Arrays.asList(tmpRightsFromRoles));
-			}
-			
-			if (tmpRightsArray != null) {
-				for (int i = 0; i < tmpRightsArray.length; i++) {
-					if (!Arrays.asList(tmpAllRights).contains(tmpRightsArray[i])) {
-						tmpAllRights.add(tmpRightsArray[i]);
-						allRightsString += "," + tmpRightsArray[i];
-					}
-				}
-			}
-			
-			ResultSet rightsList = userDb.getRights(allRightsString);
-			
-			while (rightsList.next()) {
-				RightsStorage userRights = new RightsStorage();
-				userRights.setId(rightsList.getInt("id"));
-				userRights.setName(rightsList.getString("name"));
-				userRights.setDescription(rightsList.getString("description"));
-				rights.add(userRights);
-			}
-			
-			this.setRights(rights);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+		else {
+			userSession = (User) session.getAttribute("userData");
+		}
+
+		return userSession;
 	}
 	
 	public boolean login(String inputPassword, String username) {
 		
-		this.getUserAccount(username);
+		this.getUserAccount();
 		String inputPasswordHash = null;
 		
 		// Eingegebenes Passwort md5Hashen

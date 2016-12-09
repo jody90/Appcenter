@@ -13,11 +13,4 @@
     <p>
     	Beispielsweise Notizen, Statistiken, Server Monitoring,  etc.
    	</p>
-		
-		<c:if test='${helper.isAuthorized("new_form")}'>
-			<h1>
-				Darf Formular anlegen
-			</h1>
-		</c:if>
-    	
 </div>
