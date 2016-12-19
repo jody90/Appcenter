@@ -31,6 +31,10 @@ public class User {
 	
 	private HttpServletResponse response;
 	
+	/**
+	 * 
+	 * @param username Benutzername
+	 */
 	public void getUserAccount(String username) {
 		UserDb userDb = new UserDb();
 		try {
@@ -86,6 +90,12 @@ public class User {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param inputPassword eingegebenes passwort
+	 * @param username benutzername
+	 * @return boolean
+	 */
 	public boolean login(String inputPassword, String username) {
 		
 		this.getUserAccount(username);
@@ -118,6 +128,11 @@ public class User {
 		this.getResponse().addCookie(userCookie);
 	}
 	
+	/**
+	 * 
+	 * @param cookies
+	 * @return boolean
+	 */
 	public boolean logout(Cookie[] cookies) {
 		Cookie cookie = null;
 		this.setRights(null);
