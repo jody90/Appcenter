@@ -15,6 +15,14 @@ public class FormEdit extends Connect{
 	private PreparedStatement preparedStatement = null;
 	private boolean writeDatabaseResponse = false;
 	
+	/**
+	 * Fuegt ein Formular in die Datenbank ein. 
+	 * 
+	 * @param globalData eine Map mit allen Daten die in forms gespeichert werden
+	 * @param metaData eine Map mit allen Daten die in FormsMeta gespeichert werden
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean insertForm(Map<String, String> globalData, Map<String, String> metaData) throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
@@ -57,6 +65,14 @@ public class FormEdit extends Connect{
 		return writeDatabaseResponse;
 	}
 	
+	/**
+	 * Aktualisiert ein Formular in der Datenbank
+	 * 
+	 * @param globalData eine Map mit allen Daten die in forms gespeichert werden
+	 * @param metaData eine Map mit allen Daten die in FormsMeta gespeichert werden
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean updateForm(Map<String, String> globalData, Map<String, String> metaData) throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
@@ -92,6 +108,13 @@ public class FormEdit extends Connect{
 		return writeDatabaseResponse;
 	}
 	
+	/**
+	 * Holt saemtliche Formulardaten aus der Datenbank
+	 * 
+	 * @param formId Formular ID
+	 * @return Map mit allen Formulardaten
+	 * @throws Exception
+	 */
 	public Map<String, String> getFormData(String formId) throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
@@ -141,6 +164,13 @@ public class FormEdit extends Connect{
 		return formData;
 	}
 	
+	/**
+	 * Loescht ein Formular aus der Datenbank 
+	 * 
+	 * @param formId Formular ID
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean deleteForm(String formId) throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();

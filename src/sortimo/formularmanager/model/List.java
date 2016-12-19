@@ -7,6 +7,13 @@ import java.util.Date;
 
 public class List {
 	
+	/**
+	 * Ueberprueft ob ein Fomular gerade aktiv ist
+	 * 
+	 * @param validFrom Startzeit
+	 * @param validTo Endzeit
+	 * @return boolean
+	 */
     public boolean isActive(String validFrom, String validTo) {
 		boolean formIsActive = false;
 		

@@ -13,6 +13,14 @@ public class FormResponse {
 	private PreparedStatement preparedStatement = null;
 	private boolean writeDatabaseResponse = false;
 	
+	/**
+	 * Speichert Formulareingaben in der Datenbank
+	 * 
+	 * @param responseData Formulareingaben
+	 * @param globalData automatisch gesamelte Nutzerdaten
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean insertFormResponse(Map<String, String> responseData, Map<String, String> globalData) throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();

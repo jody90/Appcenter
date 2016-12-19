@@ -1,9 +1,17 @@
-.navbar-nav li {
-	border-right: 1px solid #808080;
+.primary-nav-element {
+	border-right: 1px solid #c0c0c0;
 }
 
-.navbar-nav li:last-child {
+.navbar-default .navbar-nav>li>a {
+	color: #000;
+}
+
+primary-nav-element:last-child {
 	border-right: none;
+}
+
+.dropdown-menu>li>a {
+	padding: 10px 20px;
 }
 
 .navbar {

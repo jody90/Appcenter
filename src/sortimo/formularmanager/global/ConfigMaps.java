@@ -5,6 +5,10 @@ import java.util.Map;
 
 public class ConfigMaps {
 
+	/**
+	 * 
+	 * @return Map mit allen verfuegbaren Laendern
+	 */
 	public Map<String, String> getcountrys() {
 		Map<String, String> countries = new HashMap<String, String>();
 		countries.put("DE", "Deutschland");
@@ -15,6 +19,10 @@ public class ConfigMaps {
 		return countries;
 	}
 	
+	/**
+	 * 
+	 * @return Map mit allen verfuegbaren Formulartypen
+	 */
 	public Map<String, String> getTypes() {
 		Map<String, String> types = new HashMap<String, String>();
 		types.put("antrag", "Antrag");

@@ -14,6 +14,13 @@ public class ListForms {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
 	
+	/**
+	 * Holt alle Formulare aus der Datenbank
+	 * 
+	 * @param land Land
+	 * @return Liste mit FormsListStorage Objekten
+	 * @throws Exception
+	 */
 	public ArrayList<FormsListStorage> getFormsList(String land) throws Exception {	
 		
 		Connect conClass = new Connect();

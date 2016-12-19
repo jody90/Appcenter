@@ -12,6 +12,14 @@ public class FormStatistics {
 	private PreparedStatement preparedStatement = null;
 	private FromsStatisticsStorage statisticsStorage = new FromsStatisticsStorage();
 	
+	/**
+	 * Holt alle Formularantworten aus der Datenbank.
+	 * 
+	 * @param formId Formular ID
+	 * @param country Land
+	 * @return FromsStatisticsStorage Object
+	 * @throws Exception
+	 */
 	public FromsStatisticsStorage getStatistics(String formId, String country) throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();

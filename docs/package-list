@@ -1,0 +1,11 @@
+sortimo.controller
+sortimo.databaseoperations
+sortimo.formularmanager.controller
+sortimo.formularmanager.databaseoperations
+sortimo.formularmanager.global
+sortimo.formularmanager.model
+sortimo.formularmanager.storage
+sortimo.model
+sortimo.settings.controller
+sortimo.settings.databaseoperations
+sortimo.storage
