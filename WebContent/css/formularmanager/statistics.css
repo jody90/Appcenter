@@ -1,9 +1,13 @@
 .form-statistics-meta {
+}
+
+.statistics-form,
+.form-statistics-meta {
+	padding: 15px;
 	background: #fff;
 	box-shadow: 1px 1px 4px #999999;
 	border: 1px solid #eaeaea;
 }
-
 
 
 /* input[type=checkbox]:before { */

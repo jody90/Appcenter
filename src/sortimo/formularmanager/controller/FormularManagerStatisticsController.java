@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.gson.*;
 
 import sortimo.formularmanager.databaseoperations.FormStatistics;
+import sortimo.formularmanager.global.ConfigMaps;
 import sortimo.formularmanager.storage.FromsStatisticsStorage;
 import sortimo.model.HelperFunctions;
 import sortimo.model.User;
@@ -51,7 +52,7 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
 
 			System.out.println(user);
-			
+
 			request.setAttribute("user", user);
 			request.setAttribute("formId", formId);
 
@@ -66,11 +67,13 @@ public class FormularManagerStatisticsController extends HttpServlet {
 					e.printStackTrace();
 				}
 				
-				Gson gson1 = new Gson(); 
-				String statisticsValueJson = gson1.toJson(statistics.getStatisticsValue());
+				ConfigMaps config = new ConfigMaps();
 				
-				Gson gson2 = new Gson(); 
-				String userJson = gson2.toJson(user);
+				Gson gson = new Gson();
+				String statisticsValueJson = gson.toJson(statistics.getStatisticsValue());
+				
+				String userJson = gson.toJson(user);
+				String statesJson = gson.toJson(config.getStates());
 				
 				Map<String, String> statisticsData = new HashMap<String, String>();
 				statisticsData.put("resultsJson", statisticsValueJson);
@@ -78,8 +81,8 @@ public class FormularManagerStatisticsController extends HttpServlet {
 				statisticsData.put("formHtml", statistics.getHtmlForm());
 				statisticsData.put("formTitle", statistics.getFormTitle());
 				statisticsData.put("user", userJson);
+				statisticsData.put("states", statesJson);
 				
-				Gson gson = new Gson();
 				String json = gson.toJson(statisticsData);
 				
 				response.setContentType("text/plain");

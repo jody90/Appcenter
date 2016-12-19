@@ -1,14 +1,6 @@
 app.controller('statisticsController', function($scope, $http, $sce, $rootScope, $routeParams) {
 	var formId = $("#form_id").attr("data-form-id");
 	
-	
-//	$rootScope.$on('$routeChangeStart', function (event, next, current) {
-//		var id = next.params.id;
-//		if (id !== undefined) {
-//			viewForm(id);
-//		}
-//	});
-//	
 	function isJson(str) {
 	    try {
 	        JSON.parse(str);
@@ -25,9 +17,10 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
     .then(function(response) {
     	var obj = response.data;
     	
-//    	obj.user = obj.user.split(";");
+    	console.log("Object", obj);	
     	
-    	console.log(obj);	
+    	$scope.user = JSON.parse(obj.user);
+    	$scope.states = JSON.parse(obj.states);
     	
     	$scope.formTitle = obj.formTitle;
     	
@@ -78,12 +71,6 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
     				
     				}
     				
-    				
-    				console.log();
-    				
-//    				console.log(key);
-//    				console.log(resultsObj[key]);
- 
     			})
     		})
     		$scope.htmlForm = $sce.trustAsHtml(htmlForm);
