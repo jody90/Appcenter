@@ -25,6 +25,8 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
     .then(function(response) {
     	var obj = response.data;
     	
+//    	obj.user = obj.user.split(";");
+    	
     	console.log(obj);	
     	
     	$scope.formTitle = obj.formTitle;

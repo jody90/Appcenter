@@ -10,7 +10,7 @@
 				Alle
 			</option>
 			
-			<c:forEach items="${conf.getcountrys()}" var="land">
+			<c:forEach items="${conf.getCountrys()}" var="land">
 				<option value="${pageContext.request.contextPath}/formularmanager/list?country=${land.key}&filter=${filter}" ${country == land.key ? 'selected' : ''}>
 					${land.value}
 				</option>

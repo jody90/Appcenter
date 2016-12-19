@@ -9,7 +9,7 @@ public class ConfigMaps {
 	 * 
 	 * @return Map mit allen verfuegbaren Laendern
 	 */
-	public Map<String, String> getcountrys() {
+	public Map<String, String> getCountrys() {
 		Map<String, String> countries = new HashMap<String, String>();
 		countries.put("DE", "Deutschland");
 		countries.put("AT", "Östereich");
@@ -28,6 +28,19 @@ public class ConfigMaps {
 		types.put("antrag", "Antrag");
 		types.put("umfrage", "Umfrage");
 		types.put("wasweisich", "Was weis ich");
+		return types;
+	}
+	
+	/**
+	 * 
+	 * @return Map mit allen verfuegbaren Bearbeitet Statis
+	 */
+	public Map<String, String> getStates() {
+		Map<String, String> types = new HashMap<String, String>();
+		types.put("unfinished", "Unbearbeitet");
+		types.put("in_process", "in Bearbeitung");
+		types.put("finished", "Erledigt");
+		types.put("rejected", "Abgelehnt");
 		return types;
 	}
 	

@@ -50,6 +50,8 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			String formId = request.getParameter("form_id") != null ? request.getParameter("form_id") : "false";		
 			String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
 
+			System.out.println(user);
+			
 			request.setAttribute("user", user);
 			request.setAttribute("formId", formId);
 
@@ -60,17 +62,22 @@ public class FormularManagerStatisticsController extends HttpServlet {
 				try {
 					statistics = stats.getStatistics(formId, country);
 				} catch (Exception e) {
+					System.err.println("Statistik konnte nicht aus DB gelesen werden");
 					e.printStackTrace();
 				}
 				
 				Gson gson1 = new Gson(); 
 				String statisticsValueJson = gson1.toJson(statistics.getStatisticsValue());
 				
+				Gson gson2 = new Gson(); 
+				String userJson = gson2.toJson(user);
+				
 				Map<String, String> statisticsData = new HashMap<String, String>();
 				statisticsData.put("resultsJson", statisticsValueJson);
 				statisticsData.put("formJson", statistics.getJsonForm());
 				statisticsData.put("formHtml", statistics.getHtmlForm());
 				statisticsData.put("formTitle", statistics.getFormTitle());
+				statisticsData.put("user", userJson);
 				
 				Gson gson = new Gson();
 				String json = gson.toJson(statisticsData);

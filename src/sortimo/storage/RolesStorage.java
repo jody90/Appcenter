@@ -31,5 +31,16 @@ public class RolesStorage {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder();
+		string.append(this.getId());
+		string.append(";");
+		string.append(this.getName());
+		string.append(";");
+		string.append(this.getDescription());
+		return string.toString();
+	}
 
 }

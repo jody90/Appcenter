@@ -149,6 +149,26 @@ public class User {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder();
+		string.append(this.getUsername());
+		string.append(";");
+		string.append(this.getFirstname());
+		string.append(";");
+		string.append(this.getLastname());
+		string.append(";");
+		string.append(this.getEmail());
+		string.append(";");
+		string.append(this.getRights());
+		string.append(";");
+		string.append(this.getRoles());
+		string.append(";");
+		string.append(this.getPassword());
+		
+		return string.toString();
+	}
+	
 	public String getUsername() {
 		return username;
 	}
