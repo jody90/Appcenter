@@ -33,7 +33,7 @@
 						Status
 					</label>
 					<select name="state" class="form-control">
-						<option ng-repeat="(key, state) in states" ng-value="{{key}}">
+						<option ng-repeat="(key, state) in states" ng-value="{{key}}" ng-selected="key == form.processState ? true : false">
 							{{state}}
 						</option>
 					</select>

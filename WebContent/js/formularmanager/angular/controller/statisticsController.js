@@ -44,6 +44,9 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
     		htmlForm += obj.formHtml;    	
     		htmlForm += '</div>';
     		
+    		console.log(id);
+        	$scope.form = obj.resultsJson[id];
+    		
     		$("#formReadyIndicator").ready(function() {
     			
     			$("#formReadyIndicator").find(":checkbox").attr("disabled", true);

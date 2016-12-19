@@ -51,8 +51,6 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			String formId = request.getParameter("form_id") != null ? request.getParameter("form_id") : "false";		
 			String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
 
-			System.out.println(user);
-
 			request.setAttribute("user", user);
 			request.setAttribute("formId", formId);
 
@@ -75,7 +73,7 @@ public class FormularManagerStatisticsController extends HttpServlet {
 				String userJson = gson.toJson(user);
 				String statesJson = gson.toJson(config.getStates());
 				
-				System.out.println(statistics);
+				System.out.println(statistics.getStatisticsValue());
 				
 				Map<String, String> statisticsData = new HashMap<String, String>();
 				statisticsData.put("resultsJson", statisticsValueJson);
