@@ -75,6 +75,8 @@ public class FormularManagerStatisticsController extends HttpServlet {
 				String userJson = gson.toJson(user);
 				String statesJson = gson.toJson(config.getStates());
 				
+				System.out.println(statistics);
+				
 				Map<String, String> statisticsData = new HashMap<String, String>();
 				statisticsData.put("resultsJson", statisticsValueJson);
 				statisticsData.put("formJson", statistics.getJsonForm());

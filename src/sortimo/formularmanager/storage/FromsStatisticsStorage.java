@@ -65,5 +65,19 @@ public class FromsStatisticsStorage {
 	public void setHtmlForm(String htmlForm) {
 		this.htmlForm = htmlForm;
 	}
-
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder();
+		string.append(this.getFormId());
+		string.append(";");
+		string.append(this.getFormTitle());
+		string.append(";");
+		string.append(this.getHtmlForm());
+		string.append(";");
+		string.append(this.getJsonForm());
+		string.append(";");
+		string.append(this.getStatisticsValue());
+		return string.toString();
+	}
 }
