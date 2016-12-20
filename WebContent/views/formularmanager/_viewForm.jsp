@@ -1,46 +1,54 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="conf" class="sortimo.formularmanager.global.ConfigMaps"></jsp:useBean>
-<!-- 
-<div class="row">
-	<div class="col-lg-2 border">1</div>
-	<div class="col-lg-2 border">2</div>
-	<div class="col-lg-2 border">3</div>
-	<div class="col-lg-2 border">4</div>
-	<div class="col-lg-2 border">5</div>
-	<div class="col-lg-2 border">6</div>
-</div>
- -->
+<jsp:useBean id="helper" class="sortimo.model.HelperFunctions"></jsp:useBean>
 
-<div class="row">
+
+<div class="row" ng-controller="statisticsController">
+	<h1 class="text-center">
+		{{formTitle}}
+	</h1>
+	
 	<div class="col-xs-12 col-md-9">
 		<div class="statistics-form" ng-bind-html="htmlForm"></div>
 	</div>
 
 	<div class="col-xs-12 col-md-3">
-		<div class="form-statistics-meta">
-			<div class="row">
-				<div class="col-xs-12">
-					<label for="username" class="fb-text-label">
-						Bearbeiter
-					</label>
-					<input type="text" name="username" ng-value="{{user.username}}" value="{{user.username}}" disabled class="form-control">
-				</div>
-			</div>
-
-			<div class="row margin-top-md">
-				<div class="col-xs-12">
-					<label for="state" class="fb-text-label">
-						Status
-					</label>
-					<select name="state" class="form-control">
-						<option ng-repeat="(key, state) in states" ng-value="{{key}}" ng-selected="key == form.processState ? true : false">
-							{{state}}
-						</option>
-					</select>
-				</div>
-			</div>
+		<form action="" method="post" id="saveProcessedForm">
+		<input type="hidden" ng-model="processForm" value="hallo" ng-value="{{meta.country}}" name="country">
+		<input type="hidden" ng-value="{{meta.formId}}" name="formId">
 		
-		</div>
+			<div class="form-statistics-meta">
+				<div class="row">
+					<div class="col-xs-12">
+						<label for="username" class="fb-text-label">
+							Bearbeiter
+						</label>
+						<input type="text" name="username" value="{{user.username}}" disabled class="form-control">
+					</div>
+				</div>
+	
+				<div class="row margin-top-md">
+					<div class="col-xs-12">
+						<label for="state" class="fb-text-label">
+							Status
+						</label>
+						<select name="state" class="form-control">
+							<option ng-repeat="(key, state) in states" ng-value="{{key}}" ng-selected="key == form.processState ? true : false">
+								{{state}}
+							</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="row text-right">
+					<div class="col-xs-12">
+						<button type="submit" name="action" value="saveProcessed" class="btn btn-success btn-lg margin-top-lg" id="saveProcessedFormSubmit">
+							Speichern
+						</button> 
+					</div>
+				</div>
+			</div>
+		</form>		
 	</div>
 </div>
 

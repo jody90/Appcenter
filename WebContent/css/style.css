@@ -16,3 +16,8 @@ table tr:nth-child(even) {
 	background-color: #f1f1f1;
 /* 	background-color: #f2f2f2; */
 }
+
+.link-style {
+	color: #337ab7;
+	cursor: pointer;
+}

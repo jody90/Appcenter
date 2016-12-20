@@ -2,12 +2,8 @@
 <jsp:useBean id="conf" class="sortimo.formularmanager.global.ConfigMaps"></jsp:useBean>
 
 <div ng-app="app">
-	<div ng-controller="statisticsController">
-	
-		<h1 class="text-center">
-			{{formTitle}}
-		</h1>
-		
+	<div>
+			
 		<div ng-view></div>
 		
 		<div id="form_id" data-form-id="${formId}"></div>

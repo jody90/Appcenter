@@ -3,7 +3,6 @@ package sortimo.formularmanager.controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.google.gson.*;
 
 import sortimo.formularmanager.databaseoperations.FormStatistics;
@@ -54,47 +53,62 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			request.setAttribute("user", user);
 			request.setAttribute("formId", formId);
 
-			if (action.equals("getStatistics")) {
-				FormStatistics stats = new FormStatistics();
-				FromsStatisticsStorage statistics = new FromsStatisticsStorage();
-				
-				try {
-					statistics = stats.getStatistics(formId, country);
-				} catch (Exception e) {
-					System.err.println("Statistik konnte nicht aus DB gelesen werden");
-					e.printStackTrace();
-				}
-				
-				ConfigMaps config = new ConfigMaps();
-				
-				Gson gson = new Gson();
-				String statisticsValueJson = gson.toJson(statistics.getStatisticsValue());
-				
-				String userJson = gson.toJson(user);
-				String statesJson = gson.toJson(config.getStates());
-				
-				System.out.println(statistics.getStatisticsValue());
-				
-				Map<String, String> statisticsData = new HashMap<String, String>();
-				statisticsData.put("resultsJson", statisticsValueJson);
-				statisticsData.put("formJson", statistics.getJsonForm());
-				statisticsData.put("formHtml", statistics.getHtmlForm());
-				statisticsData.put("formTitle", statistics.getFormTitle());
-				statisticsData.put("user", userJson);
-				statisticsData.put("states", statesJson);
-				
-				String json = gson.toJson(statisticsData);
-				
-				response.setContentType("text/plain");
-				response.setCharacterEncoding("UTF-8");
-				response.getWriter().write(json);
-				return;
-			}
-			else {
-				request.setAttribute("pageTitle", "Statistiken");
-				request.setAttribute("path", "formularmanager");
-				request.setAttribute("view", "statistics");
-				getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);
+			FormStatistics stats = new FormStatistics();
+			
+			switch(action) {
+				case "getStatistics" :
+					FromsStatisticsStorage statistics = new FromsStatisticsStorage();
+					
+					try {
+						statistics = stats.getStatistics(formId, country);
+					} catch (Exception e) {
+						System.err.println("Statistik konnte nicht aus DB gelesen werden");
+						e.printStackTrace();
+					}
+					
+					ConfigMaps config = new ConfigMaps();
+					
+					Map<String, String> meta = new HashMap<String, String>();
+					meta.put("country", country);
+					meta.put("formId", formId);
+					
+					Gson gson = new Gson();
+					String statisticsValueJson = gson.toJson(statistics.getStatisticsValue());
+					String userJson = gson.toJson(user);
+					String statesJson = gson.toJson(config.getStates());
+					String metaJson = gson.toJson(meta);
+					
+					Map<String, String> statisticsData = new HashMap<String, String>();
+					statisticsData.put("resultsJson", statisticsValueJson);
+					statisticsData.put("formJson", statistics.getJsonForm());
+					statisticsData.put("formHtml", statistics.getHtmlForm());
+					statisticsData.put("formTitle", statistics.getFormTitle());
+					statisticsData.put("user", userJson);
+					statisticsData.put("states", statesJson);
+					statisticsData.put("meta", metaJson);
+					
+					String json = gson.toJson(statisticsData);
+
+					response.setContentType("text/plain");
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().write(json);
+					return;
+				case "saveProcessed" :
+					try {
+						stats.updateProcessState(request);
+					} catch (Exception e) {
+						System.err.println("Processed Status konnte nicht geändert werden");
+						e.printStackTrace();
+					}
+
+					
+				break;
+				default :
+					request.setAttribute("pageTitle", "Statistiken");
+					request.setAttribute("path", "formularmanager");
+					request.setAttribute("view", "statistics");
+					getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);
+				break;
 			}
 		}
 		else {

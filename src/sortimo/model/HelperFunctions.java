@@ -77,12 +77,18 @@ public class HelperFunctions {
 		
 		for (int i = 0; i < userRights.size(); i++) {
 			if (userRights.get(i).getName().equals(right)) {
-				System.out.println(userRights.get(i).getName());
 				return true;
 			}
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder();
+		string.append(this.getUsername());
+		return string.toString();
 	}
 
 	

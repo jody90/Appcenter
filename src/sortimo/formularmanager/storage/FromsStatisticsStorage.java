@@ -28,7 +28,8 @@ public class FromsStatisticsStorage {
 		map.put("createdAt", createdAt);
 		map.put("username", username);	
 		map.put("processState", processState);	
-		map.put("processedBy", processedBy);	
+		map.put("processedBy", processedBy);
+		map.put("id", id+"");
 		
 		statisticsValueHelper.put(id, map);
 		this.statisticsValue = statisticsValueHelper;

@@ -104,7 +104,6 @@ public class FormularManagerEditController extends HttpServlet {
 					}
 				break;
 				case "edit" :
-					System.out.println(formId);
 					Map<String, String> formData = null;
 					try {
 						formData = form.getFormData(formId);
@@ -112,8 +111,6 @@ public class FormularManagerEditController extends HttpServlet {
 					catch (Exception e) {
 						e.printStackTrace();
 					}
-					
-					System.out.println(formData);
 					
 					if (formData != null) {					
 						request.setAttribute("country", country);

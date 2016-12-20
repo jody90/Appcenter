@@ -3,6 +3,7 @@ package sortimo.formularmanager.databaseoperations;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.servlet.http.HttpServletRequest;
 
 import sortimo.databaseoperations.Connect;
 import sortimo.formularmanager.storage.FromsStatisticsStorage;
@@ -70,4 +71,26 @@ public class FormStatistics {
 		conClass.close();
 		return statisticsStorage;
 	}
+	
+	/**
+	 * Updated den Processed State in der DB
+	 * 
+	 * @param request komplettes request Object
+	 * @throws Exception
+	 */
+	public void updateProcessState(HttpServletRequest request) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		String sql = "UPDATE formularmanager_forms_response "
+				+ "SET process_state = ?, processed_by = ? "
+				+ "WHERE id = ?";
+		
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, request.getParameter("state"));
+		preparedStatement.setString(2, request.getParameter("processedBy"));
+		preparedStatement.setString(3, request.getParameter("responseId"));
+		preparedStatement.execute();
+	}
+	
 }
