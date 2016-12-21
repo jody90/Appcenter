@@ -2,7 +2,7 @@
 <jsp:useBean id="conf" class="sortimo.formularmanager.global.ConfigMaps"></jsp:useBean>
 
 <div ng-app="app">
-	<div>
+	<div ng-controller="statisticsController">
 			
 		<div ng-view></div>
 		

@@ -91,5 +91,8 @@
 
 .table tbody>tr>td.align-middle {
 	vertical-align: middle;
-	
+}
+
+valign-middle {
+	vertical-align: middle;
 }

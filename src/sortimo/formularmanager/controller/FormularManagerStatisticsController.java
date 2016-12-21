@@ -71,6 +71,7 @@ public class FormularManagerStatisticsController extends HttpServlet {
 					Map<String, String> meta = new HashMap<String, String>();
 					meta.put("country", country);
 					meta.put("formId", formId);
+					meta.put("evaluationType", statistics.getEvaluationType());
 					
 					Gson gson = new Gson();
 					String statisticsValueJson = gson.toJson(statistics.getStatisticsValue());

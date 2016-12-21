@@ -35,6 +35,17 @@
 				</select>
 			</div>
 
+			<div class="margin-bottom-md">
+				<label for="meta_evaluationType">Typ der Auswertung: </label>
+				<select name="meta_evaluationType" class="form-control">
+					<c:forEach items="${conf.getEvaluationTypes()}" var="evaluationType">
+						<option value="${evaluationType.key}" ${formData['evaluationType'] == evaluationType.key ? 'selected' : ''}>
+							${evaluationType.value}
+						</option>
+					</c:forEach>
+				</select>
+			</div>
+
 			<div class="form-group">
 				<label for="meta_validFrom">Gültig von:</label>
 				<input class="form-control datetimepicker" type="text" name="meta_validFrom" value="${formData['validFrom']}" placeholder="01.01.2016 12:15">

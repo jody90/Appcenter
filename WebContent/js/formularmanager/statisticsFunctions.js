@@ -48,14 +48,24 @@ var drawCircleChart = function(rows, count, chartTitle) {
 	
 	// Chart Optionen festlegen
 	var options = {
-		'title' : chartTitle,
-		'width' : 400,
-		'height' : 250,
-		'is3D' : true
+		title : chartTitle,
+		width : 325,
+		height : 280,
+		is3D : true,
+		backgroundColor : {
+			fill : 'transparent'
+		},
+		chartArea : {
+			width : "95%", 
+			height : "90%",
+			top : 35,
+			left: 45
+		}
+
 	};
 	
 	// Elemente erzeugen in die die Charts gerendert werden sollen
-	var chartContainer = '<div class="col-xs-12 col-sm-4 chart_container" id="chart_' + count + '">hallo</div>';
+	var chartContainer = '<div class="col-xs-12 col-sm-6"><div class="chart_container" id="chart_' + count + '"></div></div>';
 	$("#chart_area").append(chartContainer);
 	
 	// Chart mit Daten und Optionen initialisieren

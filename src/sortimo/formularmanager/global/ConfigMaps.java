@@ -44,4 +44,25 @@ public class ConfigMaps {
 		return types;
 	}
 	
+//	/**
+//	 * 
+//	 * @param state Satus wie er in der DB steht
+//	 * @return Uebersetzter Status wenn vorhanden, ansonsten der uebergebene State wieder zurueck
+//	 */
+//	public String translateState(String state) {
+//		String tmpState = this.getStates().get(state);
+//		return tmpState == null ? state : tmpState;
+//	}
+	
+	/**
+	 * 
+	 * @return Map mit allen verfuegbaren Auswertungsmoeglichkeiten
+	 */
+	public Map<String, String> getEvaluationTypes() {
+		Map<String, String> types = new HashMap<String, String>();
+		types.put("chart", "Statistik");
+		types.put("seperate", "Einzelformular");
+		return types;
+	}
+	
 }

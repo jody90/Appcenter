@@ -115,6 +115,7 @@ public class FormularManagerEditController extends HttpServlet {
 					if (formData != null) {					
 						request.setAttribute("country", country);
 						request.setAttribute("formData", formData);
+						System.out.println(formData);
 						getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);				
 					}
 					else {

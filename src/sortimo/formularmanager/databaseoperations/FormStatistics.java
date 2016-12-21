@@ -49,7 +49,8 @@ public class FormStatistics {
 		sql = "SELECT form_id, "
 				+ "MAX(CASE WHEN meta_name = 'formContentJson' THEN meta_value END) as formContentJson, "
 				+ "MAX(CASE WHEN meta_name = 'formContentHtml' THEN meta_value END) as formContentHtml, "
-				+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle "
+				+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle ,"
+				+ "MAX(CASE WHEN meta_name = 'evaluationType' THEN meta_value END) as evaluationType "
 				+ "FROM formularmanager_forms_meta "
 				+ "WHERE form_id = ? "
 				+ "GROUP BY form_id";
@@ -58,14 +59,11 @@ public class FormStatistics {
 		preparedStatement.setString(1, formId);
 		ResultSet rsJsonForm = preparedStatement.executeQuery();
 		
-		while (rsJsonForm.next()) {
-			String jsonForm = rsJsonForm.getString("formContentJson");
-			String htmlForm = rsJsonForm.getString("formContentHtml");
-			String formTitle = rsJsonForm.getString("formTitle");
-			
-			statisticsStorage.setJsonForm(jsonForm);
-			statisticsStorage.setHtmlForm(htmlForm);
-			statisticsStorage.setFormTitle(formTitle);
+		while (rsJsonForm.next()) {		
+			statisticsStorage.setJsonForm(rsJsonForm.getString("formContentJson"));
+			statisticsStorage.setHtmlForm(rsJsonForm.getString("formContentHtml"));
+			statisticsStorage.setFormTitle(rsJsonForm.getString("formTitle"));
+			statisticsStorage.setEvaluationType(rsJsonForm.getString("evaluationType"));
 		}
 	
 		conClass.close();

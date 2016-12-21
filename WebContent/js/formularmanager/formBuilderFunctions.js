@@ -14,6 +14,7 @@ jQuery(document).ready(function($) {
 			stickyControls: true,
 			showActionButtons: false,
 			dataType: 'json',
+			disableFields: ['autocomplete', 'file', 'checkbox-group', 'button', 'hidden'],
 //		    typeUserAttrs: {
 //		    	paragraph: {
 //		    		className: {

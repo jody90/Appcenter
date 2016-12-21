@@ -12,6 +12,8 @@ public class FromsStatisticsStorage {
 	private String htmlForm;
 
 	private String formTitle;
+	
+	private String evaluationType;
 
 	private Map<Integer, Map<String, String>> statisticsValue;
 
@@ -67,6 +69,14 @@ public class FromsStatisticsStorage {
 		this.htmlForm = htmlForm;
 	}
 	
+	public String getEvaluationType() {
+		return evaluationType;
+	}
+	
+	public void setEvaluationType(String evaluationType) {
+		this.evaluationType = evaluationType;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder string = new StringBuilder();
@@ -78,7 +88,10 @@ public class FromsStatisticsStorage {
 		string.append(";");
 		string.append(this.getJsonForm());
 		string.append(";");
+		string.append(this.getEvaluationType());
+		string.append(";");
 		string.append(this.getStatisticsValue());
 		return string.toString();
 	}
+
 }

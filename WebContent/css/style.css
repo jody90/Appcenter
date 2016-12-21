@@ -21,3 +21,19 @@ table tr:nth-child(even) {
 	color: #337ab7;
 	cursor: pointer;
 }
+
+[id^='frmb-'][id$='-form-wrap'] .frmb .prev-holder input[type='checkbox'],
+[id^='frmb-'][id$='-form-wrap'] .frmb .prev-holder input[type='radio'] {
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+input[type=checkbox],
+input[type=radio] {
+    margin: 4px 0 0;
+    margin-top: 1px\9;
+    line-height: normal;
+    display: inline-block;
+    vertical-align: text-bottom;
+}

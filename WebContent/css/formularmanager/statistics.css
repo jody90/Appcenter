@@ -9,6 +9,11 @@
 	border: 1px solid #eaeaea;
 }
 
+.notes {
+	width: 100%;
+	resize: none;
+}
+
 
 /* input[type=checkbox]:before { */
 /*     content: ""; */
