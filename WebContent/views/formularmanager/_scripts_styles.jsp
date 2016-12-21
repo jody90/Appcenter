@@ -23,5 +23,6 @@
 <script src="${pageContext.request.contextPath}/js/formularmanager/scripts.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/angular.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/angular-route.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/angular/dirPagination.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/app.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/statisticsController.js"></script>

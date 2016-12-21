@@ -57,8 +57,14 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 				state : state,
 				processedBy : $scope.user.username,
 				responseId : $scope.responseId
-			}
+			},
+
 		})
+		.then(function successCallback(response) {
+			showNotification("Der Datensatz wurde erfolgreich upgedated", "success", "Speichern erfolgreich");
+		}, function errorCallback(response) {
+			showNotification("Der Datensatz wurde nicht upgedated", "error", "Speichern nicht erfolgreich");
+		});
 	});
 
 	function getStatistics(formId, responseId) {
@@ -92,7 +98,6 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 			if (responseId !== undefined) {
 				viewForm(responseId, obj);
 			}
-
 		})
 	}
 

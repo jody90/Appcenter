@@ -31,9 +31,9 @@ function showNotification(message, type, title, delay) {
     })
 }
 
-$(document).on("click", function() {
-	console.log("clicked");
-	showNotification("message", "success", "Hat alles geklappt");
-	showNotification("message", "error", "Hat nichts geklappt");
-	showNotification("message", "warning", "war nicht alles ok");
-})
+//$(document).on("click", function() {
+//	console.log("clicked");
+//	showNotification("message", "success", "Hat alles geklappt");
+//	showNotification("message", "error", "Hat nichts geklappt");
+//	showNotification("message", "warning", "war nicht alles ok");
+//})
