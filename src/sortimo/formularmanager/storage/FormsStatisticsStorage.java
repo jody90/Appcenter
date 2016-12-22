@@ -32,28 +32,6 @@ public class FormsStatisticsStorage {
 	
 	private String evaluationType;
 
-//	private Map<Integer, Map<String, String>> statisticsValue;
-//
-//	private Map<Integer, Map<String, String>> statisticsValueHelper = new HashMap<Integer, Map<String, String>>();
-//
-//	public Map<Integer, Map<String, String>> getStatisticsValue() {
-//		return statisticsValue;
-//	}
-//
-//	public void setStatisticsValue(String value, String createdAt, int id, String username, String processState, String processedBy) {
-//		Map<String, String> map = new HashMap<String, String>();
-//		
-//		map.put("value", value);
-//		map.put("createdAt", createdAt);
-//		map.put("username", username);	
-//		map.put("processState", processState);	
-//		map.put("processedBy", processedBy);
-//		map.put("id", id+"");
-//		
-//		statisticsValueHelper.put(id, map);
-//		this.statisticsValue = statisticsValueHelper;
-//	}
-
 	public int getFormId() {
 		return formId;
 	}
@@ -173,18 +151,6 @@ public class FormsStatisticsStorage {
 	public void setBossApproved(int bossApproved) {
 		this.bossApproved = bossApproved;
 	}
-
-//	public Map<Integer, Map<String, String>> getStatisticsValueHelper() {
-//		return statisticsValueHelper;
-//	}
-//
-//	public void setStatisticsValueHelper(Map<Integer, Map<String, String>> statisticsValueHelper) {
-//		this.statisticsValueHelper = statisticsValueHelper;
-//	}
-//
-//	public void setStatisticsValue(Map<Integer, Map<String, String>> statisticsValue) {
-//		this.statisticsValue = statisticsValue;
-//	}
 
 	@Override
 	public String toString() {

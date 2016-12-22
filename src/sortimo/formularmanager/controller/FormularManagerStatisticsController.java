@@ -78,26 +78,18 @@ public class FormularManagerStatisticsController extends HttpServlet {
 					Map<String, String> meta = new HashMap<String, String>();
 					meta.put("country", country);
 					meta.put("formId", formId);
-//					meta.put("evaluationType", statistics.getEvaluationType());
 					
 					Gson gson = new Gson();
 					String formResponseStorageJson = gson.toJson(statistics);
 					String formDataJson = gson.toJson(formData);
 					String userJson = gson.toJson(user);
 					String statesJson = gson.toJson(config.getStates());
-//					String metaJson = gson.toJson(meta);
 					
 					Map<String, String> statisticsData = new HashMap<String, String>();
-//					statisticsData.put("resultsJson", statisticsValueJson);
-//					statisticsData.put("formJson", statistics.getJsonForm());
-//					statisticsData.put("formHtml", statistics.getHtmlForm());
-//					statisticsData.put("formTitle", statistics.getFormTitle());
-					
 					statisticsData.put("respondedForms", formResponseStorageJson);
 					statisticsData.put("formData", formDataJson);
 					statisticsData.put("user", userJson);
 					statisticsData.put("states", statesJson);
-//					statisticsData.put("meta", metaJson);
 					
 					String json = gson.toJson(statisticsData);
 

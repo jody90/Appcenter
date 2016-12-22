@@ -6,7 +6,6 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 	var routeChangeTimestamp = null;
 	
 	$scope.addNoteObject = {};
-	
 	$scope.responseId = null;
 	
 	// Beim initialen Laden auch feuern
@@ -36,7 +35,6 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 	$scope.triggerNewNoteEdit = function(value, username) {
 		var date = new Date();
 		$scope.dateString = date.toLocaleDateString() + " " + date.toLocaleTimeString();
-//    	$scope.notes = value;
 	}
 
 	$("body").on("click", "#saveProcessedFormSubmit", function(event) {
@@ -49,8 +47,6 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 		var noteInfo = $("#saveProcessedForm").find("#noteInfo").html();
 		var notes = noteInfo + $scope.notes;
 		
-		console.log($scope.addNoteObject);
-		
 		$http({
 			method : "GET",
 			url : "statistics",
@@ -62,11 +58,9 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 				responseId : $scope.responseId,
 				notes : notes,
 			},
-
 		})
 		.then(function successCallback(response) {
 			showNotification("Der Datensatz wurde erfolgreich upgedated", "success", "Speichern erfolgreich");
-//			$("#saveProcessedForm").find("#addNoteContainer").val("");
 			$scope.addNoteObject.addNote = "";
 			$scope.notes = notes;
 			$scope.notesHtml = $sce.trustAsHtml($scope.notes) ;
@@ -95,7 +89,7 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 				});
 			}
 			
-			console.log("Object", obj);
+			console.info("Object", obj);
 			
 			$scope.formData = obj.formData;
 			$scope.user = obj.user;
