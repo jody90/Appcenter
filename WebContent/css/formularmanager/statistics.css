@@ -14,6 +14,16 @@
 	resize: none;
 }
 
+.textarea {
+	padding: 5px;
+	max-height: 250px;
+	overflow: auto;
+}
+
+.noteDate {
+	color: #ff8000;
+}
+
 
 /* input[type=checkbox]:before { */
 /*     content: ""; */

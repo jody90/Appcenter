@@ -5,6 +5,8 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 	var obj = null;
 	var routeChangeTimestamp = null;
 	
+	$scope.addNoteObject = {};
+	
 	$scope.responseId = null;
 	
 	// Beim initialen Laden auch feuern
@@ -33,17 +35,22 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 
 	$scope.triggerNewNoteEdit = function(value, username) {
 		var date = new Date();
-		var tmpValue = date.toLocaleDateString() + " " + date.toLocaleTimeString() + ' | ' + username + ': ' + value;
-    	$scope.notes = tmpValue;
+		$scope.dateString = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+//    	$scope.notes = value;
 	}
 
 	$("body").on("click", "#saveProcessedFormSubmit", function(event) {
 		event.preventDefault();
 		
 		console.info("saveForm fired");
-
+		
 		var state = $("#saveProcessedForm").find("select[name='state']").val();
 
+		var noteInfo = $("#saveProcessedForm").find("#noteInfo").html();
+		var notes = noteInfo + $scope.notes;
+		
+		console.log($scope.addNoteObject);
+		
 		$http({
 			method : "GET",
 			url : "statistics",
@@ -52,12 +59,17 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 				formId : formId,
 				state : state,
 				processedBy : $scope.user.username,
-				responseId : $scope.responseId
+				responseId : $scope.responseId,
+				notes : notes,
 			},
 
 		})
 		.then(function successCallback(response) {
 			showNotification("Der Datensatz wurde erfolgreich upgedated", "success", "Speichern erfolgreich");
+//			$("#saveProcessedForm").find("#addNoteContainer").val("");
+			$scope.addNoteObject.addNote = "";
+			$scope.notes = notes;
+			$scope.notesHtml = $sce.trustAsHtml($scope.notes) ;
 			getStatistics(formId);
 		}, function errorCallback(response) {
 			showNotification("Der Datensatz wurde nicht upgedated", "error", "Speichern nicht erfolgreich");
@@ -75,7 +87,7 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 
 			obj = response.data;
 
-			if (obj.resultsJson != "null") {
+			if (obj.respondedForms != "null") {
 				Object.keys(obj).map(function(key, index) {
 					if (isJson(obj[key])) {
 						return obj[key] = JSON.parse(obj[key]);
@@ -83,77 +95,87 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 				});
 			}
 			
-			$scope.formTitle = obj.formTitle;
+			console.log("Object", obj);
+			
+			$scope.formData = obj.formData;
 			$scope.user = obj.user;
 			$scope.states = obj.states;
-			$scope.meta = obj.meta;
-			$scope.respondedForms = obj.resultsJson;
+			$scope.respondedForms = obj.respondedForms;
 			$scope.htmlForm;
 			$scope.orderByField = 'username';
 			$scope.reverseSort = false;
-
+			
 			if (responseId !== undefined) {
+				$scope.notes = $scope.respondedForms[responseId].notes;
+				$scope.notesHtml = $sce.trustAsHtml($scope.notes) ;
 				viewForm(responseId, obj);
 			}
 			
-			if (obj.meta.evaluationType === "chart") {
+			if (obj.formData.evaluationType === "chart") {
 					
-				// vorhandene FormularElemente aus Formular extrahieren (RadioGroups, SelectBoxen, etc.)
-	        	var formElements = {};
+				if (isJson(obj.formData.formContentJson)) {
+					// vorhandene FormularElemente aus Formular extrahieren (RadioGroups, SelectBoxen, etc.)
+		        	var formElements = {};
+
+	        		var formJson = JSON.parse(obj.formData.formContentJson);
 	        	
-	        	obj.formJson.map(function(value, key) {
-	        		if (value.values !== undefined) {
-	        			formElements[value.name] = value.values;
-	        		}
-	        	});
-				
-	        	var chartConfigData = {};
-	        	chartConfigData.columns = {};
-	        	
-	        	getFormResponseElements(obj.resultsJson)
-	        	.then(function(formResponseElements) {
-	
-	        		// Arrays fuer die Chart API aufbereiten
-	        		
-	        		var answerCount = {};
-	        		
-	        		// Im Formular vorhandene Elemente (RadioGroups, Selectboxen, etc.)
-	        		for (var i = 0; i < formResponseElements.length; i++) {
-	        			var element = formResponseElements[i];
-	        			if (formElements[element] !== undefined) {
-	        				chartConfigData.columns[element] = formElements[element]; 
-	        			}
-	        		}
-	        		
-	        		// Response Werte der einzelnen Formular Elemente
-	        		$.each(obj.resultsJson, function(key, answers) {
-	        			var answerObj = JSON.parse(answers.value);
-	
-	        			$.each(answerObj, function(name, value) {
-	        				if (chartConfigData.columns[name] !== undefined) {
-		        				answerCount[name] = answerCount[name] === undefined ? {} : answerCount[name];
-		        				
-		        				if (answerCount[name][value] === undefined) {
-		        					answerCount[name][value] = 1;
+		        	formJson.map(function(value, key) {
+		        		if (value.values !== undefined) {
+		        			formElements[value.name] = value.values;
+		        		}
+		        	});
+					
+		        	var chartConfigData = {};
+		        	chartConfigData.columns = {};
+		        	
+		        	getFormResponseElements(obj.respondedForms)
+		        	.then(function(formResponseElements) {
+		
+		        		// Arrays fuer die Chart API aufbereiten
+		        		
+		        		var answerCount = {};
+		        		
+		        		// Im Formular vorhandene Elemente (RadioGroups, Selectboxen, etc.)
+		        		for (var i = 0; i < formResponseElements.length; i++) {
+		        			var element = formResponseElements[i];
+		        			if (formElements[element] !== undefined) {
+		        				chartConfigData.columns[element] = formElements[element]; 
+		        			}
+		        		}
+		        		
+		        		// Response Werte der einzelnen Formular Elemente
+		        		$.each(obj.respondedForms, function(key, answers) {
+		        			var answerObj = JSON.parse(answers.value);
+		
+		        			$.each(answerObj, function(name, value) {
+		        				if (chartConfigData.columns[name] !== undefined) {
+			        				answerCount[name] = answerCount[name] === undefined ? {} : answerCount[name];
+			        				
+			        				if (answerCount[name][value] === undefined) {
+			        					answerCount[name][value] = 1;
+			        				}
+			        				else {
+			        					answerCount[name][value] = answerCount[name][value] + 1;
+			        				}
 		        				}
-		        				else {
-		        					answerCount[name][value] = answerCount[name][value] + 1;
-		        				}
-	        				}
-	        			})
-	        			
-	        			chartConfigData.rows = answerCount; 
-	        			
-	        		})
-	        		
-	        		// Load the Visualization API and the corechart package.
-		        	google.charts.load('current', {'packages':['corechart']});
-	        		// Set a callback to run when the Google Visualization API is loaded.
-	        		
-	        		google.charts.setOnLoadCallback(function() {
-	        			drawChart(chartConfigData, "circle");
-	    			});
-	        	});
+		        			})
+		        			
+		        			chartConfigData.rows = answerCount; 
+		        			
+		        		})
+		        		
+		        		// Load the Visualization API and the corechart package.
+			        	google.charts.load('current', {'packages':['corechart']});
+		        		// Set a callback to run when the Google Visualization API is loaded.
+		        		
+		        		google.charts.setOnLoadCallback(function() {
+		        			drawChart(chartConfigData, "circle");
+		    			});
+		        	});
+				}
+				else {
+					showNotification("Es sind leider keine Daten vorhanden", "error", "Keine Daten");
+				}
 			}
 		})
 	}
@@ -169,15 +191,15 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 		
 		$scope.htmlForm = "";
 		$scope.responseId = responseId;
-
-		var resultsObj = JSON.parse(obj.resultsJson[responseId].value);
+		
+		var resultsObj = JSON.parse(obj.respondedForms[responseId].value);
 		
 		// Formular leer in Seite rendern
 		var htmlForm = '<div id="formReadyIndicator">';
-		htmlForm += obj.formHtml;
+		htmlForm += obj.formData.formContentHtml;
 		htmlForm += '</div>';
 
-		$scope.form = obj.resultsJson[responseId];
+		$scope.form = obj.respondedForms[responseId];
 
 		$("#formReadyIndicator").ready(function() {
 

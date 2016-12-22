@@ -4,9 +4,6 @@
 
 
 <div class="row">
-	<h1 class="text-center">
-		{{formTitle}}
-	</h1>
 	
 	<div class="col-xs-12 col-md-9">
 		<div class="statistics-form" ng-bind-html="htmlForm"></div>
@@ -54,19 +51,26 @@
 				<label for="addNote">
 					Notiz hinzufügen
 				</label>
-				<textarea class="notes" name="addNote" rows="4" placeholder="Notiz hinzufügen" ng-change="triggerNewNoteEdit(addNote, user.username)" ng-model="addNote"></textarea>
-				<div class="text-right margin-top-md">
-					<div id="addNote" class="btn btn-info">
-						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-						Notiz hinzufügen
-					</div>
-				</div>
+				<textarea class="notes" id="addNoteContainer" name="addNote" rows="4" placeholder="Notiz hinzufügen" ng-change="triggerNewNoteEdit(addNoteObject.addNote, user.username)" ng-model="addNoteObject.addNote"></textarea>
 				
 				<label for="notes" class="margin-top-md">
 					Notizen
 				</label>
-				<textarea class="notes" name="notes" rows="12" placeholder="Notizen" readonly ng-model="notes"></textarea>
-			
+				<div class="textarea border" id="notesTextarea">
+					<span ng-if="addNoteObject.addNote.length > 0">
+						<div id="noteInfo">
+							<span class="noteDate">
+								{{dateString}} | {{user.username}} : 
+							</span>
+							{{addNoteObject.addNote}} <br> 
+						</div>
+					</span>
+					<span ng-bind-html="notesHtml">
+					</span>
+				</div>
+				<!-- 
+				<textarea class="notes" name="notes" rows="12" placeholder="Notizen" readonly ></textarea>
+				 -->
 			</div>
 			
 		</form>		

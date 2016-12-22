@@ -3,15 +3,17 @@ package sortimo.formularmanager.databaseoperations;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import sortimo.databaseoperations.Connect;
-import sortimo.formularmanager.storage.FromsStatisticsStorage;
+import sortimo.formularmanager.storage.FormsStatisticsStorage;
 
 public class FormStatistics {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
-	private FromsStatisticsStorage statisticsStorage = new FromsStatisticsStorage();
+	
 	
 	/**
 	 * Holt alle Formularantworten aus der Datenbank.
@@ -21,7 +23,7 @@ public class FormStatistics {
 	 * @return FromsStatisticsStorage Object
 	 * @throws Exception
 	 */
-	public FromsStatisticsStorage getStatistics(String formId, String country) throws Exception {
+	public Map<Integer, FormsStatisticsStorage> getStatistics(String formId, String country) throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 		
@@ -33,41 +35,29 @@ public class FormStatistics {
 		preparedStatement.setString(1, formId);
 		ResultSet rsData = preparedStatement.executeQuery();
 		
+		Map<Integer, FormsStatisticsStorage> tmpList = new HashMap<>();
+		
 		while (rsData.next()) {
-			String value = rsData.getString("value");
-			String createdAt = rsData.getString("created_at");
-			String username = rsData.getString("username");
-			String processState = rsData.getString("process_state");
-			String processedBy = rsData.getString("processed_by");
-			int id = rsData.getInt("id");
 
-			statisticsStorage.setStatisticsValue(value, createdAt, id, username, processState, processedBy);
-			
+			FormsStatisticsStorage statisticsStorage = new FormsStatisticsStorage();
+			statisticsStorage.setResponseId(rsData.getInt("id"));
 			statisticsStorage.setFormId(rsData.getInt("form_id"));
+			statisticsStorage.setValue(rsData.getString("value"));
+			statisticsStorage.setUsername(rsData.getString("username"));
+			statisticsStorage.setCreatedAt(rsData.getString("created_at"));
+			statisticsStorage.setModifiedAt(rsData.getString("modified_at"));
+			statisticsStorage.setProcessState(rsData.getString("process_state"));
+			statisticsStorage.setProcessedBy(rsData.getString("processed_by"));
+			statisticsStorage.setNotes(rsData.getString("notes"));
+			statisticsStorage.setBossApproved(rsData.getInt("boss_approved"));
+			statisticsStorage.setBossId(rsData.getInt("boss_id"));
+			
+			tmpList.put(statisticsStorage.getResponseId(), statisticsStorage);
+
 		}
 		
-		sql = "SELECT form_id, "
-				+ "MAX(CASE WHEN meta_name = 'formContentJson' THEN meta_value END) as formContentJson, "
-				+ "MAX(CASE WHEN meta_name = 'formContentHtml' THEN meta_value END) as formContentHtml, "
-				+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle ,"
-				+ "MAX(CASE WHEN meta_name = 'evaluationType' THEN meta_value END) as evaluationType "
-				+ "FROM formularmanager_forms_meta "
-				+ "WHERE form_id = ? "
-				+ "GROUP BY form_id";
-		
-		preparedStatement = connect.prepareStatement(sql);
-		preparedStatement.setString(1, formId);
-		ResultSet rsJsonForm = preparedStatement.executeQuery();
-		
-		while (rsJsonForm.next()) {		
-			statisticsStorage.setJsonForm(rsJsonForm.getString("formContentJson"));
-			statisticsStorage.setHtmlForm(rsJsonForm.getString("formContentHtml"));
-			statisticsStorage.setFormTitle(rsJsonForm.getString("formTitle"));
-			statisticsStorage.setEvaluationType(rsJsonForm.getString("evaluationType"));
-		}
-	
 		conClass.close();
-		return statisticsStorage;
+		return tmpList;
 	}
 	
 	/**
@@ -81,13 +71,16 @@ public class FormStatistics {
 		connect = conClass.getConnection();
 		
 		String sql = "UPDATE formularmanager_forms_response "
-				+ "SET process_state = ?, processed_by = ? "
+				+ "SET process_state = ?, processed_by = ?, notes = ? "
 				+ "WHERE id = ?";
+		
+		System.out.println(request.getParameter("notes"));
 		
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, request.getParameter("state"));
 		preparedStatement.setString(2, request.getParameter("processedBy"));
-		preparedStatement.setString(3, request.getParameter("responseId"));
+		preparedStatement.setString(3, request.getParameter("notes"));
+		preparedStatement.setString(4, request.getParameter("responseId"));
 		preparedStatement.execute();
 	}
 	

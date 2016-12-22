@@ -3,13 +3,6 @@ package sortimo.formularmanager.controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import com.google.gson.*;
-
-import sortimo.formularmanager.databaseoperations.FormStatistics;
-import sortimo.formularmanager.global.ConfigMaps;
-import sortimo.formularmanager.storage.FromsStatisticsStorage;
-import sortimo.model.HelperFunctions;
-import sortimo.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+
+import sortimo.formularmanager.databaseoperations.FormEdit;
+import sortimo.formularmanager.databaseoperations.FormStatistics;
+import sortimo.formularmanager.global.ConfigMaps;
+import sortimo.formularmanager.storage.FormsStatisticsStorage;
+import sortimo.model.HelperFunctions;
+import sortimo.model.User;
 
 @WebServlet("/FormularManagerStatisticsController")
 public class FormularManagerStatisticsController extends HttpServlet {
@@ -57,10 +59,13 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			
 			switch(action) {
 				case "getStatistics" :
-					FromsStatisticsStorage statistics = new FromsStatisticsStorage();
+					Map<Integer, FormsStatisticsStorage> statistics = null;
+					Map<String, String> formData = null;
+					FormEdit form = new FormEdit();
 					
 					try {
 						statistics = stats.getStatistics(formId, country);
+						formData = form.getFormData(formId);
 					} catch (Exception e) {
 						System.err.println("Statistik konnte nicht aus DB gelesen werden");
 						e.printStackTrace();
@@ -68,25 +73,31 @@ public class FormularManagerStatisticsController extends HttpServlet {
 					
 					ConfigMaps config = new ConfigMaps();
 					
+					System.out.println(statistics);
+					
 					Map<String, String> meta = new HashMap<String, String>();
 					meta.put("country", country);
 					meta.put("formId", formId);
-					meta.put("evaluationType", statistics.getEvaluationType());
+//					meta.put("evaluationType", statistics.getEvaluationType());
 					
 					Gson gson = new Gson();
-					String statisticsValueJson = gson.toJson(statistics.getStatisticsValue());
+					String formResponseStorageJson = gson.toJson(statistics);
+					String formDataJson = gson.toJson(formData);
 					String userJson = gson.toJson(user);
 					String statesJson = gson.toJson(config.getStates());
-					String metaJson = gson.toJson(meta);
+//					String metaJson = gson.toJson(meta);
 					
 					Map<String, String> statisticsData = new HashMap<String, String>();
-					statisticsData.put("resultsJson", statisticsValueJson);
-					statisticsData.put("formJson", statistics.getJsonForm());
-					statisticsData.put("formHtml", statistics.getHtmlForm());
-					statisticsData.put("formTitle", statistics.getFormTitle());
+//					statisticsData.put("resultsJson", statisticsValueJson);
+//					statisticsData.put("formJson", statistics.getJsonForm());
+//					statisticsData.put("formHtml", statistics.getHtmlForm());
+//					statisticsData.put("formTitle", statistics.getFormTitle());
+					
+					statisticsData.put("respondedForms", formResponseStorageJson);
+					statisticsData.put("formData", formDataJson);
 					statisticsData.put("user", userJson);
 					statisticsData.put("states", statesJson);
-					statisticsData.put("meta", metaJson);
+//					statisticsData.put("meta", metaJson);
 					
 					String json = gson.toJson(statisticsData);
 

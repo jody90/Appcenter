@@ -134,6 +134,7 @@ public class FormEdit extends Connect{
 			formData.put("formType", rsData.getString("type"));
 			formData.put("createdAt", rsData.getString("created_at"));
 			formData.put("modifiedAt", rsData.getString("modified_at"));
+			formData.put("country", rsData.getString("country"));
 		
 			sql = "SELECT COUNT(*)"
 					+ "FROM formularmanager_forms_meta "
