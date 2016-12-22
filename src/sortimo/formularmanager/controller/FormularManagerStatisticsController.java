@@ -73,8 +73,6 @@ public class FormularManagerStatisticsController extends HttpServlet {
 					
 					ConfigMaps config = new ConfigMaps();
 					
-					System.out.println(statistics);
-					
 					Map<String, String> meta = new HashMap<String, String>();
 					meta.put("country", country);
 					meta.put("formId", formId);

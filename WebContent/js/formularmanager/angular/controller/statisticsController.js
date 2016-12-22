@@ -6,6 +6,7 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 	var routeChangeTimestamp = null;
 	
 	$scope.addNoteObject = {};
+	$scope.addNoteObject.addNote = "";
 	$scope.responseId = null;
 	
 	// Beim initialen Laden auch feuern
@@ -44,8 +45,9 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 		
 		var state = $("#saveProcessedForm").find("select[name='state']").val();
 
+		var tmpScopeNotes = $scope.notes !== undefined ? $scope.notes : "";
 		var noteInfo = $("#saveProcessedForm").find("#noteInfo").html();
-		var notes = noteInfo + $scope.notes;
+		var notes = noteInfo + tmpScopeNotes;
 		
 		$http({
 			method : "GET",
@@ -96,12 +98,10 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 			$scope.states = obj.states;
 			$scope.respondedForms = obj.respondedForms;
 			$scope.htmlForm;
-			$scope.orderByField = 'username';
-			$scope.reverseSort = false;
+			$scope.orderByField = 'processState';
+			$scope.reverseSort = true;
 			
 			if (responseId !== undefined) {
-				$scope.notes = $scope.respondedForms[responseId].notes;
-				$scope.notesHtml = $sce.trustAsHtml($scope.notes) ;
 				viewForm(responseId, obj);
 			}
 			
@@ -182,6 +182,9 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 			getStatistics(formId, responseId);
 			return false;
 		}
+		
+		$scope.notes = $scope.respondedForms[responseId].notes;
+		$scope.notesHtml = $sce.trustAsHtml($scope.notes);
 		
 		$scope.htmlForm = "";
 		$scope.responseId = responseId;
