@@ -8,6 +8,22 @@
 		</div>
 	</div>
 	
+	<c:if test="${not empty bossStorageList}">
+		<select name="boss" class="form-control margin-bottom-lg margin-top-lg">
+			<c:forEach items="${bossStorageList}" var="boss">
+				<option value="${boss.username}">
+					hallo
+				<option>
+			</c:forEach>
+		</select>
+	</c:if>
+
+	<c:if test="${not empty bossStorageList}">
+		<c:forEach items="${bossStorageList}" var="boss">
+			${boss.lastname} ${boss.firstname} <br>
+		</c:forEach>
+	</c:if>
+	
 	<div class="row">
 		<div class="col-xs-12 text-center">
 			<form method="post" action="public" class="public-form">
@@ -21,7 +37,7 @@
 				</button>
 			</form>
 		</div>
-	</div>
+	</div>	
 
 </div>
 

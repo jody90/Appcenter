@@ -25,6 +25,16 @@
 			</div>
 
 			<div class="margin-bottom-md">
+				<div class="switch-field">
+					<strong>Abteilungsleiter Freigabe erforderlich: </strong><br>
+					<input type="radio" id="switch_left" name="meta_bossApprovalRequired" value="yes" ${formData['bossApprovalRequired'] == 'yes' ? 'checked' : ''} />
+					<label for="switch_left">Ja</label>
+					<input type="radio" id="switch_right" name="meta_bossApprovalRequired" value="no" ${formData['bossApprovalRequired'] != 'yes' ? 'checked' : ''} />
+					<label for="switch_right">Nein</label>
+				</div>
+			</div>
+
+			<div class="margin-bottom-md">
 				<label for="country">Land</label>
 				<select name="country" class="form-control">
 					<c:forEach items="${conf.getCountrys()}" var="land">

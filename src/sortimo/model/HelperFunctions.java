@@ -72,12 +72,14 @@ public class HelperFunctions {
 		HttpSession session;
 		session = this.getRequest().getSession();
 		User userData = (User) session.getAttribute("userData");
-		
-		List<RightsStorage> userRights = userData.getRights();
-		
-		for (int i = 0; i < userRights.size(); i++) {
-			if (userRights.get(i).getName().equals(right)) {
-				return true;
+
+		if (userData != null) {
+			List<RightsStorage> userRights = userData.getRights();
+			
+			for (int i = 0; i < userRights.size(); i++) {
+				if (userRights.get(i).getName().equals(right)) {
+					return true;
+				}
 			}
 		}
 		

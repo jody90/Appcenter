@@ -9,6 +9,7 @@
 <link href="${pageContext.request.contextPath}/css/formularmanager/chart.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/formularmanager/statistics.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/lobibox.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/switch.css" rel="stylesheet">
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    

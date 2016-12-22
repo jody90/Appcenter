@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -16,10 +17,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import sortimo.databaseoperations.UsersDb;
 import sortimo.formularmanager.databaseoperations.FormEdit;
 import sortimo.formularmanager.databaseoperations.FormResponse;
 import sortimo.model.HelperFunctions;
 import sortimo.model.User;
+import sortimo.storage.BossStorage;
 
 @WebServlet("/FormularManagerPublicController")
 public class FormularManagerPublicController extends HttpServlet {
@@ -119,8 +122,19 @@ public class FormularManagerPublicController extends HttpServlet {
 			    } catch (ParseException e) {
 			        e.printStackTrace();
 			    }
-				
-				if (!formData.isEmpty() && formIsActive) {					
+			    
+				if (!formData.isEmpty() && formIsActive) {
+					if (formData.get("bossApprovalRequired").equals("yes")) {
+						UsersDb usersDb = new UsersDb();
+						try {
+							List<BossStorage> bossStorageList = usersDb.getBosses();
+							System.out.println(bossStorageList);
+							request.setAttribute("bossStorageList", bossStorageList);
+						} catch (Exception e) {
+							System.err.println("Kann keine Bosse holen");
+							e.printStackTrace();
+						}
+					}
 					request.setAttribute("country", country);
 					request.setAttribute("formId", formId);
 					request.setAttribute("formData", formData);
