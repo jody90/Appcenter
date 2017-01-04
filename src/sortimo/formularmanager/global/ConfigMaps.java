@@ -44,6 +44,20 @@ public class ConfigMaps {
 		return types;
 	}
 	
+	/**
+	 * 
+	 * @return Map mit allen verfuegbaren Status Icons
+	 */
+	public Map<String, String> getStateIcons() {
+		Map<String, String> types = new HashMap<String, String>();
+		types.put("1_unfinished", "fa fa-circle-o-notch");
+		types.put("2_in_process", "fa fa-hourglass-half");
+		types.put("3_rejected", "fa fa-ban");
+		types.put("4_finished", "fa fa-check");
+//		types.put("4_finished", "fa fa-check-circle-o");
+		return types;
+	}
+	
 //	/**
 //	 * 
 //	 * @param state Satus wie er in der DB steht

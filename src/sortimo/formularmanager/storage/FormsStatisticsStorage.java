@@ -20,7 +20,7 @@ public class FormsStatisticsStorage {
 	
 	private String notes;
 	
-	private int bossId;
+	private String boss;
 	
 	private int bossApproved;
 	
@@ -136,12 +136,12 @@ public class FormsStatisticsStorage {
 		this.notes = notes;
 	}
 
-	public int getBossId() {
-		return bossId;
+	public String getBoss() {
+		return boss;
 	}
 
-	public void setBossId(int bossId) {
-		this.bossId = bossId;
+	public void setBoss(String boss) {
+		this.boss = boss;
 	}
 
 	public int getBossApproved() {
@@ -176,7 +176,7 @@ public class FormsStatisticsStorage {
 		string.append(";");
 		string.append(this.getBossApproved());
 		string.append(";");
-		string.append(this.getBossId());
+		string.append(this.getBoss());
 		string.append(";");
 		string.append(this.getJsonForm());
 		string.append(";");

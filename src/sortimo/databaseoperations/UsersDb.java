@@ -32,8 +32,6 @@ public class UsersDb {
 				+ "ON users.username = users_roles.username "
 				+ "WHERE users_roles.role_id = 46";
 		
-		System.out.println(sql);
-		
 		preparedStatement = connect.prepareStatement(sql);
 		
 		ResultSet rs = preparedStatement.executeQuery();

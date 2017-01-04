@@ -24,6 +24,23 @@
 	color: #ff8000;
 }
 
+.state-icons {
+	color: #808080;
+	padding: 0 2px;
+    font-size: 17px;
+}
+
+.state-icons.active {
+	color: #ff8000;
+}
+
+.state-icons.rejected.active {
+	color: #ec1313;
+}
+
+.state-icons.finished.active {
+	color: #00bd00;
+}
 
 /* input[type=checkbox]:before { */
 /*     content: ""; */

@@ -1,10 +1,18 @@
+.public-form-container {
+}
+
 .public-form {
+	max-width: 980px;
 	box-shadow: 1px 1px 4px #999999;
 	border: 1px solid #eaeaea;
 	display: inline-block;
 	text-align: left;
 	padding: 15px;
-	width: 100%;
-	max-width: 980px;
 	background-color: #fff;
+}
+
+
+.selectbox-boss {
+	max-width: 300px;
+	display: inline-block;
 }

@@ -33,6 +33,33 @@
 					<label for="switch_right">Nein</label>
 				</div>
 			</div>
+			
+			<!-- 
+			<div class="margin-bottom-md">
+				<label for="meta_processing_roles">Bearbeitende Rollen</label>
+				<select name="meta_processing_roles" class="form-control">
+					<c:forEach items="${roles}" var="role">
+						<option value="${role.getId()}">
+							${role.getName()}
+						</option>
+					</c:forEach>
+				</select>
+			</div>
+			 -->
+			
+			
+			
+			<div class="margin-bottom-md">
+				<label for="meta_processingRoles">Bearbeitende Rollen </label><br>
+				<input type="hidden" name="meta_processingRoles" value='${formData["processingRoles"]}' id="processingRoles">
+				<div class="role-label-container">
+					<c:forEach items="${roles}" var="role">
+						<span class="label label-default role-label" data-role-id="${role.getId()}">
+							${role.getName()}
+						</span>
+					</c:forEach>
+				</div>
+			</div>
 
 			<div class="margin-bottom-md">
 				<label for="country">Land</label>
@@ -46,7 +73,7 @@
 			</div>
 
 			<div class="margin-bottom-md">
-				<label for="meta_evaluationType">Typ der Auswertung: </label>
+				<label for="meta_evaluationType">Typ der Auswertung </label>
 				<select name="meta_evaluationType" class="form-control">
 					<c:forEach items="${conf.getEvaluationTypes()}" var="evaluationType">
 						<option value="${evaluationType.key}" ${formData['evaluationType'] == evaluationType.key ? 'selected' : ''}>

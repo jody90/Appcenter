@@ -3,6 +3,7 @@ package sortimo.formularmanager.controller;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import sortimo.formularmanager.databaseoperations.FormEdit;
 import sortimo.model.HelperFunctions;
 import sortimo.model.User;
+import sortimo.settings.databaseoperations.ManageRolesDb;
+import sortimo.storage.RolesStorage;
 
 @WebServlet("/FormularManagerEditController")
 public class FormularManagerEditController extends HttpServlet {
@@ -32,6 +35,8 @@ public class FormularManagerEditController extends HttpServlet {
 			HttpSession session = request.getSession();
 			User userData = (User) session.getAttribute("userData");
 			User user = new User();
+			ManageRolesDb settingsRolesDb = new ManageRolesDb();
+			
 			if (userData == null) {
 				try {
 					user.getUserAccount(helper.getUsername());
@@ -55,7 +60,17 @@ public class FormularManagerEditController extends HttpServlet {
 			Map<String, String> globalData = new HashMap<String, String>();
 			Map<String, String> metaData = new HashMap<String, String>();
 			
+			List<RolesStorage> roles = null;
+			
+			try {
+				roles = settingsRolesDb.getRoles();
+			} catch (Exception e1) {
+				System.err.println("Es konnten keine Rollen aus DB gelesen werden");
+				e1.printStackTrace();
+			}
+			
 			request.setAttribute("user", user);
+			request.setAttribute("roles", roles);
 			request.setAttribute("pageTitle", "Formular bearbeiten");
 			request.setAttribute("formId", formId);
 			request.setAttribute("country", country);

@@ -96,10 +96,19 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 			$scope.formData = obj.formData;
 			$scope.user = obj.user;
 			$scope.states = obj.states;
+			$scope.stateIcons = {};
 			$scope.respondedForms = obj.respondedForms;
 			$scope.htmlForm;
 			$scope.orderByField = 'processState';
 			$scope.reverseSort = true;
+			
+			// State Icons Sortieren und breinigen
+			var keys = Object.keys(obj.stateIcons);
+			keys.sort();
+			for (var i = 0; i < keys.length; i++) {
+				var key = keys[i].replace(/\d*_/, "");
+				$scope.stateIcons[key] = obj.stateIcons[keys[i]];
+			}
 			
 			if (responseId !== undefined) {
 				viewForm(responseId, obj);
@@ -232,6 +241,10 @@ app.controller('statisticsController', function($scope, $http, $sce, $rootScope,
 	
 	$scope.translateState = function(state) {
 		return $scope.states[state] !== undefined ? $scope.states[state] : state;
+	}
+	
+	$scope.stateIcon = function(icon, state) {
+		return icon == state ? $scope.stateIcons[icon] + " active" : $scope.stateIcons[icon];
 	}
 	
 });

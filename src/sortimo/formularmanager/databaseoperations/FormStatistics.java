@@ -50,7 +50,7 @@ public class FormStatistics {
 			statisticsStorage.setProcessedBy(rsData.getString("processed_by"));
 			statisticsStorage.setNotes(rsData.getString("notes"));
 			statisticsStorage.setBossApproved(rsData.getInt("boss_approved"));
-			statisticsStorage.setBossId(rsData.getInt("boss_id"));
+			statisticsStorage.setBoss(rsData.getString("boss"));
 			
 			tmpList.put(statisticsStorage.getResponseId(), statisticsStorage);
 

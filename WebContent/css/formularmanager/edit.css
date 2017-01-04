@@ -1,0 +1,8 @@
+.role-label {
+	margin: 2px;
+	cursor: pointer;
+}
+
+.role-label.active {
+	background-color: #5cb85c; 
+}

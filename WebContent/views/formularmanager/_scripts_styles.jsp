@@ -8,6 +8,7 @@
 <link href="${pageContext.request.contextPath}/css/formularmanager/public.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/formularmanager/chart.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/formularmanager/statistics.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/formularmanager/edit.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/lobibox.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/switch.css" rel="stylesheet">
 
@@ -20,6 +21,7 @@
 <script src="${pageContext.request.contextPath}/js/formularmanager/jquery.datetimepicker.full.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/statisticsFunctions.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/statistics.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/edit.js"></script>
 <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/scripts.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/angular.min.js"></script>
