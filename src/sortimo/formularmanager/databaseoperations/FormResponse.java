@@ -25,9 +25,14 @@ public class FormResponse {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 		
+		System.out.println(responseData);
+		System.out.println(globalData);
+		
+		System.out.println(responseData.get("bossApproved"));
+		
 		String sql = "INSERT INTO "
 				+ "formularmanager_forms_response "
-				+ "values (default, ?, ?, ?, default, default, default, default, default, ?, default)";
+				+ "values (default, ?, ?, ?, default, default, default, default, default, ?, ?)";
 		
 		responseData.remove("action");
 		responseData.remove("form_id");
@@ -35,13 +40,12 @@ public class FormResponse {
 		Gson gson = new Gson(); 
 		String json = gson.toJson(responseData);
 
-		System.out.println(responseData);
-		
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, globalData.get("formId"));
 		preparedStatement.setString(2, json);
 		preparedStatement.setString(3, globalData.get("username"));
 		preparedStatement.setString(4, responseData.get("boss"));
+		preparedStatement.setString(5, responseData.get("bossApproved"));
 		preparedStatement.executeUpdate();
 		
 		writeDatabaseResponse = true;

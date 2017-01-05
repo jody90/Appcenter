@@ -1,9 +1,7 @@
 package sortimo.formularmanager.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -57,7 +55,11 @@ public class FormularManagerBossController extends HttpServlet {
 			
 			Boss boss = new Boss();
 			Gson gson = new Gson();
+			ConfigMaps config = new ConfigMaps();
 			FormStatistics stats = new FormStatistics();
+			
+			String statesJson = gson.toJson(config.getStates());
+			String stateIconsJson = gson.toJson(config.getStateIcons());
 			
 			switch (action) {
 				case "getForms" : 
@@ -74,11 +76,11 @@ public class FormularManagerBossController extends HttpServlet {
 					
 					Map<String, String> bossData = new HashMap<String, String>();
 					bossData.put("bossForms", bossFormsJson);
+					bossData.put("states", statesJson);
+					bossData.put("stateIcons", stateIconsJson);
 					
 					String json = gson.toJson(bossData);
 					
-					System.out.println("JSON: " + json);
-
 					response.setContentType("text/plain");
 					response.setCharacterEncoding("UTF-8");
 					response.getWriter().write(json);
@@ -96,8 +98,6 @@ public class FormularManagerBossController extends HttpServlet {
 						e.printStackTrace();
 					}
 					
-					ConfigMaps config = new ConfigMaps();
-					
 					Map<String, String> meta = new HashMap<String, String>();
 					meta.put("country", country);
 					meta.put("formId", formId);
@@ -105,8 +105,6 @@ public class FormularManagerBossController extends HttpServlet {
 					String formResponseStorageJson = gson.toJson(statistics);
 					String formDataJson = gson.toJson(formData);
 					String userJson = gson.toJson(user);
-					String statesJson = gson.toJson(config.getStates());
-					String stateIconsJson = gson.toJson(config.getStateIcons());
 					
 					Map<String, String> statisticsData = new HashMap<String, String>();
 					statisticsData.put("respondedForms", formResponseStorageJson);
@@ -121,11 +119,11 @@ public class FormularManagerBossController extends HttpServlet {
 					response.setCharacterEncoding("UTF-8");
 					response.getWriter().write(json2);
 					return;
-				case "saveProcessed" :
+				case "saveBossDecision" :
 					try {
-						stats.updateProcessState(request);
+						boss.saveBossDecision(request);
 					} catch (Exception e) {
-						System.err.println("Processed Status konnte nicht geändert werden");
+						System.err.println("Boss Approved Status konnte nicht geändert werden");
 						e.printStackTrace();
 					}
 				break;

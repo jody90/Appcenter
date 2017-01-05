@@ -2,7 +2,11 @@ $(document).ready(function() {
 
 	var processingRoles = $("#processingRoles").val();
 	
-	var processingRolesArray = isJson(processingRoles) ? JSON.parse(processingRoles) : [];
+	console.log(processingRoles);
+	
+	var processingRolesArray = processingRoles != undefined ? processingRoles.split(",") : [];
+	
+	console.log("processingRolesArray", processingRolesArray);
 	
 	// Labels Initial durchlaufen und aktiv Schalten
 	for (var i = 0; i < processingRolesArray.length; i++) {
@@ -42,7 +46,8 @@ function isJson(str) {
 	return true;
 }
 
+
 function setProcessingRights(data) {
-	var jsonData = JSON.stringify(data);
-	$("#processingRoles").val(jsonData);
+	var roleData = data.toString();
+	$("#processingRoles").val(roleData);
 }

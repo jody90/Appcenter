@@ -128,7 +128,6 @@ public class FormularManagerPublicController extends HttpServlet {
 						UsersDb usersDb = new UsersDb();
 						try {
 							List<BossStorage> bossStorageList = usersDb.getBosses();
-							System.out.println(bossStorageList);
 							request.setAttribute("bossStorageList", bossStorageList);
 						} catch (Exception e) {
 							System.err.println("Kann keine Bosse holen");

@@ -96,6 +96,11 @@
 									</a>
 								</li>
 							</c:if>
+							<li>
+								<a href="${pageContext.request.contextPath}/formularmanager/todo#listTodoForms">
+									TODO
+								</a>
+							</li>
 						</ul>
 					</li>
 					

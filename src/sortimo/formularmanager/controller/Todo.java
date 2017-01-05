@@ -1,55 +1,32 @@
-package sortimo.formularmanager.databaseoperations;
+package sortimo.formularmanager.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import sortimo.databaseoperations.Connect;
 import sortimo.formularmanager.storage.FormsStatisticsStorage;
 
-public class Boss {
+public class Todo {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
-	
-	
-	/**
-	 * Holt alle Formulare die vom jeweiligen Boss approved werden muessen
-	 * 
-	 * @param boss
-	 * @return
-	 * @throws Exception
-	 */
-	public Map<Integer, FormsStatisticsStorage> getForms(String boss) throws Exception {
+
+	public Map<Integer, FormsStatisticsStorage> getForms(String userRoles) throws Exception {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 		
-		String sql = "SELECT "
-				+ "id, "
-				+ "formularmanager_forms_response.form_id, "
-				+ "value, "
-				+ "username, "
-				+ "formularmanager_forms_response.created_at, "
-				+ "formularmanager_forms_response.modified_at, "
-				+ "process_state, "
-				+ "processed_by, "
-				+ "notes, "
-				+ "boss_approved, "
-				+ "boss, "
-				+ "MAX(CASE WHEN meta_name = 'evaluationType' THEN meta_value END) as evaluationType, "
-				+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle "
+		String sql = "SELECT formularmanager_forms_response.* "
 				+ "FROM formularmanager_forms_response "
 				+ "LEFT JOIN formularmanager_forms_meta "
 				+ "ON formularmanager_forms_response.form_id = formularmanager_forms_meta.form_id "
-				+ "WHERE boss = ? "
-				+ "AND boss_approved IS NULL "
+				+ "WHERE meta_value IN ("+userRoles+") "
+				+ "AND NOT process_state = 'rejected' "
+				+ "AND NOT process_state = 'finished' "
+				+ "AND boss_approved = 1 "
 				+ "GROUP BY formularmanager_forms_response.id";
 		
 		preparedStatement = connect.prepareStatement(sql);
-		preparedStatement.setString(1, boss);
 		ResultSet rsData = preparedStatement.executeQuery();
 		
 		Map<Integer, FormsStatisticsStorage> tmpList = new HashMap<>();
@@ -72,8 +49,21 @@ public class Boss {
 			bossFormsStorage.setNotes(rsData.getString("notes"));
 			bossFormsStorage.setBossApproved(bossApproved);
 			bossFormsStorage.setBoss(rsData.getString("boss"));
-			bossFormsStorage.setEvaluationType(rsData.getString("evaluationType"));
-			bossFormsStorage.setFormTitle(rsData.getString("formTitle"));
+			
+			sql = "SELECT "
+			+ "MAX(CASE WHEN meta_name = 'evaluationType' THEN meta_value END) as evaluationType, "
+			+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle "
+			+ "FROM formularmanager_forms_meta "
+			+ "WHERE form_id = ?";
+			
+			preparedStatement = connect.prepareStatement(sql);
+			preparedStatement.setInt(1, rsData.getInt("form_id"));
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				// TODO Bei Evaluation Type chart nicht in todo aufnehmen
+				bossFormsStorage.setEvaluationType(rs.getString("evaluationType"));
+				bossFormsStorage.setFormTitle(rs.getString("formTitle"));
+			}
 			
 			tmpList.put(rsData.getInt("id"), bossFormsStorage);
 
@@ -82,26 +72,5 @@ public class Boss {
 		conClass.close();
 		return tmpList;
 	}
-	
-	/**
-	 * Updated den BossApproved State in der DB
-	 * 
-	 * @param request komplettes request Object
-	 * @throws Exception
-	 */
-	public void saveBossDecision(HttpServletRequest request) throws Exception {
-		Connect conClass = new Connect();
-		connect = conClass.getConnection();
-		
-		String sql = "UPDATE formularmanager_forms_response "
-				+ "SET notes = ?, boss_approved = ?"
-				+ "WHERE id = ?";
-		
-		preparedStatement = connect.prepareStatement(sql);
-		preparedStatement.setString(1, request.getParameter("notes"));
-		preparedStatement.setString(2, request.getParameter("bossDecision"));
-		preparedStatement.setString(3, request.getParameter("responseId"));
-		preparedStatement.execute();
-	}
-	
+
 }

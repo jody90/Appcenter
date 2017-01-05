@@ -1,4 +1,4 @@
-app.controller('statisticsChartController', function($scope, $http, $sce, $rootScope, $routeParams) {
+app.controller('statisticsChartController', function($scope, $http, $rootScope) {
 
 	console.info("statisticsChartController");
 	

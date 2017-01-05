@@ -14,7 +14,7 @@
 		<input type="hidden" ng-value="{{meta.country}}" name="country">
 		<input type="hidden" ng-value="{{meta.formId}}" name="formId">
 		
-			<div class="form-statistics-meta">
+			<div class="form-statistics-meta margin-bottom-lg" ng-if="controller !== 'boss'">
 				<div class="row">
 					<div class="col-xs-12">
 						<label for="username" class="fb-text-label">
@@ -45,8 +45,8 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="form-statistics-meta margin-top-lg">
+
+			<div class="form-statistics-meta">
 				
 				<label for="addNote">
 					Notiz hinzufügen
@@ -67,6 +67,22 @@
 					</span>
 					<span ng-bind-html="notesHtml">
 					</span>
+				</div>
+			</div>
+			
+			<div class="form-statistics-meta margin-top-lg" ng-if="controller === 'boss'">
+				<h3 class="margin-top-0">Genehmigung erteilen?</h3>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="btn btn-success button-boss-approval btn-block" ng-click="saveBossDecision(1)">
+							<i class="fa fa-thumbs-up" aria-hidden="true"></i>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="btn btn-danger button-boss-approval btn-block" ng-click="saveBossDecision(0)">
+							<i class="fa fa-thumbs-down" aria-hidden="true"></i>
+						</div>
+					</div>
 				</div>
 			</div>
 			

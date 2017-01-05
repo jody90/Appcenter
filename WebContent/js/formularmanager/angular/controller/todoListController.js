@@ -1,19 +1,17 @@
-app.controller('bossListController', function($scope, $http, $rootScope) {
+app.controller('todoListController', function($scope, $http, $rootScope) {
 	
-	console.info("BossListController");
-	
-	$scope.controller = "boss"
+	console.info("TodoListController");
 	
 	$http({
 		method : "GET",
-		url : "boss?action=getForms"
+		url : "todo?action=getForms"
 	}).then(function(response) {
 
 		obj = response.data;
 	
 		if (obj.respondedForms != "null") {
 			Object.keys(obj).map(function(key, index) {
-				if (this.isJson(obj[key])) {
+				if (isJson(obj[key])) {
 					return obj[key] = JSON.parse(obj[key]);
 				}
 			});
@@ -44,7 +42,5 @@ app.controller('bossListController', function($scope, $http, $rootScope) {
 		$scope.stateIcon = function(icon, state) {
 			return icon == state ? $scope.stateIcons[icon] + " active" : $scope.stateIcons[icon];
 		}
-		
-		$scope.respondedForms = obj.bossForms;
 	});
 });

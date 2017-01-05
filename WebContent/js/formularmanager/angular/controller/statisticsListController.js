@@ -1,4 +1,4 @@
-app.controller('statisticsListController', function($scope, $http, $sce, $rootScope, $routeParams) {
+app.controller('statisticsListController', function($scope, $http, $rootScope) {
 
 	console.info("statisticsListController");
 	

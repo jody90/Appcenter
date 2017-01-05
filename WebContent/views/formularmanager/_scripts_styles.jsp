@@ -28,9 +28,9 @@
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/angular-route.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/dirPagination.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/app.js"></script>
-<script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/statisticsController.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/statisticsFormController.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/statisticsListController.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/statisticsChartController.js"></script>
-<script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/bossController.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/bossFormController.js"></script>
 <script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/bossListController.js"></script>
+<script src="${pageContext.request.contextPath}/js/formularmanager/angular/controller/todoListController.js"></script>

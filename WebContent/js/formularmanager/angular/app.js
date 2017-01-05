@@ -20,7 +20,11 @@ app.config(function($routeProvider) {
     })
     .when("/viewBossForm/:responseId/:formId", {
         templateUrl : "../views/formularmanager/_viewForm.jsp",
-        controller : "bossController"
+        controller : "bossFormController"
+    })
+    .when("/listTodoForms", {
+        templateUrl : "../views/formularmanager/_formsList.jsp",
+        controller : "todoListController"
     });
 });
 
@@ -30,7 +34,7 @@ app.run(function($rootScope, $location) {
     		$rootScope.formId = next.params.formId;
     		$rootScope.responseId = next.params.responseId;
     	}
-    });
+    });    
 });
 
 app.isJson = function (str) {
@@ -39,7 +43,7 @@ app.isJson = function (str) {
 	} catch (e) {
 		return false;
 	}
-	return true;
+	return true;	
 };
 
 app.filter('orderObjectBy', function() {

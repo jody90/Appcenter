@@ -10,7 +10,10 @@
 	
 	<form method="post" action="public" class="public-form">
 		<input type="hidden" name="form_id" value="${formId}">
-	
+		<c:if test="${empty bossStorageList}">
+			<input type="hidden" name="bossApproved" value="1">
+		</c:if>
+			
 		<c:if test="${not empty bossStorageList}">
 			<div class="alert alert-info" role="alert">
 				Dieses Formular erfordert die Freigabe durch deinen Vorgesetzten. Bitte wähle Ihn aus der Liste aus.
