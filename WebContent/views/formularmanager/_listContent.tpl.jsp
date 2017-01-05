@@ -1,6 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <tr>
 	<td class="align-middle">
-	    	${item.getId()}
+    	${item.getId()}
     </td>
 	<td class="align-middle">
 		<a href="${pageContext.request.contextPath}/formularmanager/public?country=${item.getCountry()}&form_id=${item.getId()}">
@@ -20,9 +21,16 @@
 	    <a class="list-option-link" href="${pageContext.request.contextPath}/formularmanager/edit?action=delete&country=${item.getCountry()}&form_id=${item.getId()}">
     		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
     	</a>
- 		<a class="list-option-link" href="${pageContext.request.contextPath}/formularmanager/statistics?country=${item.getCountry()}&form_id=${item.getId()}">
-    		<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-    	</a>
+    	<c:if test="${item.getFormMeta().evaluationType == 'chart'}">
+	 		<a class="list-option-link" href="${pageContext.request.contextPath}/formularmanager/statistics?country=${item.getCountry()}&form_id=${item.getId()}#showChart/${item.getId()}">
+	    		<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+	    	</a>
+    	</c:if>
+	    <c:if test="${item.getFormMeta().evaluationType != 'chart'}">
+	 		<a class="list-option-link" href="${pageContext.request.contextPath}/formularmanager/statistics?country=${item.getCountry()}&form_id=${item.getId()}#listForms/${item.getId()}">
+	    		<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+	    	</a>
+    	</c:if>
     	
     	<span class="glyphicon glyphicon-send ${list.isActive(item.getFormMeta()['validFrom'], item.getFormMeta()['validTo']) ? 'form-active' : 'form-inactive'}" aria-hidden="true"></span>
     </td>

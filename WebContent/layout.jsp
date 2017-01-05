@@ -89,6 +89,13 @@
 									</a>
 								</li>
 							</c:if>
+							<c:if test='${helper.isAuthorized("boss_view")}'>
+								<li>
+									<a href="${pageContext.request.contextPath}/formularmanager/boss#listBossForms">
+										Boss View
+									</a>
+								</li>
+							</c:if>
 						</ul>
 					</li>
 					

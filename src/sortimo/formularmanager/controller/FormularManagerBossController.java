@@ -1,7 +1,9 @@
 package sortimo.formularmanager.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import sortimo.formularmanager.databaseoperations.Boss;
 import sortimo.formularmanager.databaseoperations.FormEdit;
 import sortimo.formularmanager.databaseoperations.FormStatistics;
 import sortimo.formularmanager.global.ConfigMaps;
@@ -20,16 +23,15 @@ import sortimo.formularmanager.storage.FormsStatisticsStorage;
 import sortimo.model.HelperFunctions;
 import sortimo.model.User;
 
-@WebServlet("/FormularManagerStatisticsController")
-public class FormularManagerStatisticsController extends HttpServlet {
+@WebServlet("/FormularManagerBossController")
+public class FormularManagerBossController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	public FormularManagerStatisticsController() {
+       
+    public FormularManagerBossController() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HelperFunctions helper = new HelperFunctions();
 		
 		if (helper.checkCookie(request)) {
@@ -52,75 +54,72 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			String formId = request.getParameter("form_id") != null ? request.getParameter("form_id") : "false";
 			String responseId = request.getParameter("response_id") != null ? request.getParameter("response_id") : "false";
 			String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
-
-			request.setAttribute("user", user);
-			request.setAttribute("formId", formId);
 			
-			FormStatistics stats = new FormStatistics();
-			ConfigMaps config = new ConfigMaps();
+			Boss boss = new Boss();
 			Gson gson = new Gson();
+			FormStatistics stats = new FormStatistics();
 			
-			Map<Integer, FormsStatisticsStorage> statistics = null;
-			Map<String, String> statisticsData = new HashMap<String, String>();
-			String formResponseStorageJson = null;
-			String formDataJson = null;
-			
-			Map<String, String> meta = new HashMap<>();
-			meta.put("country", country);
-			meta.put("formId", formId);
-			
-			String statesJson = gson.toJson(config.getStates());
-			String stateIconsJson = gson.toJson(config.getStateIcons());
-			
-			switch(action) {
-				case "getFormStatistics" :
-					Map<String, String> formData = null;
-					FormEdit form = new FormEdit();
-					FormsStatisticsStorage formStatistics = null;
+			switch (action) {
+				case "getForms" : 
+					Map<Integer, FormsStatisticsStorage> forms = new HashMap<>();
 					
 					try {
-						formStatistics = stats.getFormStatistics(responseId);
-						formData = form.getFormData(formId);
+						forms = boss.getForms(user.getUsername());
 					} catch (Exception e) {
-						System.err.println("Statistik konnte nicht aus DB gelesen werden");
+						System.err.println("Formular für den aktuellen Boss können nicht abgefragt werden");
 						e.printStackTrace();
 					}
-
-					formResponseStorageJson = gson.toJson(formStatistics);
-					formDataJson = gson.toJson(formData);
-					String userJson = gson.toJson(user);
 					
-					statisticsData.put("responseData", formResponseStorageJson);
-					statisticsData.put("formData", formDataJson);
-					statisticsData.put("user", userJson);
-					statisticsData.put("states", statesJson);
+					String bossFormsJson = gson.toJson(forms);
 					
-					String json = gson.toJson(statisticsData);
+					Map<String, String> bossData = new HashMap<String, String>();
+					bossData.put("bossForms", bossFormsJson);
+					
+					String json = gson.toJson(bossData);
+					
+					System.out.println("JSON: " + json);
 
 					response.setContentType("text/plain");
 					response.setCharacterEncoding("UTF-8");
 					response.getWriter().write(json);
 					return;
-				case "getRespondedForms" :
+				case "getStatistics" :
+					FormsStatisticsStorage statistics = null;
+					Map<String, String> formData = null;
+					FormEdit form = new FormEdit();
 					
 					try {
-						statistics = stats.getRespondedForms(formId, country);
+						statistics = stats.getFormStatistics(responseId);
+						formData = form.getFormData(formId);
 					} catch (Exception e) {
-						System.err.println("Responded Forms konnten nicht aus DB gelesen werden");
+						System.err.println("Statistik konnte nicht aus DB gelesen werden");
 						e.printStackTrace();
 					}
-
-					formResponseStorageJson = gson.toJson(statistics);
 					
+					ConfigMaps config = new ConfigMaps();
+					
+					Map<String, String> meta = new HashMap<String, String>();
+					meta.put("country", country);
+					meta.put("formId", formId);
+					
+					String formResponseStorageJson = gson.toJson(statistics);
+					String formDataJson = gson.toJson(formData);
+					String userJson = gson.toJson(user);
+					String statesJson = gson.toJson(config.getStates());
+					String stateIconsJson = gson.toJson(config.getStateIcons());
+					
+					Map<String, String> statisticsData = new HashMap<String, String>();
 					statisticsData.put("respondedForms", formResponseStorageJson);
+					statisticsData.put("formData", formDataJson);
+					statisticsData.put("user", userJson);
 					statisticsData.put("states", statesJson);
 					statisticsData.put("stateIcons", stateIconsJson);
 					
-					String respondedFormsjson = gson.toJson(statisticsData);
+					String json2 = gson.toJson(statisticsData);
 
 					response.setContentType("text/plain");
 					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write(respondedFormsjson);
+					response.getWriter().write(json2);
 					return;
 				case "saveProcessed" :
 					try {
@@ -130,13 +129,14 @@ public class FormularManagerStatisticsController extends HttpServlet {
 						e.printStackTrace();
 					}
 				break;
-				default :
-					request.setAttribute("pageTitle", "Statistiken");
-					request.setAttribute("path", "formularmanager");
-					request.setAttribute("view", "statistics");
-					getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);
-				break;
 			}
+			
+			request.setAttribute("user", user);
+			request.setAttribute("pageTitle", "Boss View");
+			request.setAttribute("path", "formularmanager");
+			request.setAttribute("view", "boss");
+			
+			getServletContext().getRequestDispatcher("/layout.jsp").forward(request, response);
 		}
 		else {
 			response.sendRedirect("/sortimo/login");

@@ -2,7 +2,7 @@
 <jsp:useBean id="conf" class="sortimo.formularmanager.global.ConfigMaps"></jsp:useBean>
 
 <div ng-app="app">
-	<div ng-controller="statisticsController">
+	<div>
 
 		<h1 class="text-center margin-bottom-md">
 			{{formData.formTitle}}
@@ -10,10 +10,8 @@
 
 		<div ng-view></div>
 		
-		<div id="form_id" data-form-id="${formId}"></div>
 		<div class="row" id="chart_area"></div>
-		<!--
-		-->
+
 	</div>
 </div>
 

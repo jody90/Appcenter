@@ -39,7 +39,7 @@
 				
 				<div class="row text-right">
 					<div class="col-xs-12">
-						<button type="submit" name="action" value="saveProcessed" class="btn btn-success btn-lg margin-top-lg" id="saveProcessedFormSubmit">
+						<button type="submit" name="action" value="saveProcessed" class="btn btn-success btn-lg margin-top-lg" ng-click="saveProcessedForm()">
 							Speichern
 						</button> 
 					</div>
@@ -68,18 +68,8 @@
 					<span ng-bind-html="notesHtml">
 					</span>
 				</div>
-				<!-- 
-				<textarea class="notes" name="notes" rows="12" placeholder="Notizen" readonly ></textarea>
-				 -->
 			</div>
 			
 		</form>		
 	</div>
 </div>
-
-
-<!-- 
-<div class="text-center">
-	<div class="public-form" ng-bind-html="htmlForm"></div>
-</div>
- -->

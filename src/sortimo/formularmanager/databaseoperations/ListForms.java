@@ -52,7 +52,8 @@ public class ListForms {
 			sql = "SELECT form_id, "
 					+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle, "
 					+ "MAX(CASE WHEN meta_name = 'validFrom' THEN meta_value END) as validFrom, "
-					+ "MAX(CASE WHEN meta_name = 'validTo' THEN meta_value END) as validTo "
+					+ "MAX(CASE WHEN meta_name = 'validTo' THEN meta_value END) as validTo,"
+					+ "MAX(CASE WHEN meta_name = 'evaluationType' THEN meta_value END) as evaluationType "
 					+ "FROM formularmanager_forms_meta "
 					+ "WHERE form_id = " + id + " "
 					+ "GROUP BY form_id";
@@ -66,6 +67,7 @@ public class ListForms {
 				formMeta.put("formTitle", rsMeta.getString("formTitle"));
 				formMeta.put("validFrom", rsMeta.getString("validFrom"));
 				formMeta.put("validTo", rsMeta.getString("validTo"));
+				formMeta.put("evaluationType", rsMeta.getString("evaluationType"));
 			}
 			
 			results.add(new FormsListStorage(id, type, country, createdAt, modifiedAt, formMeta));

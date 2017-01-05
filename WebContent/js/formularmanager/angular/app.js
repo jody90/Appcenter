@@ -2,13 +2,45 @@ var app = angular.module('app', ['ngRoute', 'angularUtils.directives.dirPaginati
 
 app.config(function($routeProvider) {
     $routeProvider
-    .when("/", {
-        templateUrl : "../views/formularmanager/_formsList.jsp"
+    .when("/listForms/:formId", {
+        templateUrl : "../views/formularmanager/_formsList.jsp",
+        controller : "statisticsListController"
     })
-    .when("/viewForm/:id", {
-        templateUrl : "../views/formularmanager/_viewForm.jsp"
+    .when("/showChart/:formId", {
+        templateUrl : "../views/formularmanager/_formsList.jsp",
+        controller : "statisticsChartController"
+    })
+    .when("/viewForm/:responseId/:formId", {
+    	templateUrl : "../views/formularmanager/_viewForm.jsp",
+    	controller : "statisticsFormController"
+    })
+    .when("/listBossForms", {
+        templateUrl : "../views/formularmanager/_formsList.jsp",
+        controller : "bossListController"
+    })
+    .when("/viewBossForm/:responseId/:formId", {
+        templateUrl : "../views/formularmanager/_viewForm.jsp",
+        controller : "bossController"
     });
 });
+
+app.run(function($rootScope, $location) {
+    $rootScope.$on("$routeChangeStart", function(event, next, current) { 
+    	if (next.params) {
+    		$rootScope.formId = next.params.formId;
+    		$rootScope.responseId = next.params.responseId;
+    	}
+    });
+});
+
+app.isJson = function (str) {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+};
 
 app.filter('orderObjectBy', function() {
 	return function(items, field, reverse) {

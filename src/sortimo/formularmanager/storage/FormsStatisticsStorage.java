@@ -22,7 +22,7 @@ public class FormsStatisticsStorage {
 	
 	private String boss;
 	
-	private int bossApproved;
+	private Integer bossApproved;
 	
 	private String jsonForm;
 
@@ -144,11 +144,11 @@ public class FormsStatisticsStorage {
 		this.boss = boss;
 	}
 
-	public int getBossApproved() {
+	public Integer getBossApproved() {
 		return bossApproved;
 	}
 
-	public void setBossApproved(int bossApproved) {
+	public void setBossApproved(Integer bossApproved) {
 		this.bossApproved = bossApproved;
 	}
 

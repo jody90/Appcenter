@@ -72,5 +72,24 @@ public class FormsListStorage {
 	public void setModifiedAt(String modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
+	
+	@Override
+	public String toString() {
+		
+		StringBuilder string = new StringBuilder();
+		string.append(this.getId());
+		string.append(";");
+		string.append(this.getType());
+		string.append(";");
+		string.append(this.getCountry());
+		string.append(";");
+		string.append(this.getCreatedAt());
+		string.append(";");
+		string.append(this.getModifiedAt());
+		string.append(";");
+		string.append(this.getFormMeta());
+		
+		return string.toString();
+	}
 
 }
