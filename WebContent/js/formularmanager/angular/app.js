@@ -2,7 +2,7 @@ var app = angular.module('app', ['ngRoute', 'angularUtils.directives.dirPaginati
 
 app.config(function($routeProvider) {
     $routeProvider
-    .when("/listForms/:formId", {
+    .when("/listForms/:formId/:formTitle", {
         templateUrl : "../views/formularmanager/_formsList.jsp",
         controller : "statisticsListController"
     })
@@ -33,6 +33,7 @@ app.run(function($rootScope, $location) {
     	if (next.params) {
     		$rootScope.formId = next.params.formId;
     		$rootScope.responseId = next.params.responseId;
+    		$rootScope.formTitle = next.params.formTitle !== undefined ? next.params.formTitle : undefined;
     	}
     });    
 });

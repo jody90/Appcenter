@@ -26,10 +26,17 @@ public class ListForms {
 		Connect conClass = new Connect();
 		connect = conClass.getConnection();
 
-		String sql = "SELECT * "
+		String sql = "SELECT formularmanager_forms.*,"
+				+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle, "
+				+ "MAX(CASE WHEN meta_name = 'validFrom' THEN meta_value END) as validFrom, "
+				+ "MAX(CASE WHEN meta_name = 'validTo' THEN meta_value END) as validTo,"
+				+ "MAX(CASE WHEN meta_name = 'evaluationType' THEN meta_value END) as evaluationType "
 				+ "FROM formularmanager_forms "
+				+ "LEFT JOIN formularmanager_forms_meta "
+				+ "ON formularmanager_forms.id = formularmanager_forms_meta.form_id "
 				+ "WHERE delete_status != 1 "
-				+ "AND country LIKE ?";
+				+ "AND country LIKE ? "
+				+ "GROUP BY form_id";
 		
 		if (land.equals("ALL")) {
 			land = "%";
@@ -43,34 +50,18 @@ public class ListForms {
 		ArrayList<FormsListStorage> results = new ArrayList<FormsListStorage>();		
 		
 		while(rs.next()) {
-			String id = rs.getString("id");
-			String type = rs.getString("type");
-			String country = rs.getString("country");
-			String createdAt = rs.getString("created_at");
-			String modifiedAt = rs.getString("modified_at");
+			FormsListStorage list = new FormsListStorage();
+			list.setId(rs.getString("id"));
+			list.setType(rs.getString("type"));
+			list.setCountry(rs.getString("country"));
+			list.setCreatedAt(rs.getString("created_at"));
+			list.setModifiedAt(rs.getString("modified_at"));
+			list.setFormTitle(rs.getString("formTitle"));
+			list.setValidFrom(rs.getString("validFrom"));
+			list.setValidTo(rs.getString("validTo"));
+			list.setEvaluationType(rs.getString("evaluationType"));
 			
-			sql = "SELECT form_id, "
-					+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle, "
-					+ "MAX(CASE WHEN meta_name = 'validFrom' THEN meta_value END) as validFrom, "
-					+ "MAX(CASE WHEN meta_name = 'validTo' THEN meta_value END) as validTo,"
-					+ "MAX(CASE WHEN meta_name = 'evaluationType' THEN meta_value END) as evaluationType "
-					+ "FROM formularmanager_forms_meta "
-					+ "WHERE form_id = " + id + " "
-					+ "GROUP BY form_id";
-
-			preparedStatement = connect.prepareStatement(sql);				
-			ResultSet rsMeta = preparedStatement.executeQuery();
-			
-			Map<String, String> formMeta = new HashMap<String, String>();
-			
-			if (rsMeta.next()) {			
-				formMeta.put("formTitle", rsMeta.getString("formTitle"));
-				formMeta.put("validFrom", rsMeta.getString("validFrom"));
-				formMeta.put("validTo", rsMeta.getString("validTo"));
-				formMeta.put("evaluationType", rsMeta.getString("evaluationType"));
-			}
-			
-			results.add(new FormsListStorage(id, type, country, createdAt, modifiedAt, formMeta));
+			results.add(list);			
 		}
 		conClass.close();
 		return results;

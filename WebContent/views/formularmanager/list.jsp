@@ -40,7 +40,7 @@
 	<c:forEach items="${formsList}" var="item">
 		<c:choose>
 		   	<c:when test="${filter == 'active'}">
-		   		<c:if test="${list.isActive(item.getFormMeta()['validFrom'], item.getFormMeta()['validTo'])}">
+		   		<c:if test="${list.isActive(item.getValidFrom, item.getValidTo())}">
 					<%@include file="/views/formularmanager/_listContent.tpl.jsp" %>
 		   		</c:if>
 		   	</c:when>

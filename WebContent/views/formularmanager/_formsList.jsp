@@ -52,15 +52,7 @@
 
 		<tr dir-paginate="(id, form) in respondedForms | orderObjectBy:orderByField:reverseSort | itemsPerPage: 10" pagination-id="respondedForms">
 			<td class="col-md-1">
-<!-- 
-				<a ng-href="#viewForm/{{form.responseId}}/{{form.formId}}" ng-if="controller !== 'boss'">
-					{{form.username}}
-				</a>
-				<a ng-href="#viewBossForm/{{form.responseId}}/{{form.formId}}" ng-if="controller === 'boss'">
-					{{form.username}}
-				</a>
- -->
-					{{form.username}}
+				{{form.username}}
 			</td>
 			<td class="col-md-5">
 				<a ng-href="#viewForm/{{form.responseId}}/{{form.formId}}" ng-if="controller !== 'boss'">

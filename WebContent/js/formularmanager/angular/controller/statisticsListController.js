@@ -2,6 +2,8 @@ app.controller('statisticsListController', function($scope, $http, $rootScope) {
 
 	console.info("statisticsListController");
 	
+	console.log("$rootScope.formTitle", $rootScope.formTitle);
+	
 	$http({
 		method : "GET",
 		url : "statistics?action=getRespondedForms&form_id=" + $rootScope.formId
@@ -16,6 +18,8 @@ app.controller('statisticsListController', function($scope, $http, $rootScope) {
 				}
 			});
 		}
+		
+		console.log("Object", obj);
 		
 		$scope.states = obj.states;
 		$scope.stateIcons = {};

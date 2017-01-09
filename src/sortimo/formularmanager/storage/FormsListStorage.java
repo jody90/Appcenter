@@ -1,18 +1,7 @@
 package sortimo.formularmanager.storage;
 
-import java.util.Map;
-
 public class FormsListStorage {
-	
-	public FormsListStorage(String id, String type, String country, String created_at, String modified_at, Map<String, String> formMeta) {
-		this.setId(id);
-		this.setType(type);
-		this.setCountry(country);
-		this.setCreatedAt(created_at);
-		this.setModifiedAt(modified_at);
-		this.setFormMeta(formMeta);
-	}
-	
+		
 	private String id;
 	
 	private String type;
@@ -23,22 +12,20 @@ public class FormsListStorage {
 
 	private String modifiedAt;
 	
-	private Map<String, String> formMeta;
+	private String formTitle;
 	
+	private String validFrom;
+	
+	private String validTo;
+	
+	private String evaluationType;
+
 	public String getCountry() {
 		return country;
 	}
 	
 	public void setCountry(String country) {
 		this.country = country;
-	}
-	
-	public Map<String, String> getFormMeta() {
-		return formMeta;
-	}
-
-	public void setFormMeta(Map<String, String> formMeta) {
-		this.formMeta = formMeta;
 	}
 
 	public String getId() {
@@ -73,6 +60,38 @@ public class FormsListStorage {
 		this.modifiedAt = modifiedAt;
 	}
 	
+	public String getFormTitle() {
+		return formTitle;
+	}
+
+	public void setFormTitle(String formTitle) {
+		this.formTitle = formTitle;
+	}
+
+	public String getValidFrom() {
+		return validFrom;
+	}
+
+	public void setValidFrom(String validFrom) {
+		this.validFrom = validFrom;
+	}
+
+	public String getValidTo() {
+		return validTo;
+	}
+
+	public void setValidTo(String validTo) {
+		this.validTo = validTo;
+	}
+
+	public String getEvaluationType() {
+		return evaluationType;
+	}
+
+	public void setEvaluationType(String evaluationType) {
+		this.evaluationType = evaluationType;
+	}
+	
 	@Override
 	public String toString() {
 		
@@ -87,7 +106,13 @@ public class FormsListStorage {
 		string.append(";");
 		string.append(this.getModifiedAt());
 		string.append(";");
-		string.append(this.getFormMeta());
+		string.append(this.getFormTitle());
+		string.append(";");
+		string.append(this.getValidFrom());
+		string.append(";");
+		string.append(this.getValidTo());
+		string.append(";");
+		string.append(this.getEvaluationType());
 		
 		return string.toString();
 	}

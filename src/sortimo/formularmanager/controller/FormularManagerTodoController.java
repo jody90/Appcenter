@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import sortimo.formularmanager.databaseoperations.FormStatistics;
 import sortimo.formularmanager.global.ConfigMaps;
 import sortimo.formularmanager.storage.FormsStatisticsStorage;
 import sortimo.model.HelperFunctions;
@@ -47,14 +46,10 @@ public class FormularManagerTodoController extends HttpServlet {
 			}
 			
 			String action = request.getParameter("action") != null ? request.getParameter("action") : "false";
-			String formId = request.getParameter("form_id") != null ? request.getParameter("form_id") : "false";
-			String responseId = request.getParameter("response_id") != null ? request.getParameter("response_id") : "false";
-			String country = request.getParameter("country") != null ? request.getParameter("country") : "DE";
 			
 			Todo todo = new Todo();
 			Gson gson = new Gson();
 			ConfigMaps config = new ConfigMaps();
-			FormStatistics stats = new FormStatistics();
 			
 			String statesJson = gson.toJson(config.getStates());
 			String stateIconsJson = gson.toJson(config.getStateIcons());
