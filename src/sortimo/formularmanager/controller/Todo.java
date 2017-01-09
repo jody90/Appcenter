@@ -60,9 +60,12 @@ public class Todo {
 			preparedStatement.setInt(1, rsData.getInt("form_id"));
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				// TODO Bei Evaluation Type chart nicht in todo aufnehmen
 				bossFormsStorage.setEvaluationType(rs.getString("evaluationType"));
 				bossFormsStorage.setFormTitle(rs.getString("formTitle"));
+			}
+			
+			if (bossFormsStorage.getEvaluationType().equals("chart")) {
+				bossFormsStorage = null;
 			}
 			
 			tmpList.put(rsData.getInt("id"), bossFormsStorage);
