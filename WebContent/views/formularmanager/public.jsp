@@ -3,7 +3,7 @@
 	<div class="row margin-bottom-lg">
 		<div class="col-xs-12 text-center">
 			<h1>
-				${formData['form_title']}
+				${formData['formTitle']}
 			</h1>
 		</div>
 	</div>

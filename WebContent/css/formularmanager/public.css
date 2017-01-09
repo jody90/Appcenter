@@ -5,14 +5,25 @@
 	max-width: 980px;
 	box-shadow: 1px 1px 4px #999999;
 	border: 1px solid #eaeaea;
-	display: inline-block;
 	text-align: left;
 	padding: 15px;
 	background-color: #fff;
+	width: 55%;
+    margin: 0 auto;
+    position: relative;
+    display: block;
 }
 
 
 .selectbox-boss {
 	max-width: 300px;
 	display: inline-block;
+}
+
+.public-form label {
+	margin-top: 10px;
+}
+
+.public-form input[type="date"] {
+	display: block;
 }

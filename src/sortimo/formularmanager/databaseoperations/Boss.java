@@ -30,7 +30,6 @@ public class Boss {
 		String sql = "SELECT "
 				+ "id, "
 				+ "formularmanager_forms_response.form_id, "
-				+ "value, "
 				+ "username, "
 				+ "formularmanager_forms_response.created_at, "
 				+ "formularmanager_forms_response.modified_at, "
@@ -63,7 +62,6 @@ public class Boss {
 			FormsStatisticsStorage bossFormsStorage = new FormsStatisticsStorage();
 			bossFormsStorage.setResponseId(rsData.getInt("id"));
 			bossFormsStorage.setFormId(rsData.getInt("form_id"));
-			bossFormsStorage.setValue(rsData.getString("value"));
 			bossFormsStorage.setUsername(rsData.getString("username"));
 			bossFormsStorage.setCreatedAt(createdAt);
 			bossFormsStorage.setModifiedAt(modifiedAt);

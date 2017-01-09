@@ -103,6 +103,8 @@ public class FormularManagerPublicController extends HttpServlet {
 					e.printStackTrace();
 				}
 				
+				System.out.println(formData);
+				
 				String validFromString = formData.get("validFrom");
 				String validToString = formData.get("validTo");
 

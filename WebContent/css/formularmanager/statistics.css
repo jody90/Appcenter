@@ -9,6 +9,14 @@
 	border: 1px solid #eaeaea;
 }
 
+.statistics-form label {
+	margin-top: 10px;
+}
+
+.statistics-form input[type="date"] {
+	display: block;
+}
+
 .notes {
 	width: 100%;
 	resize: none;
