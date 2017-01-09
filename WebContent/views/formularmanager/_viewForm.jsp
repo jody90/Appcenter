@@ -2,8 +2,9 @@
 <jsp:useBean id="conf" class="sortimo.formularmanager.global.ConfigMaps"></jsp:useBean>
 <jsp:useBean id="helper" class="sortimo.model.HelperFunctions"></jsp:useBean>
 
+<div class="row" id="chart_area" ng-if="controller === 'chart'"></div>
 
-<div class="row">
+<div class="row" ng-if="controller !== 'chart'">
 	
 	<div class="col-xs-12 col-md-9">
 		<div class="statistics-form" ng-bind-html="htmlForm"></div>

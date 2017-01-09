@@ -62,6 +62,10 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			
 			Map<Integer, FormsStatisticsStorage> statistics = null;
 			Map<String, String> statisticsData = new HashMap<String, String>();
+			Map<String, String> formData = null;
+			FormEdit form = new FormEdit();
+			FormsStatisticsStorage formStatistics = null;
+
 			String formResponseStorageJson = null;
 			String formDataJson = null;
 			
@@ -74,10 +78,7 @@ public class FormularManagerStatisticsController extends HttpServlet {
 			
 			switch(action) {
 				case "getFormStatistics" :
-					Map<String, String> formData = null;
-					FormEdit form = new FormEdit();
-					FormsStatisticsStorage formStatistics = null;
-					
+				
 					try {
 						formStatistics = stats.getFormStatistics(responseId);
 						formData = form.getFormData(formId);
@@ -100,6 +101,32 @@ public class FormularManagerStatisticsController extends HttpServlet {
 					response.setContentType("text/plain");
 					response.setCharacterEncoding("UTF-8");
 					response.getWriter().write(json);
+					return;
+				case "getChartStatistics" :
+					Map<Integer, FormsStatisticsStorage> getChartStatistics = null;
+
+					try {
+						getChartStatistics = stats.getChartStatistics(formId);
+						formData = form.getFormData(formId);
+					} catch (Exception e) {
+						System.err.println("Statistik konnte nicht aus DB gelesen werden");
+						e.printStackTrace();
+					}
+
+					formResponseStorageJson = gson.toJson(getChartStatistics);
+					formDataJson = gson.toJson(formData);
+					String userInfoJson = gson.toJson(user);
+					
+					statisticsData.put("responseData", formResponseStorageJson);
+					statisticsData.put("formData", formDataJson);
+					statisticsData.put("user", userInfoJson);
+					statisticsData.put("states", statesJson);
+					
+					String chartJson = gson.toJson(statisticsData);
+
+					response.setContentType("text/plain");
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().write(chartJson);
 					return;
 				case "getRespondedForms" :
 					

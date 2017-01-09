@@ -1,5 +1,6 @@
 // Enthaltene Formular Response Elemente extrahieren
 var getFormResponseElements = function(resultsJson) {
+	console.log("getFormResponseElements", resultsJson);
 	var FormElements = [];
     var deferred = new $.Deferred();
             		

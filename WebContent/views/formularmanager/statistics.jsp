@@ -9,8 +9,6 @@
 		</h1>
 
 		<div ng-view></div>
-		
-		<div class="row" id="chart_area"></div>
 
 	</div>
 </div>

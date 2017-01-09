@@ -2,11 +2,13 @@ app.controller('statisticsChartController', function($scope, $http, $rootScope) 
 
 	console.info("statisticsChartController");
 	
+	$scope.controller = "chart";
+	
 	var formId = $rootScope.formId;
 	
 	$http({
 		method : "GET",
-		url : "statistics?action=getStatistics&form_id=" + formId
+		url : "statistics?action=getChartStatistics&form_id=" + formId
 	}).then(function(response) {
 
 		obj = response.data;
@@ -22,7 +24,10 @@ app.controller('statisticsChartController', function($scope, $http, $rootScope) 
 		$scope.formData = obj.formData;
 		$scope.respondedForms = obj.respondedForms;
 		
+		console.log("Object", obj);
+		
 		if (isJson(obj.formData.formContentJson)) {
+			
 			// vorhandene FormularElemente aus Formular extrahieren (RadioGroups, SelectBoxen, etc.)
         	var formElements = {};
 
@@ -37,7 +42,7 @@ app.controller('statisticsChartController', function($scope, $http, $rootScope) 
         	var chartConfigData = {};
         	chartConfigData.columns = {};
         	
-        	getFormResponseElements(obj.respondedForms)
+        	getFormResponseElements(obj.responseData)
         	.then(function(formResponseElements) {
 
         		// Arrays fuer die Chart API aufbereiten
@@ -52,7 +57,7 @@ app.controller('statisticsChartController', function($scope, $http, $rootScope) 
         		}
         		
         		// Response Werte der einzelnen Formular Elemente
-        		$.each(obj.respondedForms, function(key, answers) {
+        		$.each(obj.responseData, function(key, answers) {
         			var answerObj = JSON.parse(answers.value);
 
         			$.each(answerObj, function(name, value) {
@@ -74,8 +79,8 @@ app.controller('statisticsChartController', function($scope, $http, $rootScope) 
         		
         		// Load the Visualization API and the corechart package.
 	        	google.charts.load('current', {'packages':['corechart']});
+
         		// Set a callback to run when the Google Visualization API is loaded.
-        		
         		google.charts.setOnLoadCallback(function() {
         			drawChart(chartConfigData, "circle");
     			});

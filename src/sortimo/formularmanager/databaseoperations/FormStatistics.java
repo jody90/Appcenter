@@ -71,16 +71,20 @@ public class FormStatistics {
 		
 		String sql = "SELECT "
 				+ "id, "
-				+ "form_id, "
+				+ "formularmanager_forms_response.form_id, "
 				+ "username, "
 				+ "created_at, "
 				+ "modified_at, "
 				+ "process_state, "
 				+ "processed_by, "
 				+ "boss_approved, "
-				+ "boss "
+				+ "boss,"
+				+ "MAX(CASE WHEN meta_name = 'formTitle' THEN meta_value END) as formTitle "
 				+ "FROM formularmanager_forms_response "
-				+ "WHERE form_id = ?";
+				+ "LEFT JOIN formularmanager_forms_meta "
+				+ "ON formularmanager_forms_response.form_id = formularmanager_forms_meta.form_id "
+				+ "WHERE formularmanager_forms_response.form_id = ? "
+				+ "GROUP BY id";
 	
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, formId);
@@ -97,6 +101,48 @@ public class FormStatistics {
 			FormsStatisticsStorage statisticsStorage = new FormsStatisticsStorage();
 			statisticsStorage.setResponseId(rsData.getInt("id"));
 			statisticsStorage.setFormId(rsData.getInt("form_id"));
+			statisticsStorage.setUsername(rsData.getString("username"));
+			statisticsStorage.setCreatedAt(createdAt);
+			statisticsStorage.setModifiedAt(modifiedAt);
+			statisticsStorage.setProcessState(rsData.getString("process_state"));
+			statisticsStorage.setProcessedBy(rsData.getString("processed_by"));
+			statisticsStorage.setBossApproved(bossApproved);
+			statisticsStorage.setBoss(rsData.getString("boss"));
+			statisticsStorage.setFormTitle(rsData.getString("formTitle"));
+			
+			tmpList.put(statisticsStorage.getResponseId(), statisticsStorage);
+
+		}
+		
+		conClass.close();
+		return tmpList;
+	}
+	
+	public Map<Integer, FormsStatisticsStorage> getChartStatistics(String formId) throws Exception {
+		Connect conClass = new Connect();
+		connect = conClass.getConnection();
+		
+		String sql = "SELECT * "
+				+ "FROM formularmanager_forms_response "
+				+ "WHERE formularmanager_forms_response.form_id = ? "
+				+ "GROUP BY id";
+	
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, formId);
+		ResultSet rsData = preparedStatement.executeQuery();
+		
+		Map<Integer, FormsStatisticsStorage> tmpList = new HashMap<>();
+		
+		while (rsData.next()) {
+			
+			Integer bossApproved = rsData.getObject("boss_approved") == null ? null : rsData.getInt("boss_approved");
+			String createdAt = rsData.getString("created_at").substring(0, rsData.getString("created_at").length() - 2) + "";
+			String modifiedAt = rsData.getString("modified_at").substring(0, rsData.getString("modified_at").length() - 2) + "";
+
+			FormsStatisticsStorage statisticsStorage = new FormsStatisticsStorage();
+			statisticsStorage.setResponseId(rsData.getInt("id"));
+			statisticsStorage.setFormId(rsData.getInt("form_id"));
+			statisticsStorage.setValue(rsData.getString("value"));
 			statisticsStorage.setUsername(rsData.getString("username"));
 			statisticsStorage.setCreatedAt(createdAt);
 			statisticsStorage.setModifiedAt(modifiedAt);
