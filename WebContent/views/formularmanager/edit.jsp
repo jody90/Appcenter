@@ -32,22 +32,7 @@
 					<input type="radio" id="switch_right" name="meta_bossApprovalRequired" value="no" ${formData['bossApprovalRequired'] != 'yes' ? 'checked' : ''} />
 					<label for="switch_right">Nein</label>
 				</div>
-			</div>
-			
-			<!-- 
-			<div class="margin-bottom-md">
-				<label for="meta_processing_roles">Bearbeitende Rollen</label>
-				<select name="meta_processing_roles" class="form-control">
-					<c:forEach items="${roles}" var="role">
-						<option value="${role.getId()}">
-							${role.getName()}
-						</option>
-					</c:forEach>
-				</select>
-			</div>
-			 -->
-			
-			
+			</div>	
 			
 			<div class="margin-bottom-md">
 				<label for="meta_processingRoles">Bearbeitende Rollen </label><br>

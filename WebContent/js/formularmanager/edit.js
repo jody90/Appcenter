@@ -1,8 +1,8 @@
 $(document).ready(function() {
 
-	var processingRoles = $("#processingRoles").val();
+	var processingRoles = $("#processingRoles").val() == "" ? undefined : $("#processingRoles").val();
 	
-	var processingRolesArray = processingRoles != undefined ? processingRoles.split(",") : [];
+	var processingRolesArray = processingRoles === undefined ? [] : processingRoles.split(",");
 	
 	// Labels Initial durchlaufen und aktiv Schalten
 	for (var i = 0; i < processingRolesArray.length; i++) {
