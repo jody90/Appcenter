@@ -32,8 +32,6 @@ app.controller('statisticsFormController', function($scope, $http, $sce, $rootSc
 			});
 		}
 		
-		console.log("Object", obj);
-
 		$scope.formData = obj.formData;
 		$scope.user = obj.user;
 		$scope.states = obj.states;
@@ -49,12 +47,10 @@ app.controller('statisticsFormController', function($scope, $http, $sce, $rootSc
 	$scope.saveProcessedForm = function() {
 		event.preventDefault();
 
-		console.info("saveForm fired");
-
 		var state = $("#saveProcessedForm").find("select[name='state']").val();
 
-		var tmpScopeNotes = $scope.notes !== undefined ? $scope.notes : "";
-		var noteInfo = $("#saveProcessedForm").find("#noteInfo").html();
+		var tmpScopeNotes = $scope.notes === undefined ? "" : $scope.notes;
+		var noteInfo = $("#saveProcessedForm").find("#noteInfo").html() === undefined ? "" : $("#saveProcessedForm").find("#noteInfo").html();
 		var notes = noteInfo + tmpScopeNotes;
 
 		$http({
@@ -71,9 +67,15 @@ app.controller('statisticsFormController', function($scope, $http, $sce, $rootSc
 		})
 		.then(function successCallback(response) {
 			showNotification("Der Datensatz wurde erfolgreich upgedated", "success", "Speichern erfolgreich");
-			$scope.addNoteObject.addNote = "";
+			$scope.addNoteObject.addNote = null;
 			$scope.notes = notes;
-			$scope.notesHtml = $sce.trustAsHtml($scope.notes) ;
+			$scope.notesHtml = $sce.trustAsHtml($scope.notes);
+
+			if (window.location.pathname.indexOf("/todo") > -1) {
+				var href = window.location.origin + window.location.pathname + "#/listTodoForms";
+				window.location.href = href;
+			}
+			
 		}, function errorCallback(response) {
 			showNotification("Der Datensatz wurde nicht upgedated", "error", "Speichern nicht erfolgreich");
 		});
@@ -81,7 +83,7 @@ app.controller('statisticsFormController', function($scope, $http, $sce, $rootSc
 
 	function viewForm(obj) {
 
-		$scope.notes = obj.responseData.notes;
+		$scope.notes = obj.responseData.notes == "undefined" ? null : obj.responseData.notes;
 		$scope.notesHtml = $sce.trustAsHtml($scope.notes);
 
 		$scope.htmlForm = "";

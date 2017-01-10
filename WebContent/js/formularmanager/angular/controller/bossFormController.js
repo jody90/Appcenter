@@ -47,10 +47,10 @@ app.controller('bossFormController', function($scope, $http, $sce, $rootScope) {
 	// Speichern
 	$scope.saveBossDecision = function(bossDecision) {
 
-		var tmpScopeNotes = $scope.notes !== undefined ? $scope.notes : "";
-		var noteInfo = $("#saveProcessedForm").find("#noteInfo").html();
+		var tmpScopeNotes = $scope.notes === undefined ? "" : $scope.notes;
+		var noteInfo = $("#saveProcessedForm").find("#noteInfo").html() === undefined ? "" : $("#saveProcessedForm").find("#noteInfo").html();
 		var notes = noteInfo + tmpScopeNotes;
-
+		
 		$http({
 			method : "GET",
 			url : "boss",
@@ -78,7 +78,7 @@ app.controller('bossFormController', function($scope, $http, $sce, $rootScope) {
 
 	function viewForm(obj) {
 
-		$scope.notes = obj.responseData.notes;
+		$scope.notes = obj.responseData.notes == "undefined" ? null : obj.responseData.notes;
 		$scope.notesHtml = $sce.trustAsHtml($scope.notes);
 
 		$scope.htmlForm = "";
