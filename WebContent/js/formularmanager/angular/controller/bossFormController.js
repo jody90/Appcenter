@@ -83,7 +83,7 @@ app.controller('bossFormController', function($scope, $http, $sce, $rootScope) {
 
 		$scope.htmlForm = "";
 		$scope.responseId = responseId;
-
+		
 		var resultsObj = JSON.parse(obj.responseData.value);
 
 		// Formular leer in Seite rendern

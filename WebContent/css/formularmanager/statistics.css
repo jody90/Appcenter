@@ -1,12 +1,16 @@
-.form-statistics-meta {
-}
-
 .statistics-form,
 .form-statistics-meta {
-	padding: 15px;
+	padding: 10px;
 	background: #fff;
 	box-shadow: 1px 1px 4px #999999;
 	border: 1px solid #eaeaea;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.statistics-form h4,
+.form-statistics-meta h4 {
+	border-bottom: 1px dotted #8b8b8b;
 }
 
 .statistics-form label {
@@ -52,4 +56,12 @@
 
 .button-boss-approval {
 	font-size: 36px;
+}
+
+.button-boss-approval-md {
+	font-size: 24px;
+}
+
+.button-boss-approval-md.btn-custom {
+	padding: 0;
 }

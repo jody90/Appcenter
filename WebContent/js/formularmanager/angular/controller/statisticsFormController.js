@@ -31,6 +31,8 @@ app.controller('statisticsFormController', function($scope, $http, $sce, $rootSc
 				}
 			});
 		}
+		
+		console.log("Object", obj);
 
 		$scope.formData = obj.formData;
 		$scope.user = obj.user;
@@ -84,6 +86,22 @@ app.controller('statisticsFormController', function($scope, $http, $sce, $rootSc
 
 		$scope.htmlForm = "";
 		$scope.responseId = responseId;
+		
+		$scope.bossAppovalState = function(type) {
+			var icon = "fa-hand-spock-o";
+			var cssClass = "custom-bg-grey";
+			switch (obj.responseData.bossApproved) {
+				case 1 :
+					icon = "fa-thumbs-up";
+					cssClass = "custom-bg-success";
+				break;
+				case 0 :
+					icon = "fa-thumbs-down";
+					cssClass = "custom-bg-danger";
+				break;
+			}
+			return type === "class" ? cssClass : icon;
+		}
 
 		var resultsObj = JSON.parse(obj.responseData.value);
 

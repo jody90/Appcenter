@@ -4,6 +4,34 @@
 
 <div class="row" id="chart_area" ng-if="controller === 'chart'"></div>
 
+<div class="row margin-bottom-lg form-statistics-meta" ng-if="controller !== 'chart'">
+	<h4 class="margin-top-0">Personen Infos</h4>
+	<div class="col-xs-12 col-md-4">
+		<strong class="margin-bottom-sm">
+			Antragssteller
+		</strong> 
+		<span class="form-control margin-top-xs readonly margin-bottom-sm">
+			{{form.username}}
+		</span>
+	</div>
+	<div class="col-xs-12 col-md-4" ng-if="controller !== 'boss'">
+		<strong class="margin-bottom-sm">
+			Vorgesetzter
+		</strong> 
+		<span class="form-control margin-top-xs readonly margin-bottom-sm">
+			{{form.boss}}
+		</span>
+	</div>
+	<div class="col-xs-12 col-md-4" ng-if="controller !== 'boss'">
+		<strong>
+			Genehmigt
+		</strong> 
+		<div class="border-radius text-white text-center margin-top-xs button-boss-approval-md {{bossAppovalState('class')}}">
+			<i class="fa {{bossAppovalState('icon')}}" aria-hidden="true"></i>
+		</div>
+	</div>
+</div>
+
 <div class="row" ng-if="controller !== 'chart'">
 	
 	<div class="col-xs-12 col-md-9">
@@ -11,6 +39,36 @@
 	</div>
 
 	<div class="col-xs-12 col-md-3">
+
+		<!-- 
+		<div class="form-statistics-meta margin-bottom-lg">
+			<div class="margin-bottom-md">
+				<strong class="margin-bottom-sm">
+					Antragssteller
+				</strong> 
+				<span class="form-control margin-top-xs readonly">
+					{{form.username}}
+				</span>
+			</div>
+			<div class="margin-bottom-md" ng-if="controller !== 'boss'">
+				<strong class="margin-bottom-sm">
+					Vorgesetzter
+				</strong> 
+				<span class="form-control margin-top-xs readonly">
+					{{form.boss}}
+				</span>
+			</div>
+			<div ng-if="controller !== 'boss'">
+				<strong>
+					Genehmigt
+				</strong> 
+				<span class="btn-custom btn-block margin-top-xs button-boss-approval-md {{bossAppovalState('class')}}">
+					<i class="fa {{bossAppovalState('icon')}}" aria-hidden="true"></i>
+				</span>
+			</div>
+		</div>
+		 -->
+
 		<form action="" method="post" id="saveProcessedForm">
 		<input type="hidden" ng-value="{{meta.country}}" name="country">
 		<input type="hidden" ng-value="{{meta.formId}}" name="formId">
