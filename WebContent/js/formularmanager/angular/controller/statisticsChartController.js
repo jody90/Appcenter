@@ -24,8 +24,6 @@ app.controller('statisticsChartController', function($scope, $http, $rootScope) 
 		$scope.formData = obj.formData;
 		$scope.respondedForms = obj.respondedForms;
 		
-		console.log("Object", obj);
-		
 		if (isJson(obj.formData.formContentJson)) {
 			
 			// vorhandene FormularElemente aus Formular extrahieren (RadioGroups, SelectBoxen, etc.)

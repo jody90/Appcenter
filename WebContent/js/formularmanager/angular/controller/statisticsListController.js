@@ -17,8 +17,6 @@ app.controller('statisticsListController', function($scope, $http, $rootScope) {
 			});
 		}
 		
-		console.log("Object", obj);
-		
 		$scope.states = obj.states;
 		$scope.stateIcons = {};
 		$scope.respondedForms = obj.respondedForms;
